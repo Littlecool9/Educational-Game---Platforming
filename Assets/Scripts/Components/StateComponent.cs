@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using EducationalGame.Core;
-using Newtonsoft.Json.Converters;
 using UnityEngine;
 
 namespace EducationalGame.Component
@@ -20,11 +19,6 @@ namespace EducationalGame.Component
         public bool Jumpable;
         public bool Interactable;
         public bool IsInteracting;
-        // public Dictionary<PlayerStates, Dictionary<string, bool>> index = new Dictionary<PlayerStates, Dictionary<string, bool>>{
-        //     {PlayerStates.Idle, new Dictionary<string, bool> {{"IsMoving", false}, {"Jumpable", true}, {"Interactable", false}, {"IsInteracting", false}} },
-        //     {PlayerStates.Walking, new Dictionary<string, bool> {{"IsMoving", true}, {"Jumpable", true}, {"Interactable", false}, {"IsInteracting", false}} },
-        //     {PlayerStates.Interacting, new Dictionary<string, bool> {{"IsMoving", false}, {"Jumpable", true}, {"Interactable", false}, {"IsInteracting", true}} }
-        // };
         
 
         public void InitComponent()

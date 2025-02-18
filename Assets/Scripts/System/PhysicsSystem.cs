@@ -20,14 +20,16 @@ namespace EducationalGame
             // Handle Player Walking Logic
             foreach (Entity entity in entityManager.GetAllEntities())
             {
-                ColliderComponent colliderC = entityManager.GetComponent<ColliderComponent>(entity);
-                MovementComponent movementC = entityManager.GetComponent<MovementComponent>(entity);
-
-                bool wasGrounded = colliderC.IsGrounded;
-                colliderC.IsGrounded = CheckGrounded(colliderC);
+                
 
                 if (entity is Player)
                 {
+                    // Player logic, including movement
+                    ColliderComponent colliderC = entityManager.GetComponent<ColliderComponent>(entity);
+                    MovementComponent movementC = entityManager.GetComponent<MovementComponent>(entity);
+
+                    bool wasGrounded = colliderC.IsGrounded;
+                    colliderC.IsGrounded = CheckGrounded(colliderC);
                     InputComponent inputC = entityManager.GetComponent<InputComponent>(entity);
                     StateComponent<PlayerStates> stateC = entityManager.GetComponent<StateComponent<PlayerStates>>(entity);
                     
@@ -48,20 +50,21 @@ namespace EducationalGame
                         movementC.SetSpeed(0, movementC.Speed.y);
                     }
                     // Move(movementC, renderC);
+                    if (!colliderC.IsGrounded)
+                    {
+                        // movementC.Speed.y += colliderC.Gravity * Constants.deltaTime;
+                        movementC.AddSpeed(0, movementC.Gravity * Constants.deltaTime);                    
+                    }
+                    else if (!wasGrounded) // 刚刚着地
+                    {
+                        // movementC.Speed.y = 0;
+                        movementC.SetSpeed(movementC.Speed.x, 0);
+                    }
+                    ApplyMovement(colliderC, movementC.Speed * Constants.deltaTime);
                 }
 
                 // Handle Gravity
-                if (!colliderC.IsGrounded)
-                {
-                    // movementC.Speed.y += colliderC.Gravity * Constants.deltaTime;
-                    movementC.AddSpeed(0, movementC.Gravity * Constants.deltaTime);                    
-                }
-                else if (!wasGrounded) // 刚刚着地
-                {
-                    // movementC.Speed.y = 0;
-                    movementC.SetSpeed(movementC.Speed.x, 0);
-                }
-                ApplyMovement(colliderC, movementC.Speed * Constants.deltaTime);
+                
             }
 
 

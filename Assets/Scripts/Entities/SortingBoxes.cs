@@ -11,12 +11,15 @@ namespace EducationalGame
         private EntityManager entityManager = EntityManager.Instance;
         public SortingBoxes() : base()
         {
-            entityManager.AddComponent<InteractableComponent>(this, new InteractableComponent());
         }
 
         public override void InitEntity()
         {
-            
+            entityManager.AddComponent(this, new StateComponent<BoxStates>());
+            entityManager.AddComponent(this, new InteractableComponent());
+            entityManager.AddComponent(this, new InteractionComponent());
+
+            foreach (IComponent component in entityManager.GetComponents(this.ID)) { component.InitComponent(); }
         }
     }
 }

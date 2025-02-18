@@ -23,7 +23,7 @@ namespace EducationalGame
             inputC.MoveInput = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D);
             inputC.InteractInput = Input.GetKeyDown(KeyCode.E);
 
-
+            if (inputC.InteractInput) Debug.Log("Interact Input");
             if (Input.GetKey(KeyCode.A))
             {
                 inputDirection.x = -1;

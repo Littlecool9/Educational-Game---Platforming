@@ -11,6 +11,7 @@ public class Game : MonoBehaviour
     [SerializeField]
     public Vector2 StartPosition;
     public GameObject playerObject;
+    public List<GameObject> triggerObjects;
 
     void Start() {
         Constants.SetPlayerPrefab(playerObject);
@@ -27,7 +28,9 @@ public class Game : MonoBehaviour
     }
 
     private void Init(){
+        
 
+        // The following logic will be put in level.cs in the future
         // Player init
         GameObject playerObject = Constants.player;
 
@@ -37,7 +40,13 @@ public class Game : MonoBehaviour
         colliderC.SetCollider(playerObject.GetComponent<Collider2D>());
         renderC.SetGameObject(playerObject);
 
-
+        // Trigger init
+        foreach(GameObject triggerObject in triggerObjects)
+        {
+            SortingBoxes box = EntityManager.Instance.CreateEntity(EntityType.SortingBoxes) as SortingBoxes;
+            InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(box.ID);
+            interactableC.SetTrigger(triggerObject.GetComponent<Trigger>());
+        }
         
     }
 }

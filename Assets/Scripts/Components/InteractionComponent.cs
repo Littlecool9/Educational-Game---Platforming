@@ -7,16 +7,16 @@ namespace EducationalGame.Component
 {
     public class InteractionComponent : IComponent
     {
-        // 
-        public object InteractableObject = null;
-        public bool Isinteractable { get; private set;} = true;
-
+        // Store Interaction result
         public void InitComponent()
         {
             
         }
 
-        public void SetInteractable(bool interactable) => Isinteractable = interactable;
+        // Test Function
+        public void Interact(){
+            Debug.Log("Visiting Interaction Component");
+        }
     }
 
 }

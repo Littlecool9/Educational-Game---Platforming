@@ -11,6 +11,7 @@ namespace EducationalGame.Core
         public static PlayerController playerController { get; set; }
         public static PhysicsSystem physicsSystem { get; set; }
         public static RenderSystem renderSystem { get; set; }
+        public static InteractSystem interactSystem { get; set; }
         public static StateMachine<PlayerStates> playerStateMachine { get; set; }
 
         public static List<ISystem> systems = new List<ISystem>();
@@ -20,8 +21,11 @@ namespace EducationalGame.Core
             // playerStateMachine = new StateMachine<PlayerStates>();
             physicsSystem = new PhysicsSystem();
             renderSystem = new RenderSystem();
+            interactSystem = new InteractSystem();
+
             systems.Add(playerController);
             // systems.Add(playerStateMachine);
+            systems.Add(interactSystem);
             systems.Add(physicsSystem);
             systems.Add(renderSystem);
         }

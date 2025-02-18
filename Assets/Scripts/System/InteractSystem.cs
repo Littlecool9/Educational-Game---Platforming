@@ -1,0 +1,40 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using EducationalGame.Core;
+using EducationalGame.Component;
+
+namespace EducationalGame
+{
+    public class InteractSystem : ISystem
+    {
+        public void Process()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Update()
+        {
+            Player player = EntityManager.Instance.GetEntityWithID(0) as Player;
+            InputComponent inputC = EntityManager.Instance.GetComponent<InputComponent>(player.ID);
+            if (inputC.InteractInput)
+            {
+                foreach(Entity entity in EntityManager.Instance.GetAllEntities())
+                {
+                    if (EntityManager.Instance.HasComponent<InteractableComponent>(entity)
+                    && EntityManager.Instance.HasComponent<InteractionComponent>(entity))
+                    {
+                        InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity);
+                        InteractionComponent interactionC = EntityManager.Instance.GetComponent<InteractionComponent>(entity);
+                        if (interactableC.Interactable){
+                            interactableC.InvokeInteractionEvent();
+                            interactionC.Interact();
+                            Debug.Log("Interacting");
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
+}
