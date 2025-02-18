@@ -10,6 +10,12 @@ namespace EducationalGame.Component
         // 
         public object InteractableObject = null;
         public bool Isinteractable { get; private set;} = true;
+
+        public void InitComponent()
+        {
+            
+        }
+
         public void SetInteractable(bool interactable) => Isinteractable = interactable;
     }
 

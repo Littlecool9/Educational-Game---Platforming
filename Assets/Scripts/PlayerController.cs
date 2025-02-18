@@ -8,14 +8,7 @@ namespace EducationalGame
 {
     public class PlayerController : ISystem
     {
-        // System Layer, Receive Player input, 处理预输入
-        private EntityManager entityManager = EntityManager.Instance;
-        private Player player;
-
-        public bool IsMovable { get; private set;} = true;
-        
-        
-
+        // System Layer, Receive Player input, 处理预输入        
         public void Update()
         {
             List<int> res = EntityManager.Instance.GetEntitiesWithTag("Player");
@@ -23,23 +16,23 @@ namespace EducationalGame
             int playerID = res[0];
 
             // Set moving related player input
-            MovementComponent moveC = EntityManager.Instance.GetComponent<MovementComponent>(playerID);
+            InputComponent inputC = EntityManager.Instance.GetComponent<InputComponent>(playerID);
 
-            Vector2 inputVector = Vector2.zero;
-            if (Input.GetButtonDown("Jump"))
+            Vector2 inputDirection = Vector2.zero;
+            inputC.JumpInput = Input.GetKeyDown(KeyCode.Space);
+            inputC.MoveInput = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D);
+            inputC.InteractInput = Input.GetKeyDown(KeyCode.E);
+
+
+            if (Input.GetKey(KeyCode.A))
             {
-                inputVector.y = 1;
+                inputDirection.x = -1;
             }
-            // TODO: 处理按键冲突/预输入
-            if (Input.GetKeyDown(KeyCode.A)){
-                inputVector.x = -1;
+            else if (Input.GetKey(KeyCode.D))
+            {
+                inputDirection.x = 1;
             }
-            if (Input.GetKeyDown(KeyCode.D)){
-                inputVector.x = 1;
-            }
-            moveC.facing = (int)inputVector.x;
-            Debug.Log("inputVector:" + inputVector);
-            moveC.SetDirection(inputVector);
+            inputC.SetMoveDir(inputDirection);
             
         }
 

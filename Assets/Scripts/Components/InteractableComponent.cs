@@ -8,7 +8,9 @@ namespace EducationalGame.Component
     public class InteractableComponent : IComponent
     {
         // All interactable objects. Determine the state and the result of interaction result
-        
-        
+        public void InitComponent()
+        {
+            
+        }
     }
 }

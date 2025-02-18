@@ -29,10 +29,14 @@ public class Game : MonoBehaviour
     private void Init(){
 
         // Player init
+        GameObject playerObject = Constants.player;
+
         Player player = EntityManager.Instance.CreateEntity(EntityType.Player, "Player") as Player;
         RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(player.ID);
-        GameObject playerObject = Constants.player;
+        ColliderComponent colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(player.ID);
+        colliderC.SetCollider(playerObject.GetComponent<Collider2D>());
         renderC.SetGameObject(playerObject);
+
 
         
     }

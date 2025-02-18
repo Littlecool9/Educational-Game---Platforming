@@ -27,7 +27,7 @@ namespace EducationalGame.Core
             ID = nextID++;
         }
 
-        public abstract void InitComponents();
+        public abstract void InitEntity();
 
     }
 
@@ -38,10 +38,7 @@ namespace EducationalGame.Core
         {
             get
             {
-                if (_instance == null)
-                {
-                    _instance = new EntityManager();
-                }
+                _instance ??= new EntityManager();
                 return _instance;
             }
         }
@@ -61,7 +58,7 @@ namespace EducationalGame.Core
             if (tag != "") { entitiesTag[entity.ID] = tag; }
             entities[entity.ID] = entity;
             components[entity.ID] = new List<IComponent>();
-            entity.InitComponents();
+            entity.InitEntity();
             return entity;
         }
 

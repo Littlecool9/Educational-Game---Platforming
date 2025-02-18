@@ -11,15 +11,24 @@ namespace EducationalGame.Component
         // Holds GameObject & Position
         public GameObject GameObject { get; private set; }
         public Vector2 position;
-        public Rigidbody2D rb { get; private set;}
-        public SpriteRenderer sr { get; private set; }
-
+        public SpriteRenderer sr { get; private set;}
         public RenderComponent(){}
+
+        public Collider2D collider;
 
         public void SetGameObject(GameObject gameObject){
             this.GameObject = gameObject;
-            rb = gameObject.GetComponent<Rigidbody2D>();
             sr = gameObject.GetComponent<SpriteRenderer>();
+            collider = gameObject.GetComponent<Collider2D>();
+        }
+
+        public void InitComponent()
+        {
+            
+        }
+
+        public void InitComponent(GameObject gameObject){
+            SetGameObject(gameObject);
         }
     }
 

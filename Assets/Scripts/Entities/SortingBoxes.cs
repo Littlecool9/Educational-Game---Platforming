@@ -14,7 +14,7 @@ namespace EducationalGame
             entityManager.AddComponent<InteractableComponent>(this, new InteractableComponent());
         }
 
-        public override void InitComponents()
+        public override void InitEntity()
         {
             
         }

@@ -6,6 +6,6 @@ namespace EducationalGame.Core
 {
     public interface IComponent
     {
-
+        public void InitComponent();
     }
 }

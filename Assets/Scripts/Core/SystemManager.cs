@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using EducationalGame.Component;
 using UnityEngine;
 
 
@@ -8,17 +9,20 @@ namespace EducationalGame.Core
     public static class SystemManager
     {
         public static PlayerController playerController { get; set; }
-        public static WalkingSystem walkingSystem { get; set; }
+        public static PhysicsSystem physicsSystem { get; set; }
         public static RenderSystem renderSystem { get; set; }
+        public static StateMachine<PlayerStates> playerStateMachine { get; set; }
 
         public static List<ISystem> systems = new List<ISystem>();
         
         public static void Init() {
             playerController = new PlayerController();
-            walkingSystem = new WalkingSystem();
+            // playerStateMachine = new StateMachine<PlayerStates>();
+            physicsSystem = new PhysicsSystem();
             renderSystem = new RenderSystem();
             systems.Add(playerController);
-            systems.Add(walkingSystem);
+            // systems.Add(playerStateMachine);
+            systems.Add(physicsSystem);
             systems.Add(renderSystem);
         }
     }

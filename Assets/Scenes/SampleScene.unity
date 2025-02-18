@@ -840,7 +840,7 @@ GameObject:
   - component: {fileID: 1805823191}
   - component: {fileID: 1805823190}
   - component: {fileID: 1805823189}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -932,8 +932,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1805823188}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.1, y: -3.94, z: 0}
-  m_LocalScale: {x: 4.6733, y: 2.1622, z: 1}
+  m_LocalPosition: {x: -0.15, y: -3.94, z: 0}
+  m_LocalScale: {x: 16.239716, y: 2.1622, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -959,7 +959,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2784400807982414222, guid: 4d79d44958d2d7c4f854710275a8b969, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.61
+      value: 1.05
       objectReference: {fileID: 0}
     - target: {fileID: 2784400807982414222, guid: 4d79d44958d2d7c4f854710275a8b969, type: 3}
       propertyPath: m_LocalPosition.z
