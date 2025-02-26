@@ -13,8 +13,6 @@ namespace EducationalGame.Component
 
         public Collider2D Collider;
         public LayerMask GroundLayer; // 用于检测地面
-        public LayerMask WallLayer;
-        public LayerMask CeilLayer;
 
         public float DEVIATION = 0.02f;  //碰撞检测误差
 
@@ -25,8 +23,6 @@ namespace EducationalGame.Component
         public void SetCollider(Collider2D collider){
             Collider = collider;
             GroundLayer = LayerMask.GetMask("Ground");
-            WallLayer = LayerMask.GetMask("Wall");
-            CeilLayer = LayerMask.GetMask("Ceil");
         }
     }
 }

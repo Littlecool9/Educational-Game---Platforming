@@ -4,6 +4,9 @@ using EducationalGame.Core;
 using EducationalGame.Component;
 using UnityEngine;
 using System;
+using UnityEngine.Scripting.APIUpdating;
+using System.Linq.Expressions;
+using UnityEngine.Video;
 
 namespace EducationalGame
 {
@@ -20,69 +23,57 @@ namespace EducationalGame
 
             foreach (Entity entity in entityManager.GetAllEntities())
             {
-                
+
+                ColliderComponent colliderC = entityManager.GetComponent<ColliderComponent>(entity);
+                MovementComponent movementC = entityManager.GetComponent<MovementComponent>(entity);
+                RenderComponent renderC = entityManager.GetComponent<RenderComponent>(entity);
+                Debug.Log("isGrounded: " + colliderC.IsGrounded);
+
                 // Handle Player Walking Logic
                 if (entity is Player)
                 {
                     // Player logic, including movement
-                    ColliderComponent colliderC = entityManager.GetComponent<ColliderComponent>(entity);
-                    MovementComponent movementC = entityManager.GetComponent<MovementComponent>(entity);
                     InputComponent inputC = entityManager.GetComponent<InputComponent>(entity);
-                    StateComponent stateC = entityManager.GetComponent<StateComponent>(entity);
                     
                     bool wasGrounded = colliderC.IsGrounded;
-                    colliderC.IsGrounded = CheckGrounded(entity);
-                    Debug.Log("IsGrounded: " + colliderC.IsGrounded);
+                    // colliderC.IsGrounded = CheckGrounded(entity);
+                    if (movementC.Speed.y <= 0)
+                    {
+                        colliderC.IsGrounded = CheckGrounded(entity);//碰撞检测地面
+                    }
+                    else
+                    {
+                        colliderC.IsGrounded = false;
+                    }
 
                     // Gravity
-                    
-                    // float mult = (Math.Abs(movementC.Speed.y) < Constants.HalfGravThreshold && (inputC.JumpInput)) ? .5f : 1f;
-                    // //空中的情况,需要计算Y轴速度
-                    // movementC.Speed.y = Mathf.MoveTowards(movementC.Speed.y, Constants.MaxFall, Constants.Gravity * mult * Constants.deltaTime);
                     if (!colliderC.IsGrounded) {
                         // Vector2 gravity = new Vector2(0, movementC.Gravity);
                         // movementC.AddSpeed(gravity);
-                        Debug.Log("applying gravity");
-                        movementC.SetSpeed(movementC.Speed.x, 
+                        movementC.AddSpeed(movementC.Speed.x, 
                         Mathf.MoveTowards(movementC.Speed.y, Constants.MaxFall, Constants.Gravity * 1f * Constants.deltaTime
                         ));
                     }
-                    else if (!wasGrounded) // 刚刚着地
-                    {
-                        movementC.SetSpeed(movementC.Speed.x, 0);
-                        
-                    }
+                    // else if (!wasGrounded) // 刚刚着地
+                    // {
+                    //     movementC.SetSpeed(movementC.Speed.x, 0);
+                    // }
 
                     // Handle User Input
                     if (inputC.JumpInput){
-                        movementC.AddSpeed(movementC.JumpHBoost * inputC.Facing, movementC.JumpSpeed);
+                        movementC.AddSpeed(Constants.JumpHBoost * inputC.Facing, Constants.JumpSpeed);
+                        Debug.Log("jump");
                     }
                     // Handle Walk
                     if (inputC.MoveInput){
-                        movementC.AddSpeed(inputC.Facing * movementC.PlayerMoveSpeed, movementC.Speed.y);   
+                        movementC.AddSpeed(inputC.Facing * Constants.PlayerMoveSpeed, movementC.Speed.y);   
                     }
                     else{
                         movementC.SetSpeed(0, movementC.Speed.y);
                     }
 
-
-                    
-
-                    // Handle Ceiling
-                    bool hitCeil = CheckCeil(entity);
-                    if (hitCeil) {
-                        movementC.SetSpeed(movementC.Speed.x, 0);
-                    }
-
-                    ApplyMovement(colliderC, movementC.Speed * Constants.deltaTime);
-
-                    // UpdateCollideX(entity, movementC.Speed.x * Constants.deltaTime);
-                    // UpdateCollideY(entity, movementC.Speed.y * Constants.deltaTime);
-                    
+                    ApplyMovement(entity, movementC.Speed * Constants.deltaTime);
                 }
-
-                // Handle Gravity
-                
             }
             // Handle other objects' logic when walking
 
@@ -94,44 +85,64 @@ namespace EducationalGame
             return CheckGrounded(entity, Vector2.zero);
         }
 
+
         private bool CheckGrounded(Entity entity, Vector2 offset)
         {
             ColliderComponent colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(entity);
             RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
             if (colliderC == null || renderC == null) throw new Exception("Missing ColliderComponent or RenderComponent in CheckGrounded()");
 
+            // Debug.Log("BoxCast origin: " + (colliderC.Collider.bounds.center + new Vector3(offset.x, offset.y, 0)));
+            // Debug.Log("Collider size: " + colliderC.Collider.bounds.size);
+
+            Vector3 origion = colliderC.Collider.bounds.center;
+            Vector3 boxSize = colliderC.Collider.bounds.size;
+            boxSize.x -= 0.3f;
+
+            Debug.DrawRay(origion, Vector3.up * 0.2f, Color.green, 2f);  // 绿色的点，持续2秒
+            Debug.DrawRay(origion, Vector3.right * 0.2f, Color.green, 2f); // 右侧的小线，方便看到
+
+            // 画出 BoxCast 检测方向
+            Debug.DrawRay(origion, Vector3.down * colliderC.DEVIATION, Color.red, 2f);  // 红色的射线表示 BoxCast 方向
+
+            // 可视化 `BoxCast` 的边界
+            DrawBox(origion, boxSize, Color.blue, 2f);
+
             RaycastHit2D hit = Physics2D.BoxCast(
                 colliderC.Collider.bounds.center,
-                colliderC.Collider.bounds.size, 
+                // colliderC.Collider.bounds.size, 
+                boxSize,
                 0, 
                 Vector2.down, 
                 colliderC.DEVIATION, 
                 colliderC.GroundLayer);
+
+            if (hit && hit.normal != Vector2.up) Debug.Log("hitting wall");
             if (hit && hit.normal == Vector2.up)
             {
+                Debug.Log("hitting ground");
                 return true;
             }
             return false;
         }
 
-        private bool CheckWall(Entity entity, int direction) 
+        private void ApplyMovement(Entity entity, Vector2 movement)
         {
-            // 1 = right, -1 = left
-            Vector2 offset = new Vector2(direction, 0);
-            return CheckGrounded(entity, offset);
-        }
+            RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity) ?? throw new Exception("Missing RenderComponent in ApplyMovement()");
 
-        private bool CheckCeil(Entity entity) 
-        {
-            return CheckGrounded(entity, Vector2.up);
-        }
-
-        private void ApplyMovement(ColliderComponent collider, Vector2 movement)
-        {
             // movement is the speed in this frame
-            collider.Collider.transform.position += (Vector3)new Vector2(movement.x, 0);
 
-            collider.Collider.transform.position += (Vector3)new Vector2(0, movement.y);
+            // Logic 1
+            // collider.Collider.transform.position += (Vector3)new Vector2(movement.x, 0);
+            // collider.Collider.transform.position += (Vector3)new Vector2(0, movement.y);
+
+            // Logic 2
+            // renderC.MoveTransform(new Vector2(0, movement.y));
+            // renderC.MoveTransform(new Vector2(movement.x, 0));
+
+            UpdateCollideX(entity, movement.x);
+            UpdateCollideY(entity, movement.y);
+
             
         }
 
@@ -144,32 +155,33 @@ namespace EducationalGame
             ColliderComponent colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(entity);
             RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
             MovementComponent movementC = EntityManager.Instance.GetComponent<MovementComponent>(entity);
-            if (colliderC == null || renderC == null) throw new Exception("Missing ColliderComponent or RenderComponent in CheckGrounded()");
+            if (colliderC == null || renderC == null) throw new Exception("Missing ColliderComponent or RenderComponent in UpdateCollideX()");
 
             while (true)
             {
-                float moved = MoveXStepWithCollide(entity, distance);
+                float moved = MoveXStepWithCollide(entity, distance);       // 得出实际移动距离
+
                 //无碰撞退出循环
-                renderC.position += Vector2.right * moved;
+                renderC.MoveTransform(Vector2.right * moved);
+
                 if (moved == distance || correctTimes == 0) //无碰撞，且校正次数为0
                 {
-                    Debug.Log("break");
                     break;
                 }
                 float tempDist = distance - moved;
                 correctTimes--;
-                // if (!CorrectX(entity, tempDist))
-                // {
-                //     movementC.Speed.x = 0;//未完成校正，则速度清零
+                if (!CorrectX(entity, tempDist))
+                {
+                    movementC.Speed.x = 0;//未完成校正，则速度清零
 
-                //     //Speed retention
-                //     // if (wallSpeedRetentionTimer <= 0)
-                //     // {
-                //     //     wallSpeedRetained = this.Speed.x;
-                //     //     wallSpeedRetentionTimer = Constants.WallSpeedRetentionTime;
-                //     // }
-                //     break;
-                // }
+                    //Speed retention
+                    // if (wallSpeedRetentionTimer <= 0)
+                    // {
+                    //     wallSpeedRetained = this.Speed.x;
+                    //     wallSpeedRetentionTimer = Constants.WallSpeedRetentionTime;
+                    // }
+                    break;
+                }
                 distance = tempDist;
             }
         }
@@ -215,25 +227,26 @@ namespace EducationalGame
 
             // if ((this.stateMachine.State == (int)EActionState.Dash))
             // {
-            if (colliderC.IsGrounded && DuckFreeAt(entity, renderC.position + Vector2.right * distX))
-            {
-                // Ducking = true;
-                return true;
-            }
-            else if (movementC.Speed.y == 0 && movementC.Speed.x!=0)
-            {
-                for (int i = 1; i <= Constants.DashCornerCorrection; i++)
-                {
-                    for (int j = 1; j >= -1; j -= 2)
-                    {
-                        if (!CollideCheck(renderC.position + new Vector2(0, j * i * 0.1f), direct, entity, Mathf.Abs(distX)))
-                        {
-                            renderC.position += new Vector2(distX, j * i * 0.1f);
-                            return true;
-                        }
-                    }
-                }
-            }
+            //     if (colliderC.IsGrounded && DuckFreeAt(entity, renderC.position + Vector2.right * distX))
+            //     {
+            //         // Ducking = true;
+            //         return true;
+            //     }
+            //     else if (movementC.Speed.y == 0 && movementC.Speed.x!=0)
+            //     {
+            //         for (int i = 1; i <= Constants.DashCornerCorrection; i++)
+            //         {
+            //             for (int j = 1; j >= -1; j -= 2)
+            //             {
+            //                 if (!CollideCheck(renderC.position + new Vector2(0, j * i * 0.1f), direct, entity, Mathf.Abs(distX)))
+            //                 {
+            //                     // renderC.position += new Vector2(distX, j * i * 0.1f);
+            //                     renderC.MoveTransform(new Vector2(distX, j * i * 0.1f));
+            //                     return true;
+            //                 }
+            //             }
+            //         }
+            //     }
             // }
             return false;
         }
@@ -270,9 +283,8 @@ namespace EducationalGame
 
             RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
             MovementComponent movementC = EntityManager.Instance.GetComponent<MovementComponent>(entity);
-            if (renderC == null || movementC == null) throw new Exception("Missing ColliderComponent or RenderComponent in CheckGrounded()");
+            if (renderC == null || movementC == null) throw new Exception("Missing ColliderComponent or RenderComponent in UpdateCollideY()");
 
-            Vector2 targetPosition = renderC.position;
             //使用校正
             float distance = distY;
             int correctTimes = 1; //默认可以迭代位置10次
@@ -280,9 +292,10 @@ namespace EducationalGame
             float speedY = Mathf.Abs(movementC.Speed.y);
             while (true)
             {
-                float moved = MoveYStepWithCollide(entity, distance);
+                float moved = MoveYStepWithCollide(entity, distance);       // distance是距离目标位置剩余的距离
                 //无碰撞退出循环
-                renderC.position += Vector2.up * moved;
+                // renderC.position += Vector2.up * moved;
+                renderC.MoveTransform(Vector2.up * moved);
                 if (moved == distance || correctTimes == 0) //无碰撞，且校正次数为0
                 {
                     collided = false;
@@ -313,13 +326,11 @@ namespace EducationalGame
 
             ColliderComponent colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(entity);
             MovementComponent movementC = EntityManager.Instance.GetComponent<MovementComponent>(entity);
-            if (colliderC == null || movementC == null) throw new Exception("Missing ColliderComponent or RenderComponent in CheckGrounded()");
+            if (colliderC == null || movementC == null) throw new Exception("Missing ColliderComponent or RenderComponent in MoveYStepWithCollide()");
 
             Vector2 moved = Vector2.zero;
-            Vector2 direct = Math.Sign(distY) > 0 ? Vector2.up : Vector2.down;
-            // Vector2 origion = this.Position + collider.position;
-
-            // RaycastHit2D hit = Physics2D.BoxCast(origion, collider.size, 0, direct, Mathf.Abs(distY) + colliderC.DEVIATION, GroundLayer);
+            Vector2 direct = Math.Sign(distY) > 0 ? Vector2.up : Vector2.down;      // 判断往上还是往下移动
+            
             RaycastHit2D hit = Physics2D.BoxCast(
                 colliderC.Collider.bounds.center,
                 colliderC.Collider.bounds.size, 
@@ -335,7 +346,7 @@ namespace EducationalGame
             }
             else
             {
-                moved += Vector2.up * distY;
+                moved += Vector2.up * distY;        
             }
             return moved.y;
         }
@@ -403,7 +414,8 @@ namespace EducationalGame
                                 colliderC.GroundLayer);
                             if (!hit)
                             {
-                                renderC.position += new Vector2(-i * 0.1f, 0);
+                                // renderC.position += new Vector2(-i * 0.1f, 0);
+                                renderC.MoveTransform(new Vector2(-i * 0.1f, 0));
                                 return true;
                             }
                         }
@@ -422,7 +434,8 @@ namespace EducationalGame
                                 colliderC.GroundLayer);
                             if (!hit)
                             {
-                                renderC.position += new Vector2(i * 0.1f, 0);
+                                // renderC.position += new Vector2(i * 0.1f, 0);
+                                renderC.MoveTransform(new Vector2(i * 0.1f, 0));
                                 return true;
                             }
                         }
@@ -430,6 +443,20 @@ namespace EducationalGame
                 }
             }
             return false;
+        }
+
+        void DrawBox(Vector3 center, Vector3 size, Color color, float duration)
+        {
+            Vector3 halfSize = size * 0.5f;
+            Vector3 topLeft = new Vector3(center.x - halfSize.x, center.y + halfSize.y, 0);
+            Vector3 topRight = new Vector3(center.x + halfSize.x, center.y + halfSize.y, 0);
+            Vector3 bottomLeft = new Vector3(center.x - halfSize.x, center.y - halfSize.y, 0);
+            Vector3 bottomRight = new Vector3(center.x + halfSize.x, center.y - halfSize.y, 0);
+
+            Debug.DrawLine(topLeft, topRight, color, duration);
+            Debug.DrawLine(topRight, bottomRight, color, duration);
+            Debug.DrawLine(bottomRight, bottomLeft, color, duration);
+            Debug.DrawLine(bottomLeft, topLeft, color, duration);
         }
     }
 }

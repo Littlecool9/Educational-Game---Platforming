@@ -34,7 +34,7 @@ namespace EducationalGame.Component
             SetGameObject(gameObject);
         }
 
-        public void MoveTransform(Vector2 position) => transform.position = position;
+        public void MoveTransform(Vector2 position) => transform.position += new Vector3(position.x, position.y, 0);
     }
 
 }

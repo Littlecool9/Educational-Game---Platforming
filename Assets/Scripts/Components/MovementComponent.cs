@@ -15,11 +15,9 @@ namespace EducationalGame.Component
 
         
         public Vector2 Speed;    // Delta Moving Speed this frame
-        public float JumpHBoost = 4f; //退离墙壁的力 (可以按主体调整)
-        public float JumpSpeed = 10f;  //最大跳跃速度 (可以按主体调整)
-        public float PlayerMoveSpeed = 5f;   // 水平移动速度 (可以按主体调整)
+        public float MoveSpeed = 5f;   // 水平移动速度 (可以按主体调整)
 
-        public float MaxMoveSpeed {get { return PlayerMoveSpeed; } }
+        public float MaxMoveSpeed {get { return MoveSpeed; } }
         public float MaxFallSpeed = -5f; // 限制最大下落速度
         public float DashSpeed = 20f;
         
