@@ -35,6 +35,7 @@ public class Game : MonoBehaviour
         GameObject playerObject = Constants.player;
 
         Player player = EntityManager.Instance.CreateEntity(EntityType.Player, "Player") as Player;
+        // Initialize Components
         RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(player.ID);
         ColliderComponent colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(player.ID);
         colliderC.SetCollider(playerObject.GetComponent<Collider2D>());

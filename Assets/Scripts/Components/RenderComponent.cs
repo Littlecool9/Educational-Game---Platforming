@@ -10,6 +10,7 @@ namespace EducationalGame.Component
     {
         // Holds GameObject & Position
         public GameObject GameObject { get; private set; }
+        public Transform transform;
         public Vector2 position;
         public SpriteRenderer sr { get; private set;}
         public RenderComponent(){}
@@ -20,6 +21,8 @@ namespace EducationalGame.Component
             this.GameObject = gameObject;
             sr = gameObject.GetComponent<SpriteRenderer>();
             collider = gameObject.GetComponent<Collider2D>();
+            position = gameObject.transform.position;
+            transform = gameObject.transform;
         }
 
         public void InitComponent()
@@ -30,6 +33,8 @@ namespace EducationalGame.Component
         public void InitComponent(GameObject gameObject){
             SetGameObject(gameObject);
         }
+
+        public void MoveTransform(Vector2 position) => transform.position = position;
     }
 
 }

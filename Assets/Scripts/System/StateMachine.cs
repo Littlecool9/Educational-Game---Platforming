@@ -22,7 +22,7 @@ namespace EducationalGame
             {
                 // Player's state machine    
                 Player entity = EntityManager.Instance.GetEntityWithID(0) as Player;
-                StateComponent<PlayerStates> stateC = EntityManager.Instance.GetComponent<StateComponent<PlayerStates>>(entity.ID);
+                StateComponent stateC = EntityManager.Instance.GetComponent<StateComponent>(entity.ID);
                 InputComponent inputC = EntityManager.Instance.GetComponent<InputComponent>(entity.ID);
 
                 if (inputC.InteractInput)

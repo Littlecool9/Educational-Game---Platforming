@@ -8,10 +8,10 @@ namespace EducationalGame.Component
     public enum PlayerStates { Idle, Walking, Interacting }
     public enum BoxStates { Open, Closed }
 
-    public class StateComponent<T> : IComponent where T : System.Enum
+    public class StateComponent : IComponent 
     {
-        // Stores Objects States related params
-        public T CurrentState { get; private set; }
+        // Stores Player States related params
+        public PlayerStates CurrentState { get; private set; }
 
         // Player params
         public bool IsMoving;
@@ -23,18 +23,14 @@ namespace EducationalGame.Component
 
         public void InitComponent()
         {
-            if (typeof(T) == typeof(PlayerStates)){
                 
-                IsMoving = false;
-                Jumpable = true;
-            }
-            else if (typeof(T) == typeof(BoxStates)){
-                
-            }
+            IsMoving = false;
+            Jumpable = true;
+            
 
         }
 
-        public void SetCurrentState(T state) { CurrentState = state; }
+        public void SetCurrentState(PlayerStates state) { CurrentState = state; }
 
         public struct States{
             public bool IsMoving;

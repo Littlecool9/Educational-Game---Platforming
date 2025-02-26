@@ -19,6 +19,14 @@ namespace EducationalGame.Core
         public static float PlayerMoveSpeed = 4f;
 
         public static GameObject player { get; private set; }
+        public static int DashCornerCorrection = 4;     //水平Dash时，遇到阻挡物的可纠正像素值
+        public static float Gravity = -9f; //重力
+        public static float HalfGravThreshold = 4f; //滞空时间阈值
+        public static float MaxFall = 20f;
+
+        #region Corner Correct
+        public static int UpwardCornerCorrection = 4; //向上移动，X轴上边缘校正的最大距离
+        #endregion
 
         public static GameObject SetPlayerPrefab(GameObject prefab) { player = prefab; return prefab; }
     }

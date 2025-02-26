@@ -17,8 +17,10 @@ namespace EducationalGame
         {
             Player player = EntityManager.Instance.GetEntityWithID(0) as Player;
             InputComponent inputC = EntityManager.Instance.GetComponent<InputComponent>(player.ID);
-            if (inputC.InteractInput)
+            StateComponent stateC = EntityManager.Instance.GetComponent<StateComponent>(player.ID);
+            if (inputC.InteractInput && (stateC.CurrentState == PlayerStates.Idle || stateC.CurrentState == PlayerStates.Walking))
             {
+                bool isInteracting = false;
                 foreach(Entity entity in EntityManager.Instance.GetAllEntities())
                 {
                     if (EntityManager.Instance.HasComponent<InteractableComponent>(entity)
@@ -30,9 +32,14 @@ namespace EducationalGame
                             interactableC.InvokeInteractionEvent();
                             interactionC.Interact();
                             Debug.Log("Interacting");
+
+
+                            isInteracting = true;
+                            break;
                         }
                     }
                 }
+                if (!isInteracting) Debug.Log("Not Interacting");
             }
             
         }

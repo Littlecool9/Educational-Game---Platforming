@@ -15,7 +15,7 @@ namespace EducationalGame
 
         public override void InitEntity()
         {
-            entityManager.AddComponent(this, new StateComponent<BoxStates>());
+            entityManager.AddComponent(this, new StateComponent());
             entityManager.AddComponent(this, new InteractableComponent());
             entityManager.AddComponent(this, new InteractionComponent());
 

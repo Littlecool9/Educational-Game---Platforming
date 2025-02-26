@@ -11,11 +11,12 @@ namespace EducationalGame.Component
         public bool IsGrounded = false;
         public bool IsDashing = false;
 
-
-
-
         public Collider2D Collider;
         public LayerMask GroundLayer; // 用于检测地面
+        public LayerMask WallLayer;
+        public LayerMask CeilLayer;
+
+        public float DEVIATION = 0.02f;  //碰撞检测误差
 
         public void InitComponent()
         {
@@ -24,6 +25,8 @@ namespace EducationalGame.Component
         public void SetCollider(Collider2D collider){
             Collider = collider;
             GroundLayer = LayerMask.GetMask("Ground");
+            WallLayer = LayerMask.GetMask("Wall");
+            CeilLayer = LayerMask.GetMask("Ceil");
         }
     }
 }
