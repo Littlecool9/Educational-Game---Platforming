@@ -45,82 +45,36 @@ namespace EducationalGame
                     if (stateC.CurrentState == PlayerState.Jumping){
                         // Add an additional horizontal boost, apply jump speed
                         movementC.AddSpeed(Constants.JumpHBoost * inputC.Facing, Constants.JumpSpeed);
-                        Debug.Log("Jump");
                     }
                     // Handle Walk
-                    if (stateC.CurrentState == PlayerState.Walking){
-                        // Change horizontal speed, keep vertical speed
-                        movementC.AddSpeed(inputC.Facing * Constants.PlayerMoveSpeed, movementC.Speed.y);   
+                    // On Ground
+                    else if (stateC.IsGrounded){
+                        if (stateC.CurrentState == PlayerState.Walking){
+                            movementC.AddSpeed(inputC.Facing * Constants.PlayerMoveSpeed, 0);   
+                        }
+                        else{
+                            movementC.SetSpeed(0, movementC.Speed.y);
+                        }
                     }
+                    // on air
                     else{
-                        movementC.SetSpeed(0, movementC.Speed.y);
+                        if (stateC.CurrentState == PlayerState.Walking){
+                            movementC.AddSpeed(inputC.Facing * Constants.PlayerMoveSpeed, 0);
+                        }
+                        else{
+                            movementC.SetSpeed(0, movementC.Speed.y);
+                        }
                     }
-
                     ApplyMovement(entity, movementC.Speed * Constants.deltaTime);
                 }
             }
+
             // Handle other objects' logic when walking
 
         }
 
-
-        /// <summary>
-        /// Determines if the ground is directly below the entity using a 2D BoxCast.
-        /// </summary>
-        /// <param name="entity">The entity to check for grounded status.</param>
-        /// <returns>True if the entity is grounded, otherwise false.</returns>
-        /// <exception cref="Exception">Thrown if the entity does not have a ColliderComponent or RenderComponent.</exception>
-        private bool CheckGrounded(Entity entity)
-        {
-            ColliderComponent colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(entity);
-            RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
-            if (colliderC == null || renderC == null) throw new Exception("Missing ColliderComponent or RenderComponent in CheckGrounded()");
-
-            // Debug.Log("BoxCast origin: " + (colliderC.Collider.bounds.center + new Vector3(offset.x, offset.y, 0)));
-            // Debug.Log("Collider size: " + colliderC.Collider.bounds.size);
-
-            Vector3 origion = colliderC.Collider.bounds.center;
-            Vector3 boxSize = colliderC.Collider.bounds.size;
-            boxSize.x -= 0.5f;      // 修复检测竖直碰撞时会触发水平碰撞检测的bug
-
-            Debug.DrawRay(origion, Vector3.up * 0.2f, Color.green, 2f);  // 绿色的点，持续2秒
-            Debug.DrawRay(origion, Vector3.right * 0.2f, Color.green, 2f); // 右侧的小线，方便看到
-
-            // 画出 BoxCast 检测方向
-            Debug.DrawRay(origion, Vector3.down * colliderC.DEVIATION, Color.red, 2f);  // 红色的射线表示 BoxCast 方向
-
-            // 可视化 `BoxCast` 的边界
-            DrawBox(origion, boxSize, Color.blue, 2f);
-
-            RaycastHit2D hit = Physics2D.BoxCast(
-                colliderC.Collider.bounds.center,
-                // colliderC.Collider.bounds.size, 
-                boxSize,
-                0, 
-                Vector2.down, 
-                colliderC.DEVIATION,        // 投射距离
-                colliderC.GroundLayer);    // 投射检测的层级
-            if (hit && hit.normal == Vector2.up)
-            {
-                return true;
-            }
-            return false;
-        }
-
         private void ApplyMovement(Entity entity, Vector2 movement)
         {
-            // RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity) ?? throw new Exception("Missing RenderComponent in ApplyMovement()");
-
-            // movement is the speed in this frame
-
-            // Logic 1
-            // collider.Collider.transform.position += (Vector3)new Vector2(movement.x, 0);
-            // collider.Collider.transform.position += (Vector3)new Vector2(0, movement.y);
-
-            // Logic 2
-            // renderC.MoveTransform(new Vector2(0, movement.y));
-            // renderC.MoveTransform(new Vector2(movement.x, 0));
-
             UpdateCollideX(entity, movement.x);
             UpdateCollideY(entity, movement.y);
         }
@@ -424,19 +378,6 @@ namespace EducationalGame
             return false;
         }
 
-        void DrawBox(Vector3 center, Vector3 size, Color color, float duration)
-        {
-            Vector3 halfSize = size * 0.5f;
-            Vector3 topLeft = new Vector3(center.x - halfSize.x, center.y + halfSize.y, 0);
-            Vector3 topRight = new Vector3(center.x + halfSize.x, center.y + halfSize.y, 0);
-            Vector3 bottomLeft = new Vector3(center.x - halfSize.x, center.y - halfSize.y, 0);
-            Vector3 bottomRight = new Vector3(center.x + halfSize.x, center.y - halfSize.y, 0);
-
-            Debug.DrawLine(topLeft, topRight, color, duration);
-            Debug.DrawLine(topRight, bottomRight, color, duration);
-            Debug.DrawLine(bottomRight, bottomLeft, color, duration);
-            Debug.DrawLine(bottomLeft, topLeft, color, duration);
-        }
 
         public void Init()
         {

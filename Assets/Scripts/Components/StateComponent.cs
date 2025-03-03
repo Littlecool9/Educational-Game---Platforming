@@ -28,7 +28,12 @@ namespace EducationalGame.Component
             PreviousState = CurrentState;
             CurrentState = state; 
 
+            // Manage Variables
             if (state == PlayerState.Interacting) IsInteracting = true;
+            if (state == PlayerState.OnAir) OnAir = true;
+            if (PreviousState == PlayerState.Interacting  && CurrentState == PlayerState.Idle) 
+                IsInteracting = false;
+            
         }
         public PlayerState GetCurrentState() { return CurrentState; }
         public PlayerState GetPreviousState() { return PreviousState; }

@@ -15,7 +15,7 @@ namespace EducationalGame.Core
         public static float SetDeltaTime(float dt) { deltaTime = dt; return dt; }
         public static float JumpHBoost = 4f; //退离墙壁的力
         public static float JumpGraceTime = 0.1f;//土狼时间
-        public static float JumpSpeed = 0.2f;  //最大跳跃速度
+        public static float JumpSpeed = 0.08f;  //最大跳跃速度
         public static float PlayerMoveSpeed = 4f;
 
         public static GameObject player { get; private set; }

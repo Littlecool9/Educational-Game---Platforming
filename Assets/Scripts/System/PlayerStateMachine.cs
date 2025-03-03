@@ -13,8 +13,6 @@ namespace EducationalGame
         StateComponent stateC;
         InputComponent inputC;
         ColliderComponent colliderC;
-        MovementComponent movementC;
-        // StateMachine<PlayerStates> stateMachine = new StateMachine<PlayerStates>();
 
         private static readonly Dictionary<PlayerState, HashSet<PlayerState>> StateTransitions = new Dictionary<PlayerState, HashSet<PlayerState>>()
         {
@@ -33,7 +31,7 @@ namespace EducationalGame
             stateC = EntityManager.Instance.GetComponent<StateComponent>(player);
             inputC = EntityManager.Instance.GetComponent<InputComponent>(player);
             colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(player);
-            movementC = EntityManager.Instance.GetComponent<MovementComponent>(player);
+            
         }
 
         public void Process()
@@ -43,15 +41,15 @@ namespace EducationalGame
 
         public void Update()
         {
+            Debug.Log("Jump Input: " + inputC.JumpInput);
 
             // Updated IsGrounded
-            bool isgrounded = movementC.Speed.y <= 0 && CheckGrounded();        // TODO: 用Speed来检测是不对的
+            bool isgrounded = CheckGrounded();
             colliderC.IsGrounded = isgrounded;
             stateC.IsGrounded = isgrounded;
 
 
             PlayerState currentState = stateC.GetCurrentState();
-
             PlayerState nextState = DetermineNextState();
 
             if (currentState != nextState && CanTransition(currentState, nextState))
@@ -64,7 +62,7 @@ namespace EducationalGame
         private PlayerState DetermineNextState()
         {
             
-            if (inputC.JumpInput && !stateC.IsGrounded)
+            if (inputC.JumpInput && stateC.IsGrounded)
             {
                 // Jumping status last only one frame
                 return PlayerState.Jumping;
