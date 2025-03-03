@@ -24,7 +24,7 @@ namespace EducationalGame
             
             InputComponent inputC = EntityManager.Instance.GetComponent<InputComponent>(player.ID);
             StateComponent stateC = EntityManager.Instance.GetComponent<StateComponent>(player.ID);
-            if (inputC.InteractInput && (stateC.CurrentState == PlayerStates.Idle || stateC.CurrentState == PlayerStates.Walking))
+            if (inputC.InteractInput && (stateC.CurrentState == PlayerState.Idle || stateC.CurrentState == PlayerState.Walking))
             {
                 bool isInteracting = false;
                 foreach(Entity entity in EntityManager.Instance.GetAllEntities())

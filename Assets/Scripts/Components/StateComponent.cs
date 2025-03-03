@@ -5,50 +5,33 @@ using UnityEngine;
 
 namespace EducationalGame.Component
 {
-    public enum PlayerStates { Idle, Walking, Interacting }
-    public enum BoxStates { Open, Closed }
+    public enum PlayerState { Idle, Walking, Interacting, Jumping, OnAir }
 
     public class StateComponent : IComponent 
     {
         // Stores Player States related params
-        public PlayerStates CurrentState { get; private set; }
+        public PlayerState CurrentState { get; private set; }
+        public PlayerState PreviousState { get; private set; }
 
-        // Player params
-        public bool IsMoving;
-        public bool Movable;
-        public bool Jumpable;
-        public bool Interactable;
-        public bool IsInteracting;
+        public bool IsGrounded { get; set; }
+        public bool IsInteracting { get; set; }
+        public bool OnAir { get; set; }
+        public bool IsDashing = false;
         
-
         public void InitComponent()
         {
-                
-            IsMoving = false;
-            Jumpable = true;
             
-
         }
 
-        public void SetCurrentState(PlayerStates state) { CurrentState = state; }
+        public void SetCurrentState(PlayerState state) 
+        { 
+            PreviousState = CurrentState;
+            CurrentState = state; 
 
-        public struct States{
-            public bool IsMoving;
-            public bool Jumpable;
-            public bool Interactable;
-            public bool IsInteracting;
-            public static States Idle{
-                get{
-                    States idle = new States();
-                    idle.IsMoving = false;
-                    idle.Jumpable = true;
-                    idle.Interactable = false;
-                    idle.IsInteracting = false;
-                    return idle;
-                }
-            }
+            if (state == PlayerState.Interacting) IsInteracting = true;
         }
-        
+        public PlayerState GetCurrentState() { return CurrentState; }
+        public PlayerState GetPreviousState() { return PreviousState; }
     }
 
 

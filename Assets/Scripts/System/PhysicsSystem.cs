@@ -23,45 +23,33 @@ namespace EducationalGame
 
                 ColliderComponent colliderC = entityManager.GetComponent<ColliderComponent>(entity);
                 MovementComponent movementC = entityManager.GetComponent<MovementComponent>(entity);
-                Debug.Log("isGrounded: " + colliderC.IsGrounded);
+                
 
                 // Handle Player Walking Logic
                 if (entity is Player)
                 {
                     // Player logic, including movement
                     InputComponent inputC = entityManager.GetComponent<InputComponent>(entity);
-                    
-                    bool wasGrounded = colliderC.IsGrounded;
-                    // colliderC.IsGrounded = CheckGrounded(entity);
-                    if (movementC.Speed.y <= 0)
-                    {
-                        colliderC.IsGrounded = CheckGrounded(entity);//碰撞检测地面
-                    }
-                    else
-                    {
-                        colliderC.IsGrounded = false;
-                    }
+                    StateComponent stateC = entityManager.GetComponent<StateComponent>(entity);
 
                     // Gravity
                     if (!colliderC.IsGrounded) {
-                        // Vector2 gravity = new Vector2(0, movementC.Gravity);
-                        // movementC.AddSpeed(gravity);
                         movementC.AddSpeed(movementC.Speed.x, 
                         Mathf.MoveTowards(movementC.Speed.y, Constants.MaxFall, Constants.Gravity * 1f * Constants.deltaTime
                         ));
                     }
-                    // else if (!wasGrounded) // 刚刚着地
-                    // {
-                    //     movementC.SetSpeed(movementC.Speed.x, 0);
-                    // }
 
                     // Handle User Input
-                    if (inputC.JumpInput){
+
+                    // Handle Jump
+                    if (stateC.CurrentState == PlayerState.Jumping){
+                        // Add an additional horizontal boost, apply jump speed
                         movementC.AddSpeed(Constants.JumpHBoost * inputC.Facing, Constants.JumpSpeed);
-                        Debug.Log("jump");
+                        Debug.Log("Jump");
                     }
                     // Handle Walk
-                    if (inputC.MoveInput){
+                    if (stateC.CurrentState == PlayerState.Walking){
+                        // Change horizontal speed, keep vertical speed
                         movementC.AddSpeed(inputC.Facing * Constants.PlayerMoveSpeed, movementC.Speed.y);   
                     }
                     else{
@@ -135,8 +123,6 @@ namespace EducationalGame
 
             UpdateCollideX(entity, movement.x);
             UpdateCollideY(entity, movement.y);
-
-            
         }
 
         protected void UpdateCollideX(Entity entity, float distX)

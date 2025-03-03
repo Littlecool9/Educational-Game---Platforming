@@ -9,7 +9,6 @@ namespace EducationalGame.Component
     {
         // Collider detect, interact detect
         public bool IsGrounded = false;
-        public bool IsDashing = false;
 
         public Collider2D Collider;
         public LayerMask GroundLayer; // 用于检测地面
