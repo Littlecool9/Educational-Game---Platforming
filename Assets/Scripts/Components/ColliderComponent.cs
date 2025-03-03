@@ -14,7 +14,7 @@ namespace EducationalGame.Component
         public Collider2D Collider;
         public LayerMask GroundLayer; // 用于检测地面
 
-        public float DEVIATION = 0.02f;  //碰撞检测误差
+        public float DEVIATION = 0.002f;  //碰撞检测误差
 
         public void InitComponent()
         {

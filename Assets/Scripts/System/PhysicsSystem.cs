@@ -4,9 +4,6 @@ using EducationalGame.Core;
 using EducationalGame.Component;
 using UnityEngine;
 using System;
-using UnityEngine.Scripting.APIUpdating;
-using System.Linq.Expressions;
-using UnityEngine.Video;
 
 namespace EducationalGame
 {
@@ -26,7 +23,6 @@ namespace EducationalGame
 
                 ColliderComponent colliderC = entityManager.GetComponent<ColliderComponent>(entity);
                 MovementComponent movementC = entityManager.GetComponent<MovementComponent>(entity);
-                RenderComponent renderC = entityManager.GetComponent<RenderComponent>(entity);
                 Debug.Log("isGrounded: " + colliderC.IsGrounded);
 
                 // Handle Player Walking Logic
@@ -78,15 +74,15 @@ namespace EducationalGame
             // Handle other objects' logic when walking
 
         }
-        
 
+
+        /// <summary>
+        /// Determines if the ground is directly below the entity using a 2D BoxCast.
+        /// </summary>
+        /// <param name="entity">The entity to check for grounded status.</param>
+        /// <returns>True if the entity is grounded, otherwise false.</returns>
+        /// <exception cref="Exception">Thrown if the entity does not have a ColliderComponent or RenderComponent.</exception>
         private bool CheckGrounded(Entity entity)
-        {
-            return CheckGrounded(entity, Vector2.zero);
-        }
-
-
-        private bool CheckGrounded(Entity entity, Vector2 offset)
         {
             ColliderComponent colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(entity);
             RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
@@ -97,7 +93,7 @@ namespace EducationalGame
 
             Vector3 origion = colliderC.Collider.bounds.center;
             Vector3 boxSize = colliderC.Collider.bounds.size;
-            boxSize.x -= 0.3f;
+            boxSize.x -= 0.5f;      // 修复检测竖直碰撞时会触发水平碰撞检测的bug
 
             Debug.DrawRay(origion, Vector3.up * 0.2f, Color.green, 2f);  // 绿色的点，持续2秒
             Debug.DrawRay(origion, Vector3.right * 0.2f, Color.green, 2f); // 右侧的小线，方便看到
@@ -114,13 +110,10 @@ namespace EducationalGame
                 boxSize,
                 0, 
                 Vector2.down, 
-                colliderC.DEVIATION, 
-                colliderC.GroundLayer);
-
-            if (hit && hit.normal != Vector2.up) Debug.Log("hitting wall");
+                colliderC.DEVIATION,        // 投射距离
+                colliderC.GroundLayer);    // 投射检测的层级
             if (hit && hit.normal == Vector2.up)
             {
-                Debug.Log("hitting ground");
                 return true;
             }
             return false;
@@ -128,7 +121,7 @@ namespace EducationalGame
 
         private void ApplyMovement(Entity entity, Vector2 movement)
         {
-            RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity) ?? throw new Exception("Missing RenderComponent in ApplyMovement()");
+            // RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity) ?? throw new Exception("Missing RenderComponent in ApplyMovement()");
 
             // movement is the speed in this frame
 
@@ -457,6 +450,11 @@ namespace EducationalGame
             Debug.DrawLine(topRight, bottomRight, color, duration);
             Debug.DrawLine(bottomRight, bottomLeft, color, duration);
             Debug.DrawLine(bottomLeft, topLeft, color, duration);
+        }
+
+        public void Init()
+        {
+            
         }
     }
 }

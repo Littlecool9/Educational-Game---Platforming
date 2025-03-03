@@ -8,15 +8,13 @@ namespace EducationalGame
 {
     public class PlayerController : ISystem
     {
+
+        Player player;
         // System Layer, Receive Player input, 处理预输入        
         public void Update()
         {
-            List<int> res = EntityManager.Instance.GetEntitiesWithTag("Player");
-
-            int playerID = res[0];
-
             // Set moving related player input
-            InputComponent inputC = EntityManager.Instance.GetComponent<InputComponent>(playerID);
+            InputComponent inputC = EntityManager.Instance.GetComponent<InputComponent>(player);
 
             Vector2 inputDirection = Vector2.zero;
             inputC.JumpInput = Input.GetKeyDown(KeyCode.Space);
@@ -39,6 +37,11 @@ namespace EducationalGame
         public void Process()
         {
             
+        }
+
+        public void Init()
+        {
+            player = EntityManager.Instance.GetEntityWithID(0) as Player;
         }
     }
 }

@@ -15,8 +15,8 @@ public class Game : MonoBehaviour
 
     void Start() {
         Constants.SetPlayerPrefab(playerObject);
+        Init();         // Init Player\TriggerObject
         SystemManager.Init();
-        Init();
     }
 
     void FixedUpdate() {

@@ -9,5 +9,6 @@ namespace EducationalGame.Core
         // The logic executed per frame
         void Update();  
         void Process();
+        void Init();
     }
 }

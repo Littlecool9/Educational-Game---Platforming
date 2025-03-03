@@ -34,6 +34,11 @@ namespace EducationalGame
             return cameraPosition;
         }
 
+        public void Init()
+        {
+            player = EntityManager.Instance.GetEntityWithID(0) as Player;
+        }
+
         protected Vector2 CameraTarget
         {
             get

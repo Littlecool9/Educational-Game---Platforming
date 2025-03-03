@@ -8,6 +8,11 @@ using UnityEngine;
 
 public class RenderSystem : ISystem
 {
+    public void Init()
+    {
+        
+    }
+
     public void Process()
     {
         
@@ -15,11 +20,8 @@ public class RenderSystem : ISystem
 
     public void Update()
     {
-        
-    }
+        // Handle Objects' Animation Logic
 
-
-    public void Init(){
         
     }
 

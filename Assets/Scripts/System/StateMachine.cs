@@ -8,7 +8,11 @@ namespace EducationalGame
 {
     public class StateMachine<T> : ISystem where T : System.Enum
     {
-        
+        public void Init()
+        {
+            
+        }
+
 
         // State Machine
         public void Process()

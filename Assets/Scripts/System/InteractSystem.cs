@@ -8,6 +8,12 @@ namespace EducationalGame
 {
     public class InteractSystem : ISystem
     {
+        Player player;
+        public void Init()
+        {
+            player = EntityManager.Instance.GetEntityWithID(0) as Player;
+        }
+
         public void Process()
         {
             throw new System.NotImplementedException();
@@ -15,7 +21,7 @@ namespace EducationalGame
 
         public void Update()
         {
-            Player player = EntityManager.Instance.GetEntityWithID(0) as Player;
+            
             InputComponent inputC = EntityManager.Instance.GetComponent<InputComponent>(player.ID);
             StateComponent stateC = EntityManager.Instance.GetComponent<StateComponent>(player.ID);
             if (inputC.InteractInput && (stateC.CurrentState == PlayerStates.Idle || stateC.CurrentState == PlayerStates.Walking))
