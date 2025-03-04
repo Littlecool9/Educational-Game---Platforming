@@ -40,6 +40,7 @@ namespace EducationalGame.Component
             Speed = new Vector2(
                 Mathf.Clamp(Speed.x, -MaxMoveSpeed, MaxMoveSpeed),
                 Mathf.Max(Speed.y, MaxFallSpeed)
+                // Speed.y
             );
         }
         public void AddSpeed(float x, float y){

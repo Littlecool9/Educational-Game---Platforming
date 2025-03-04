@@ -33,9 +33,11 @@ namespace EducationalGame
                     StateComponent stateC = entityManager.GetComponent<StateComponent>(entity);
 
                     // Gravity
-                    if (!colliderC.IsGrounded) {
-                        movementC.AddSpeed(movementC.Speed.x, 
-                        Mathf.MoveTowards(movementC.Speed.y, Constants.MaxFall, Constants.Gravity * 1f * Constants.deltaTime
+                    float mult = (Math.Abs(movementC.Speed.y) < Constants.HalfGravThreshold && inputC.JumpInput) ? .5f : 1f;
+                    if (!colliderC.IsGrounded ) {
+                        // Debug.Log("delta y: " + Mathf.MoveTowards(movementC.Speed.y, Constants.MaxFall, Constants.Gravity * mult * Constants.deltaTime));
+                        movementC.AddSpeed(0, 
+                        Mathf.MoveTowards(movementC.Speed.y, Constants.MaxFall, Constants.Gravity * mult 
                         ));
                     }
 
@@ -45,25 +47,15 @@ namespace EducationalGame
                     if (stateC.CurrentState == PlayerState.Jumping){
                         // Add an additional horizontal boost, apply jump speed
                         movementC.AddSpeed(Constants.JumpHBoost * inputC.Facing, Constants.JumpSpeed);
+                        // movementC.AddSpeed(0, Constants.JumpSpeed);
                     }
                     // Handle Walk
                     // On Ground
-                    else if (stateC.IsGrounded){
-                        if (stateC.CurrentState == PlayerState.Walking){
-                            movementC.AddSpeed(inputC.Facing * Constants.PlayerMoveSpeed, 0);   
-                        }
-                        else{
-                            movementC.SetSpeed(0, movementC.Speed.y);
-                        }
+                    else if (stateC.CurrentState == PlayerState.Walking || stateC.CurrentState == PlayerState.OnAir){
+                        movementC.AddSpeed(movementC.MoveSpeed * inputC.Facing, 0); 
                     }
-                    // on air
-                    else{
-                        if (stateC.CurrentState == PlayerState.Walking){
-                            movementC.AddSpeed(inputC.Facing * Constants.PlayerMoveSpeed, 0);
-                        }
-                        else{
-                            movementC.SetSpeed(0, movementC.Speed.y);
-                        }
+                    else if (stateC.CurrentState == PlayerState.Idle){
+                        movementC.SetSpeed(0, movementC.Speed.y);
                     }
                     ApplyMovement(entity, movementC.Speed * Constants.deltaTime);
                 }
@@ -156,31 +148,6 @@ namespace EducationalGame
             MovementComponent movementC = EntityManager.Instance.GetComponent<MovementComponent>(entity);
             if (colliderC == null || renderC == null || movementC == null) throw new Exception("Missing ColliderComponent or RenderComponent in CheckGrounded()");
 
-            Vector2 direct = Math.Sign(distX) > 0 ? Vector2.right : Vector2.left;
-
-            // if ((this.stateMachine.State == (int)EActionState.Dash))
-            // {
-            //     if (colliderC.IsGrounded && DuckFreeAt(entity, renderC.position + Vector2.right * distX))
-            //     {
-            //         // Ducking = true;
-            //         return true;
-            //     }
-            //     else if (movementC.Speed.y == 0 && movementC.Speed.x!=0)
-            //     {
-            //         for (int i = 1; i <= Constants.DashCornerCorrection; i++)
-            //         {
-            //             for (int j = 1; j >= -1; j -= 2)
-            //             {
-            //                 if (!CollideCheck(renderC.position + new Vector2(0, j * i * 0.1f), direct, entity, Mathf.Abs(distX)))
-            //                 {
-            //                     // renderC.position += new Vector2(distX, j * i * 0.1f);
-            //                     renderC.MoveTransform(new Vector2(distX, j * i * 0.1f));
-            //                     return true;
-            //                 }
-            //             }
-            //         }
-            //     }
-            // }
             return false;
         }
             
@@ -213,7 +180,6 @@ namespace EducationalGame
 
         protected void UpdateCollideY(Entity entity, float distY)
         {
-
             RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
             MovementComponent movementC = EntityManager.Instance.GetComponent<MovementComponent>(entity);
             if (renderC == null || movementC == null) throw new Exception("Missing ColliderComponent or RenderComponent in UpdateCollideY()");
@@ -222,7 +188,6 @@ namespace EducationalGame
             float distance = distY;
             int correctTimes = 1; //默认可以迭代位置10次
             bool collided = true;
-            float speedY = Mathf.Abs(movementC.Speed.y);
             while (true)
             {
                 float moved = MoveYStepWithCollide(entity, distance);       // distance是距离目标位置剩余的距离
@@ -243,15 +208,6 @@ namespace EducationalGame
                 }
                 distance = tempDist;
             }
-
-            //落地时候，进行缩放
-            // if (collided && distY < 0)
-            // {
-            //     if (this.stateMachine.State != (int)EActionState.Climb)
-            //     {
-            //         this.PlayLandEffect(this.SpritePosition, speedY);
-            //     }
-            // }
         }
 
         private float MoveYStepWithCollide(Entity entity, float distY)
@@ -299,35 +255,7 @@ namespace EducationalGame
             // 向下移动
             if (movementC.Speed.y < 0)
             {
-                // if ((this.stateMachine.State == (int)EActionState.Dash) && !DashStartedOnGround)
-                // {
-                //     if (movementC.Speed.x <= 0)
-                //     {
-                //         for (int i = -1; i >= -Constants.DashCornerCorrection; i--)
-                //         {
-                //             float step = (Mathf.Abs(i * 0.1f) + colliderC.DEVIATION);
-                            
-                //             if (!CheckGrounded(entity, new Vector2(-step, 0)))
-                //             {
-                //                 renderC.position += new Vector2(-step, distY);
-                //                 return true;
-                //             }
-                //         }
-                //     }
-
-                //     if (movementC.Speed.x >= 0)
-                //     {
-                //         for (int i = 1; i <= Constants.DashCornerCorrection; i++)
-                //         {
-                //             float step = (Mathf.Abs(i * 0.1f) + colliderC.DEVIATION);
-                //             if (!CheckGrounded(entity, new Vector2(step, 0)))
-                //             {
-                //                 renderC.position += new Vector2(step, distY);
-                //                 return true;
-                //             }
-                //         }
-                //     }
-                // }
+                
             }
             //向上移动
             else if (movementC.Speed.y > 0)

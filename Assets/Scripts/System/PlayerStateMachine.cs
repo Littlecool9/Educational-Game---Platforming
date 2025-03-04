@@ -41,7 +41,6 @@ namespace EducationalGame
 
         public void Update()
         {
-            Debug.Log("Jump Input: " + inputC.JumpInput);
 
             // Updated IsGrounded
             bool isgrounded = CheckGrounded();
@@ -76,7 +75,7 @@ namespace EducationalGame
                 // NOTE: air walking is enabled
                 return PlayerState.Walking;
             }
-            if (inputC.InteractInput && stateC.CurrentState == PlayerState.Idle)
+            if (inputC.InteractInput && stateC.CurrentState == PlayerState.Idle)    // TODO: 加一个碰到交互物体的条件
             {
                 return PlayerState.Interacting;
             }

@@ -550,7 +550,7 @@ SpriteRenderer:
   m_Size: {x: 10.8, y: 7.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &260172056
@@ -1324,11 +1324,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5234032282751440448, guid: 4d79d44958d2d7c4f854710275a8b969, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 1.14
+      value: 0.6796875
       objectReference: {fileID: 0}
     - target: {fileID: 5234032282751440448, guid: 4d79d44958d2d7c4f854710275a8b969, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 1.64
+      value: 1.7617188
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d79d44958d2d7c4f854710275a8b969, type: 3}

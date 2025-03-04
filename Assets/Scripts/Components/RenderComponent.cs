@@ -34,6 +34,7 @@ namespace EducationalGame.Component
             SetGameObject(gameObject);
         }
 
+        // Set Position in Engine
         public void MoveTransform(Vector2 position) => transform.position += new Vector3(position.x, position.y, 0);
     }
 

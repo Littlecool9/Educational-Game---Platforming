@@ -14,7 +14,8 @@ namespace EducationalGame.Component
         public Vector2 MoveDir { get; private set; }      // Jump and Move
         public int Facing
         {
-            get { return (int)Mathf.Sign(MoveDir.x); }
+            get { if (MoveDir.x == 0) return 0;
+                return (int)Mathf.Sign(MoveDir.x); }
             set { }
         }
 
