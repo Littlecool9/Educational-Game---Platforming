@@ -14,8 +14,9 @@ namespace EducationalGame.Component
         public Vector2 position;
         public SpriteRenderer sr { get; private set;}
         public RenderComponent(){}
-
         public Collider2D collider;
+        public Animator animator;
+
 
         public void SetGameObject(GameObject gameObject){
             this.GameObject = gameObject;
@@ -23,6 +24,7 @@ namespace EducationalGame.Component
             collider = gameObject.GetComponent<Collider2D>();
             position = gameObject.transform.position;
             transform = gameObject.transform;
+            animator = gameObject.GetComponent<Animator>();
         }
 
         public void InitComponent()
@@ -36,6 +38,12 @@ namespace EducationalGame.Component
 
         // Set Position in Engine
         public void MoveTransform(Vector2 position) => transform.position += new Vector3(position.x, position.y, 0);
+
+        public void SetAnimatorBool(string name, bool value) => animator?.SetBool(name, value);
+
+        public void Flip(){
+            sr.flipX = !sr.flipX;
+        }
     }
 
 }

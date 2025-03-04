@@ -46,13 +46,13 @@ namespace EducationalGame
                     // Handle Jump
                     if (stateC.CurrentState == PlayerState.Jumping){
                         // Add an additional horizontal boost, apply jump speed
-                        movementC.AddSpeed(Constants.JumpHBoost * inputC.Facing, Constants.JumpSpeed);
+                        movementC.AddSpeed(Constants.JumpHBoost * inputC.MoveDir.x, Constants.JumpSpeed);
                         // movementC.AddSpeed(0, Constants.JumpSpeed);
                     }
                     // Handle Walk
                     // On Ground
                     else if (stateC.CurrentState == PlayerState.Walking || stateC.CurrentState == PlayerState.OnAir){
-                        movementC.AddSpeed(movementC.MoveSpeed * inputC.Facing, 0); 
+                        movementC.AddSpeed(movementC.MoveSpeed * inputC.MoveDir.x, 0); 
                     }
                     else if (stateC.CurrentState == PlayerState.Idle){
                         movementC.SetSpeed(0, movementC.Speed.y);

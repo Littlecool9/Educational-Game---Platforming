@@ -13,6 +13,7 @@ namespace EducationalGame
         StateComponent stateC;
         InputComponent inputC;
         ColliderComponent colliderC;
+        RenderComponent renderC;
 
         private static readonly Dictionary<PlayerState, HashSet<PlayerState>> StateTransitions = new Dictionary<PlayerState, HashSet<PlayerState>>()
         {
@@ -31,6 +32,7 @@ namespace EducationalGame
             stateC = EntityManager.Instance.GetComponent<StateComponent>(player);
             inputC = EntityManager.Instance.GetComponent<InputComponent>(player);
             colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(player);
+            renderC = EntityManager.Instance.GetComponent<RenderComponent>(player);
             
         }
 
@@ -99,14 +101,14 @@ namespace EducationalGame
             Vector3 boxSize = colliderC.Collider.bounds.size;
             boxSize.x -= 0.5f;      // 修复检测竖直碰撞时会触发水平碰撞检测的bug
 
-            Debug.DrawRay(origion, Vector3.up * 0.2f, Color.green, 2f);  // 绿色的点，持续2秒
-            Debug.DrawRay(origion, Vector3.right * 0.2f, Color.green, 2f); // 右侧的小线，方便看到
+            // Debug.DrawRay(origion, Vector3.up * 0.2f, Color.green, 2f);  // 绿色的点，持续2秒
+            // Debug.DrawRay(origion, Vector3.right * 0.2f, Color.green, 2f); // 右侧的小线，方便看到
 
-            // 画出 BoxCast 检测方向
-            Debug.DrawRay(origion, Vector3.down * colliderC.DEVIATION, Color.red, 2f);  // 红色的射线表示 BoxCast 方向
+            // // 画出 BoxCast 检测方向
+            // Debug.DrawRay(origion, Vector3.down * colliderC.DEVIATION, Color.red, 2f);  // 红色的射线表示 BoxCast 方向
 
-            // 可视化 `BoxCast` 的边界
-            DrawBox(origion, boxSize, Color.blue, 2f);
+            // // 可视化 `BoxCast` 的边界
+            // DrawBox(origion, boxSize, Color.blue, 2f);
 
             RaycastHit2D hit = Physics2D.BoxCast(
                 colliderC.Collider.bounds.center,
