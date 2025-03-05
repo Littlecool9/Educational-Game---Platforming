@@ -35,9 +35,13 @@ namespace EducationalGame.Component
                 // OnAir = true;
                 CanInteract = false;
             }
+            if (PreviousState == PlayerState.OnAir && (CurrentState == PlayerState.Idle || CurrentState == PlayerState.Walking)) {
+                CanInteract = true;
+            }
         }
         public PlayerState GetCurrentState() { return CurrentState; }
         public PlayerState GetPreviousState() { return PreviousState; }
+        
         public void SetInteractingObject(Entity entity) 
         { 
             InteractingObject = entity; 

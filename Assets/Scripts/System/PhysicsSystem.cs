@@ -42,7 +42,6 @@ namespace EducationalGame
                     // Handle User Input
 
                     // Handle Jump
-                    Debug.Log("input movement: " + inputC.MoveDir);
                     if (stateC.CurrentState == PlayerState.Jumping){
                         // Add an additional horizontal boost, apply jump speed
                         

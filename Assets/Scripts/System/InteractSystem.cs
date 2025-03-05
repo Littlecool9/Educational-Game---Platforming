@@ -27,7 +27,7 @@ namespace EducationalGame
         public void Update()
         {
             DetermineInteracting();
-            
+
             if (stateC.IsInteracting && stateC.CanInteract)
             {
                 bool findInteracatble = false;
@@ -57,7 +57,8 @@ namespace EducationalGame
                 {
                     // Failed to find an interactable
                     // return to previous state
-                    stateC.SetCurrentState(stateC.GetPreviousState());
+                    // stateC.SetCurrentState(stateC.GetPreviousState());
+                    
                     Debug.Log("Not Interacting");
                 }
             }
@@ -76,7 +77,8 @@ namespace EducationalGame
 
         private void DetermineInteracting()
         {
-            if (inputC.InteractInput && stateC.GetCurrentState() == PlayerState.Idle && stateC.CanInteract)    // TODO: 加一个碰到交互物体的条件
+            if (inputC.InteractInput && stateC.CanInteract &&
+            (stateC.GetCurrentState() == PlayerState.Idle))         // 可交互的状态
             {
                 // Idle -> Interacting
                 stateC.CanInteract = false;
