@@ -13,6 +13,8 @@ namespace EducationalGame.Component
         public Trigger triggerScript;
         public bool Interactable = false;   // true when player CAN interact with object
 
+        public bool BeingInteracted = false;
+
         public event Action OnInteract;     // Triggered when interacted
         public event Action EnableInteraction;
         public event Action DisableInteraction;

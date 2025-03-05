@@ -12,7 +12,7 @@ namespace EducationalGame.Component
         // Record Interactables in Scene
         private List<InteractableComponent> Interactables = new List<InteractableComponent>();
 
-        
+
         // Store Interaction result
         public void InitComponent()
         {
@@ -34,7 +34,7 @@ namespace EducationalGame.Component
             Debug.Log("Visiting Interaction Component");
         }
 
-        public void AddInteractable(InteractableComponent interactableC)
+        public void AddInteractableToList(InteractableComponent interactableC)
         {
             Interactables.Add(interactableC);
         }

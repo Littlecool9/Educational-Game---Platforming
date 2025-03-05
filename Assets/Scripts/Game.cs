@@ -13,6 +13,7 @@ public class Game : MonoBehaviour
     public List<GameObject> SortingBoxes;
 
     void Start() {
+        // Application.targetFrameRate = 60; // 将游戏帧率锁定为 60 FPS
         Constants.SetPlayerPrefab(playerObject);
         Constants.Init();
         Init();         // Init Player\TriggerObject
@@ -40,13 +41,18 @@ public class Game : MonoBehaviour
         renderC.SetGameObject(playerObject);        // Link Unity Components to customized Components
 
         InteractionComponent interactionC = EntityManager.Instance.GetComponent<InteractionComponent>(player.ID);
+
+
         // SortingBoxes init
         foreach(GameObject sortingBox in SortingBoxes)
         {
             SortingBoxes box = EntityManager.Instance.CreateEntity(EntityType.SortingBoxes) as SortingBoxes;
-            InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(box.ID);
-            interactableC.SetTrigger(sortingBox.GetComponent<Trigger>());
-            interactionC.AddInteractable(interactableC);
+            InteractableComponent boxInteractableC = EntityManager.Instance.GetComponent<InteractableComponent>(box.ID);
+            RenderComponent boxRenderC = EntityManager.Instance.GetComponent<RenderComponent>(box.ID);
+
+            boxRenderC.SetGameObject(sortingBox);
+            boxInteractableC.SetTrigger(sortingBox.GetComponent<Trigger>());
+            interactionC.AddInteractableToList(boxInteractableC);
         }
 
         interactionC.InitInteracables();

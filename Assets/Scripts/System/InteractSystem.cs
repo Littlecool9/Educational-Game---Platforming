@@ -28,7 +28,12 @@ namespace EducationalGame
         {
             DetermineAction();
 
-            // if (!stateC.IsInteracting && stateC.CanInteract)
+            if (stateC.IsInteracting && !stateC.RelieveInteractable 
+            && stateC.InteractingObject is SortingBoxes)
+            {
+                // Consistently interact objects
+                Interact(stateC.InteractingObject as SortingBoxes); 
+            }
             if (stateC.LookingInteractable && stateC.CanInteract)
             {
                 bool foundInteracatble = false;
@@ -41,14 +46,10 @@ namespace EducationalGame
                         if (interactableC.Interactable){
                             interactableC.InvokeInteractionEvent();
                             // implement interact logic
-                            InteractWithSortingBox(entity as SortingBoxes);
-
-                            
-                            interactableC.Interactable = false;
                             stateC.SetInteractingObject(entity);            // TODO: Edit when more interactable objects added
                             stateC.IsInteracting = true;
 
-                            
+                            Interact(entity as SortingBoxes);
                         }
                         foundInteracatble = true;
                         break;
@@ -56,6 +57,9 @@ namespace EducationalGame
                     }
                     else if (entity is XORLever){
                         // TODO: Implement interact logic
+
+                        stateC.IsInteracting = false;       // 不会进入持续状态
+                        Interact(entity as XORLever);
                     }
                 }
                 if (!foundInteracatble) 
@@ -73,13 +77,47 @@ namespace EducationalGame
                 stateC.IsInteracting = false;
 
                 stateC.RelieveInteractable = false;
+                Entity interactingObject = stateC.GetInteractingObject();
+                if (interactingObject is SortingBoxes) QuitInteract(interactingObject as SortingBoxes);
+                
                 Debug.Log("Quit Interacting");
             }   
         }
 
-        private void InteractWithSortingBox(SortingBoxes box)
+        private void Interact(SortingBoxes box)         // Overload for different interactable
         {
             Debug.Log("Interacting Sorting Box");
+            InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(box.ID);
+
+            interactableC.BeingInteracted = true;
+            interactableC.Interactable = false;
+
+            SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box.ID);
+            RenderComponent boxRenderC = EntityManager.Instance.GetComponent<RenderComponent>(box.ID);
+            Transform boxTransform = boxRenderC?.transform;
+
+            RenderComponent playerRenderC = EntityManager.Instance.GetComponent<RenderComponent>(player);
+            Transform playerTransform = playerRenderC?.transform;
+            if(playerTransform == null || boxTransform == null) Debug.Log("Missing Transform in InteractWithSortingBox()");
+
+            Vector2 direction = playerTransform.right * -1; // 让跟随物体始终在主角背后
+            Vector2 targetPosition = (Vector2)playerTransform.position + direction.normalized * sbC.distance;
+            boxTransform.position = Vector2.Lerp(boxTransform.position, targetPosition, sbC.followSpeed * Constants.deltaTime);
+
+        }
+
+        private void Interact(XORLever lever)
+        {
+            
+        }
+
+        private void QuitInteract(SortingBoxes box)
+        {
+            
+        }
+
+        private void QuitInteract(XORLever lever)
+        {
 
         }
 
@@ -90,12 +128,10 @@ namespace EducationalGame
             {
                 // Idle -> Interacting
                 stateC.LookingInteractable = true;
-                // stateC.IsInteracting = true;
             }
             else if (inputC.InteractInput && stateC.IsInteracting)
             {
                 // Interacting -> Idle
-                Debug.Log("Relieve Request");
                 stateC.RelieveInteractable = true;
             }
         }

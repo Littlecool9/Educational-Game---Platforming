@@ -30,7 +30,6 @@ namespace EducationalGame.Component
             this.GameObject = gameObject;
             sr = gameObject.GetComponent<SpriteRenderer>();
             collider = gameObject.GetComponent<Collider2D>();
-            // transform = gameObject.transform;
             transform = gameObject.GetComponent<Transform>();
             animator = gameObject.GetComponent<Animator>();
         }

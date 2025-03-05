@@ -19,8 +19,6 @@ namespace EducationalGame.Component
         public bool LookingInteractable { get; set; }       // 对接input到寻找
         public bool RelieveInteractable { get; set; }
         public Entity InteractingObject { get; set; }
-        // public bool OnAir { get; set; }
-        // public bool IsDashing = false;
         
         public void InitComponent()
         {
@@ -53,6 +51,9 @@ namespace EducationalGame.Component
         { 
             InteractingObject = null; 
             CanInteract = true; 
+        }
+        public Entity GetInteractingObject(){
+            return InteractingObject;
         }
     }
 
