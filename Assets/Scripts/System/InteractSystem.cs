@@ -8,7 +8,7 @@ namespace EducationalGame
 {
     public class InteractSystem : ISystem
     {
-        Player player;
+        private Player player;
         public void Init()
         {
             player = EntityManager.Instance.GetEntityWithID(0) as Player;
@@ -34,16 +34,21 @@ namespace EducationalGame
                     {
                         InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity);
                         if (interactableC.Interactable){
-                            interactableC.InvokeInteractionEvent();
-                            interactionC.Interact();
+                            // interactableC.InvokeInteractionEvent();
+                            // interactionC.Interact();
 
-                            Debug.Log("Interacting");
+
+                            // implement interact logic
+                            InteractWithSortingBox(entity as SortingBoxes);
 
                             
                             interactableC.Interactable = false;
                             isInteracting = true;
                             break;
                         }
+                    }
+                    else if (entity is XORLever){
+                        // TODO: Implement interact logic
                     }
                 }
                 if (!isInteracting) 
@@ -54,6 +59,12 @@ namespace EducationalGame
                 }
             }
             
+        }
+
+        private void InteractWithSortingBox(SortingBoxes box)
+        {
+            Debug.Log("Interacting Sorting Box");
+
         }
     }
 }

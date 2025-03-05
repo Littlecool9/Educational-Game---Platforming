@@ -12,14 +12,14 @@ namespace EducationalGame
         Player player;
         StateComponent stateC;
         InputComponent inputC;
-        ColliderComponent colliderC;
+        RenderComponent renderC;
         InteractionComponent interactionC;
 
         private static readonly Dictionary<PlayerState, HashSet<PlayerState>> StateTransitions = new Dictionary<PlayerState, HashSet<PlayerState>>()
         {
             { PlayerState.Idle, new HashSet<PlayerState> { PlayerState.Walking, PlayerState.Jumping, PlayerState.Interacting } },
             { PlayerState.Walking, new HashSet<PlayerState> { PlayerState.Idle, PlayerState.Jumping } },
-            { PlayerState.Interacting, new HashSet<PlayerState> { PlayerState.Idle } },
+            { PlayerState.Interacting, new HashSet<PlayerState> { PlayerState.Idle } },     // Jump not enabled during interacting
             { PlayerState.Jumping, new HashSet<PlayerState> { PlayerState.Idle, PlayerState.Walking, PlayerState.OnAir } },
             { PlayerState.OnAir, new HashSet<PlayerState> { PlayerState.Idle, PlayerState.Walking } }
         };
@@ -31,8 +31,8 @@ namespace EducationalGame
             player = EntityManager.Instance.GetEntityWithID(0) as Player;
             stateC = EntityManager.Instance.GetComponent<StateComponent>(player);
             inputC = EntityManager.Instance.GetComponent<InputComponent>(player);
-            colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(player);
             interactionC = EntityManager.Instance.GetComponent<InteractionComponent>(player);
+            renderC = EntityManager.Instance.GetComponent<RenderComponent>(player);
             
         }
 
@@ -61,7 +61,22 @@ namespace EducationalGame
 
         private PlayerState DetermineNextState()
         {
-            
+            if (inputC.InteractInput && stateC.GetCurrentState() == PlayerState.Idle && interactionC.IsInteractable)    // TODO: 加一个碰到交互物体的条件
+            {
+                interactionC.SetIsInteractable(false);
+                return PlayerState.Interacting;
+            }
+            if (inputC.InteractInput && stateC.GetCurrentState() == PlayerState.Interacting)
+            {
+                interactionC.SetIsInteractable(true);
+                return PlayerState.Idle;
+            }
+            if (stateC.GetCurrentState() == PlayerState.Interacting)
+            {
+                return PlayerState.Interacting;
+            }
+            // Prioritize Interaction
+
             if (inputC.JumpInput && stateC.IsGrounded)
             {
                 // Jumping status last only one frame
@@ -76,16 +91,6 @@ namespace EducationalGame
                 // NOTE: air walking is enabled
                 return PlayerState.Walking;
             }
-            if (inputC.InteractInput && stateC.CurrentState == PlayerState.Idle && interactionC.IsInteractable)    // TODO: 加一个碰到交互物体的条件
-            {
-                interactionC.SetIsInteractable(false);
-                return PlayerState.Interacting;
-            }
-            if (inputC.InteractInput && stateC.CurrentState == PlayerState.Interacting)
-            {
-                interactionC.SetIsInteractable(true);
-                return PlayerState.Idle;
-            }
             return PlayerState.Idle;
         }
 
@@ -96,10 +101,10 @@ namespace EducationalGame
 
         private bool CheckGrounded()
         {
-            if (colliderC == null) throw new Exception("Missing ColliderComponent or RenderComponent in CheckGrounded()");
+            if (renderC == null) throw new Exception("Missing RenderComponent or RenderComponent in CheckGrounded()");
 
-            Vector3 origion = colliderC.Collider.bounds.center;
-            Vector3 boxSize = colliderC.Collider.bounds.size;
+            Vector3 origion = renderC.Collider.bounds.center;
+            Vector3 boxSize = renderC.Collider.bounds.size;
             boxSize.x -= 0.5f;      // 修复检测竖直碰撞时会触发水平碰撞检测的bug,用实际检测碰撞箱水平大小小于实际collider实现
 
             // Debug.DrawRay(origion, Vector3.up * 0.2f, Color.green, 2f);  // 绿色的点，持续2秒
@@ -112,13 +117,13 @@ namespace EducationalGame
             // DrawBox(origion, boxSize, Color.blue, 2f);
 
             RaycastHit2D hit = Physics2D.BoxCast(
-                colliderC.Collider.bounds.center,
+                renderC.Collider.bounds.center,
                 // colliderC.Collider.bounds.size, 
                 boxSize,
                 0, 
                 Vector2.down, 
-                colliderC.DEVIATION,        // 投射距离
-                colliderC.GroundLayer);    // 投射检测的层级
+                Constants.DEVIATION,        // 投射距离
+                Constants.GroundLayer);    // 投射检测的层级
             if (hit && hit.normal == Vector2.up)
             {
                 return true;

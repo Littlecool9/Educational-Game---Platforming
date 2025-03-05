@@ -14,6 +14,7 @@ public class Game : MonoBehaviour
 
     void Start() {
         Constants.SetPlayerPrefab(playerObject);
+        Constants.Init();
         Init();         // Init Player\TriggerObject
         SystemManager.Init();       // Init Systems
     }
@@ -36,9 +37,7 @@ public class Game : MonoBehaviour
         Player player = EntityManager.Instance.CreateEntity(EntityType.Player, "Player") as Player;
         // Initialize Components
         RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(player.ID);
-        ColliderComponent colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(player.ID);
         InteractionComponent interactionC = EntityManager.Instance.GetComponent<InteractionComponent>(player.ID);
-        colliderC.SetCollider(playerObject.GetComponent<Collider2D>());
         renderC.SetGameObject(playerObject);
 
         // Trigger init

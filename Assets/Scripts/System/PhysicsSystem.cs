@@ -45,12 +45,12 @@ namespace EducationalGame
                     // Handle Jump
                     if (stateC.CurrentState == PlayerState.Jumping){
                         // Add an additional horizontal boost, apply jump speed
+                        
                         movementC.AddSpeed(Constants.JumpHBoost * inputC.MoveDir.x, Constants.JumpSpeed);
-                        // movementC.AddSpeed(0, Constants.JumpSpeed);
                     }
                     // Handle Walk
                     // On Ground
-                    else if (stateC.CurrentState == PlayerState.Walking || stateC.CurrentState == PlayerState.OnAir){
+                    else if (stateC.CurrentState == PlayerState.Walking || stateC.CurrentState == PlayerState.OnAir || stateC.CurrentState == PlayerState.Interacting){
                         movementC.AddSpeed(movementC.MoveSpeed * inputC.MoveDir.x, 0); 
                     }
                     else if (stateC.CurrentState == PlayerState.Idle){
@@ -76,10 +76,9 @@ namespace EducationalGame
             float distance = distX;
             int correctTimes = 1;
 
-            ColliderComponent colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(entity);
             RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
             MovementComponent movementC = EntityManager.Instance.GetComponent<MovementComponent>(entity);
-            if (colliderC == null || renderC == null) throw new Exception("Missing ColliderComponent or RenderComponent in UpdateCollideX()");
+            if (renderC == null) throw new Exception("Missing RenderComponent in UpdateCollideX()");
 
             while (true)
             {
@@ -115,22 +114,21 @@ namespace EducationalGame
             Vector2 moved = Vector2.zero;
             Vector2 direct = Math.Sign(distX) > 0 ? Vector2.right : Vector2.left;
 
-            ColliderComponent colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(entity);
             RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
-            if (colliderC == null || renderC == null) throw new Exception("Missing ColliderComponent or RenderComponent in CheckGrounded()");
+            if (renderC == null) throw new Exception("Missing RenderComponent in CheckGrounded()");
 
             RaycastHit2D hit = Physics2D.BoxCast(
-                colliderC.Collider.bounds.center,
-                colliderC.Collider.bounds.size, 
+                renderC.Collider.bounds.center,
+                renderC.Collider.bounds.size, 
                 0, 
                 Vector2.down, 
-                colliderC.DEVIATION, 
-                colliderC.GroundLayer);
+                Constants.DEVIATION, 
+                Constants.GroundLayer);
 
             if (hit && hit.normal == -direct)
             {
                 //如果发生碰撞,则移动距离
-                moved += direct * Mathf.Max((hit.distance - colliderC.DEVIATION), 0);
+                moved += direct * Mathf.Max(hit.distance - Constants.DEVIATION, 0);
             }
             else
             {
@@ -142,33 +140,30 @@ namespace EducationalGame
         private bool CorrectX(Entity entity, float distX)
         {
 
-            ColliderComponent colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(entity);
             RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
             MovementComponent movementC = EntityManager.Instance.GetComponent<MovementComponent>(entity);
-            if (colliderC == null || renderC == null || movementC == null) throw new Exception("Missing ColliderComponent or RenderComponent in CheckGrounded()");
+            if (renderC == null || movementC == null) throw new Exception("Missing RenderComponent in CheckGrounded()");
 
             return false;
         }
             
         public bool CollideCheck(Vector2 position, Vector2 dir, Entity entity, float dist = 0)
         {
-            ColliderComponent colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(entity);
             RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
-            if (colliderC == null || renderC == null) throw new Exception("Missing ColliderComponent or RenderComponent in CheckGrounded()");
+            if (renderC == null) throw new Exception("Missing RenderComponent in CheckGrounded()");
 
             Vector2 origion = position + renderC.position;
-            return Physics2D.OverlapBox(origion + dir * (dist + colliderC.DEVIATION), colliderC.Collider.bounds.size, 0, colliderC.GroundLayer);
+            return Physics2D.OverlapBox(origion + dir * (dist + Constants.DEVIATION), renderC.Collider.bounds.size, 0, Constants.GroundLayer);
         }
 
         public bool DuckFreeAt(Entity entity, Vector2 at)
         {
-            ColliderComponent colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(entity);
             RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
-            if (colliderC == null || renderC == null) throw new Exception("Missing ColliderComponent or RenderComponent in CheckGrounded()");
+            if (renderC == null) throw new Exception("Missing RenderComponent in CheckGrounded()");
 
             Vector2 oldP = renderC.position;
             renderC.position = at;
-            // colliderC.Collider = duckHitbox;
+            // renderC.Collider = duckHitbox;
 
             bool ret = !CollideCheck(renderC.position, Vector2.zero, entity);
 
@@ -212,25 +207,25 @@ namespace EducationalGame
         private float MoveYStepWithCollide(Entity entity, float distY)
         {
 
-            ColliderComponent colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(entity);
             MovementComponent movementC = EntityManager.Instance.GetComponent<MovementComponent>(entity);
-            if (colliderC == null || movementC == null) throw new Exception("Missing ColliderComponent or RenderComponent in MoveYStepWithCollide()");
+            RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
+            if (renderC == null || movementC == null) throw new Exception("Missing MovementComponent or RenderComponent in MoveYStepWithCollide()");
 
             Vector2 moved = Vector2.zero;
             Vector2 direct = Math.Sign(distY) > 0 ? Vector2.up : Vector2.down;      // 判断往上还是往下移动
             
             RaycastHit2D hit = Physics2D.BoxCast(
-                colliderC.Collider.bounds.center,
-                colliderC.Collider.bounds.size, 
+                renderC.Collider.bounds.center,
+                renderC.Collider.bounds.size, 
                 0, 
                 direct, 
-                colliderC.DEVIATION, 
-                colliderC.GroundLayer);
+                Constants.DEVIATION, 
+                Constants.GroundLayer);
                 
             if (hit && hit.normal == -direct)
             {
                 //如果发生碰撞,则移动距离
-                moved += direct * Mathf.Max((hit.distance - colliderC.DEVIATION), 0);
+                moved += direct * Mathf.Max(hit.distance - Constants.DEVIATION, 0);
             }
             else
             {
@@ -241,10 +236,9 @@ namespace EducationalGame
 
         private bool CorrectY(Entity entity, float distY)
         {
-            ColliderComponent colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(entity);
             RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
             MovementComponent movementC = EntityManager.Instance.GetComponent<MovementComponent>(entity);
-            if (colliderC == null || renderC == null || movementC == null) throw new Exception("Missing ColliderComponent or RenderComponent in CheckGrounded()");
+            if (renderC == null || movementC == null) throw new Exception("Missing MovementComponent or RenderComponent in CheckGrounded()");
 
 
             // Vector2 origion = renderC.position + collider.position;
@@ -266,12 +260,12 @@ namespace EducationalGame
                         for (int i = 1; i <= Constants.UpwardCornerCorrection; i++)
                         {
                             RaycastHit2D hit = Physics2D.BoxCast(
-                                colliderC.Collider.bounds.center,
-                                colliderC.Collider.bounds.size,
+                                renderC.Collider.bounds.center,
+                                renderC.Collider.bounds.size,
                                 0,
                                 direct,
-                                Mathf.Abs(distY) + colliderC.DEVIATION, 
-                                colliderC.GroundLayer);
+                                Mathf.Abs(distY) + Constants.DEVIATION, 
+                                renderC.GroundLayer);
                             if (!hit)
                             {
                                 // renderC.position += new Vector2(-i * 0.1f, 0);
@@ -286,12 +280,12 @@ namespace EducationalGame
                         for (int i = 1; i <= Constants.UpwardCornerCorrection; i++)
                         {
                             RaycastHit2D hit = Physics2D.BoxCast(
-                                colliderC.Collider.bounds.center,
-                                colliderC.Collider.bounds.size,
+                                renderC.Collider.bounds.center,
+                                renderC.Collider.bounds.size,
                                 0, 
                                 direct, 
-                                Mathf.Abs(distY) + colliderC.DEVIATION, 
-                                colliderC.GroundLayer);
+                                Mathf.Abs(distY) + Constants.DEVIATION, 
+                                Constants.GroundLayer);
                             if (!hit)
                             {
                                 // renderC.position += new Vector2(i * 0.1f, 0);

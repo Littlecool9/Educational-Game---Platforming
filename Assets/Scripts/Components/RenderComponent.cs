@@ -8,7 +8,7 @@ namespace EducationalGame.Component
 {
     public class RenderComponent : IComponent
     {
-        // Holds GameObject & Position
+        // Holds GameObject & Position; Links Unity Components to Customized Components
         public GameObject GameObject { get; private set; }
         public Transform transform;
         public Vector2 position
@@ -20,6 +20,10 @@ namespace EducationalGame.Component
         public RenderComponent(){}
         public Collider2D collider;
         public Animator animator;
+
+        public Collider2D Collider { get{ return collider;} set{ collider = value; } }
+        public LayerMask GroundLayer; // 用于检测地面
+        public float DEVIATION = 0.002f;  //碰撞检测误差
 
 
         public void SetGameObject(GameObject gameObject){
