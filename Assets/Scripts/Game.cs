@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using EducationalGame.Core;
 using UnityEngine;
@@ -38,6 +37,7 @@ public class Game : MonoBehaviour
         // Initialize Components
         RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(player.ID);
         ColliderComponent colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(player.ID);
+        InteractionComponent interactionC = EntityManager.Instance.GetComponent<InteractionComponent>(player.ID);
         colliderC.SetCollider(playerObject.GetComponent<Collider2D>());
         renderC.SetGameObject(playerObject);
 
@@ -47,7 +47,10 @@ public class Game : MonoBehaviour
             SortingBoxes box = EntityManager.Instance.CreateEntity(EntityType.SortingBoxes) as SortingBoxes;
             InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(box.ID);
             interactableC.SetTrigger(triggerObject.GetComponent<Trigger>());
+            interactionC.AddInteractable(interactableC);
         }
+
+        interactionC.InitInteracables();
         
     }
 }

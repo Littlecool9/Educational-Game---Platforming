@@ -27,9 +27,9 @@ namespace EducationalGame.Core
 
             systems.Add(playerController);      // 接受输入
             systems.Add(playerStateMachine);    // 处理状态
-            systems.Add(renderSystem);          // 处理动画
             systems.Add(interactSystem);        // 处理互动逻辑
             systems.Add(physicsSystem);         // 物理系统模拟
+            systems.Add(renderSystem);          // 处理动画
             systems.Add(camaraSystem);          // 处理相机
             foreach(var system in systems) { system.Init(); }
         }

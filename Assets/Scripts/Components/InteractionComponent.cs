@@ -7,16 +7,49 @@ namespace EducationalGame.Component
 {
     public class InteractionComponent : IComponent
     {
+        public bool IsInteractable { get; private set; }
+        private List<InteractableComponent> Interactables = new List<InteractableComponent>();
         // Store Interaction result
         public void InitComponent()
         {
-            
+            IsInteractable = false;
+        }
+
+        public void InitInteracables()
+        {
+            // interactableC.OnInteract += Interact;
+            foreach (InteractableComponent interactable in Interactables) { 
+                interactable.OnInteract += Interact; 
+                interactable.EnableInteraction += EnableInteraction;
+                interactable.DisableInteraction += DisableInteraction;
+            }
         }
 
         // Test Function
-        public void Interact(){
+        public void Interact()
+        {
             Debug.Log("Visiting Interaction Component");
         }
+
+        public void AddInteractable(InteractableComponent interactableC)
+        {
+            Interactables.Add(interactableC);
+        }
+
+        private void EnableInteraction()
+        {
+            IsInteractable = true;
+        }
+
+        private void DisableInteraction()
+        {
+            IsInteractable = false;   
+        }
+
+        public void SetIsInteractable(bool isInteractable) {
+            IsInteractable = isInteractable;
+        }
+
     }
 
 }

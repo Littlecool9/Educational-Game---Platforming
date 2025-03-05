@@ -40,7 +40,6 @@ namespace EducationalGame
                     InputComponent inputC = EntityManager.Instance.GetComponent<InputComponent>(entity);
                     if (inputC == null) throw new Exception("Missing InputComponent in RenderSystem");
                     
-                    Debug.Log("Facing: " + inputC.Facing);
                     if (inputC.Facing != inputC.PreviousFacing)
                     {
                         renderC.Flip();

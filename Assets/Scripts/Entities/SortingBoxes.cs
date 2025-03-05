@@ -17,7 +17,7 @@ namespace EducationalGame
         {
             // entityManager.AddComponent(this, new StateComponent());
             entityManager.AddComponent(this, new InteractableComponent());
-            entityManager.AddComponent(this, new InteractionComponent());
+            // entityManager.AddComponent(this, new InteractionComponent());
 
             foreach (IComponent component in entityManager.GetComponents(this.ID)) { component.InitComponent(); }
         }

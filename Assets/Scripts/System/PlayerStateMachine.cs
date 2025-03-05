@@ -13,7 +13,7 @@ namespace EducationalGame
         StateComponent stateC;
         InputComponent inputC;
         ColliderComponent colliderC;
-        RenderComponent renderC;
+        InteractionComponent interactionC;
 
         private static readonly Dictionary<PlayerState, HashSet<PlayerState>> StateTransitions = new Dictionary<PlayerState, HashSet<PlayerState>>()
         {
@@ -32,7 +32,7 @@ namespace EducationalGame
             stateC = EntityManager.Instance.GetComponent<StateComponent>(player);
             inputC = EntityManager.Instance.GetComponent<InputComponent>(player);
             colliderC = EntityManager.Instance.GetComponent<ColliderComponent>(player);
-            renderC = EntityManager.Instance.GetComponent<RenderComponent>(player);
+            interactionC = EntityManager.Instance.GetComponent<InteractionComponent>(player);
             
         }
 
@@ -49,7 +49,7 @@ namespace EducationalGame
             colliderC.IsGrounded = isgrounded;
             stateC.IsGrounded = isgrounded;
 
-
+            // Updated State
             PlayerState currentState = stateC.GetCurrentState();
             PlayerState nextState = DetermineNextState();
 
@@ -68,7 +68,7 @@ namespace EducationalGame
                 // Jumping status last only one frame
                 return PlayerState.Jumping;
             }
-            if ( !stateC.IsGrounded && math.abs(inputC.MoveDir.x) < 0.1f)
+            if (!stateC.IsGrounded && math.abs(inputC.MoveDir.x) < 0.1f)
             {
                 return PlayerState.OnAir;       // avoid interacting on air
             }
@@ -77,12 +77,14 @@ namespace EducationalGame
                 // NOTE: air walking is enabled
                 return PlayerState.Walking;
             }
-            if (inputC.InteractInput && stateC.CurrentState == PlayerState.Idle)    // TODO: 加一个碰到交互物体的条件
+            if (inputC.InteractInput && stateC.CurrentState == PlayerState.Idle && interactionC.IsInteractable)    // TODO: 加一个碰到交互物体的条件
             {
+                interactionC.SetIsInteractable(false);
                 return PlayerState.Interacting;
             }
             if (inputC.InteractInput && stateC.CurrentState == PlayerState.Interacting)
             {
+                interactionC.SetIsInteractable(true);
                 return PlayerState.Idle;
             }
             return PlayerState.Idle;
@@ -99,7 +101,7 @@ namespace EducationalGame
 
             Vector3 origion = colliderC.Collider.bounds.center;
             Vector3 boxSize = colliderC.Collider.bounds.size;
-            boxSize.x -= 0.5f;      // 修复检测竖直碰撞时会触发水平碰撞检测的bug
+            boxSize.x -= 0.5f;      // 修复检测竖直碰撞时会触发水平碰撞检测的bug,用实际检测碰撞箱水平大小小于实际collider实现
 
             // Debug.DrawRay(origion, Vector3.up * 0.2f, Color.green, 2f);  // 绿色的点，持续2秒
             // Debug.DrawRay(origion, Vector3.right * 0.2f, Color.green, 2f); // 右侧的小线，方便看到

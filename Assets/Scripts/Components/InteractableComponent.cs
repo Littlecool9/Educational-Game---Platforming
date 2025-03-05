@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using EducationalGame.Core;
 using System;
-using System.Linq.Expressions;
 
 namespace EducationalGame.Component
 {
@@ -15,6 +14,8 @@ namespace EducationalGame.Component
         public bool Interactable = false;   // true when player CAN interact with object
 
         public event Action OnInteract;     // Triggered when interacted
+        public event Action EnableInteraction;
+        public event Action DisableInteraction;
 
 
         public void InitComponent()
@@ -29,12 +30,12 @@ namespace EducationalGame.Component
         }
 
         public void EnableTrigger(Collider2D other){
-            Debug.Log("Enable Interactable");
             Interactable = true;
+            EnableInteraction?.Invoke();
         }
         public void DisableTrigger(Collider2D other){
-            Debug.Log("Disable Interactable");
             Interactable = false;
+            DisableInteraction?.Invoke();
         }
 
         public void InvokeInteractionEvent() => OnInteract?.Invoke();

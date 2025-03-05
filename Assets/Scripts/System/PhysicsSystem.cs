@@ -33,7 +33,7 @@ namespace EducationalGame
                     StateComponent stateC = entityManager.GetComponent<StateComponent>(entity);
 
                     // Gravity
-                    float mult = (Math.Abs(movementC.Speed.y) < Constants.HalfGravThreshold && inputC.JumpInput) ? .5f : 1f;
+                    float mult = (Math.Abs(movementC.Speed.y) < Constants.HalfGravThreshold && stateC.CurrentState == PlayerState.Jumping) ? .5f : 1f;
                     if (!colliderC.IsGrounded ) {
                         // Debug.Log("delta y: " + Mathf.MoveTowards(movementC.Speed.y, Constants.MaxFall, Constants.Gravity * mult * Constants.deltaTime));
                         movementC.AddSpeed(0, 

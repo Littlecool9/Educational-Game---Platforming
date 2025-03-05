@@ -21,31 +21,37 @@ namespace EducationalGame
 
         public void Update()
         {
-            
-            InputComponent inputC = EntityManager.Instance.GetComponent<InputComponent>(player.ID);
             StateComponent stateC = EntityManager.Instance.GetComponent<StateComponent>(player.ID);
-            if (inputC.InteractInput && (stateC.CurrentState == PlayerState.Idle || stateC.CurrentState == PlayerState.Walking))
+            InteractionComponent interactionC = EntityManager.Instance.GetComponent<InteractionComponent>(player.ID);
+
+            if (stateC.CurrentState == PlayerState.Interacting)
             {
                 bool isInteracting = false;
                 foreach(Entity entity in EntityManager.Instance.GetAllEntities())
                 {
-                    if (EntityManager.Instance.HasComponent<InteractableComponent>(entity)
-                    && EntityManager.Instance.HasComponent<InteractionComponent>(entity))
+                    // if (EntityManager.Instance.HasComponent<InteractableComponent>(entity))
+                    if (entity is SortingBoxes)     // TODO: Edit when more interactable objects added
                     {
                         InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity);
-                        InteractionComponent interactionC = EntityManager.Instance.GetComponent<InteractionComponent>(entity);
                         if (interactableC.Interactable){
                             interactableC.InvokeInteractionEvent();
                             interactionC.Interact();
+
                             Debug.Log("Interacting");
 
-
+                            
+                            interactableC.Interactable = false;
                             isInteracting = true;
                             break;
                         }
                     }
                 }
-                if (!isInteracting) Debug.Log("Not Interacting");
+                if (!isInteracting) 
+                {
+                    // return to previous state
+                    stateC.SetCurrentState(stateC.GetPreviousState());
+                    Debug.Log("Not Interacting");
+                }
             }
             
         }
