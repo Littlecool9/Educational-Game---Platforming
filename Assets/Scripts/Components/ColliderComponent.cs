@@ -8,8 +8,7 @@ namespace EducationalGame.Component
     public class ColliderComponent : IComponent
     {
         // Collider detect, interact detect
-        public bool IsGrounded = false;
-
+        
         public Collider2D Collider;
         public LayerMask GroundLayer; // 用于检测地面
 

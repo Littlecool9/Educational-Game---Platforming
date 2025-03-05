@@ -21,7 +21,6 @@ namespace EducationalGame
             foreach (Entity entity in entityManager.GetAllEntities())
             {
 
-                ColliderComponent colliderC = entityManager.GetComponent<ColliderComponent>(entity);
                 MovementComponent movementC = entityManager.GetComponent<MovementComponent>(entity);
                 
 
@@ -34,7 +33,7 @@ namespace EducationalGame
 
                     // Gravity
                     float mult = (Math.Abs(movementC.Speed.y) < Constants.HalfGravThreshold && stateC.CurrentState == PlayerState.Jumping) ? .5f : 1f;
-                    if (!colliderC.IsGrounded ) {
+                    if (!stateC.IsGrounded ) {
                         // Debug.Log("delta y: " + Mathf.MoveTowards(movementC.Speed.y, Constants.MaxFall, Constants.Gravity * mult * Constants.deltaTime));
                         movementC.AddSpeed(0, 
                         Mathf.MoveTowards(movementC.Speed.y, Constants.MaxFall, Constants.Gravity * mult 

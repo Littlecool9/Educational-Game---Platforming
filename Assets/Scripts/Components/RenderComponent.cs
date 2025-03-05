@@ -11,7 +11,11 @@ namespace EducationalGame.Component
         // Holds GameObject & Position
         public GameObject GameObject { get; private set; }
         public Transform transform;
-        public Vector2 position;
+        public Vector2 position
+        {
+            get => transform.position;
+            set => transform.position = value;
+        }
         public SpriteRenderer sr { get; private set;}
         public RenderComponent(){}
         public Collider2D collider;
@@ -22,8 +26,8 @@ namespace EducationalGame.Component
             this.GameObject = gameObject;
             sr = gameObject.GetComponent<SpriteRenderer>();
             collider = gameObject.GetComponent<Collider2D>();
-            position = gameObject.transform.position;
-            transform = gameObject.transform;
+            // transform = gameObject.transform;
+            transform = gameObject.GetComponent<Transform>();
             animator = gameObject.GetComponent<Animator>();
         }
 
@@ -42,6 +46,7 @@ namespace EducationalGame.Component
         public void SetAnimatorBool(string name, bool value) => animator?.SetBool(name, value);
 
         public void Flip(){
+            if (sr == null) throw new Exception("Missing SpriteRenderer in Flip()");
             sr.flipX = !sr.flipX;
         }
     }

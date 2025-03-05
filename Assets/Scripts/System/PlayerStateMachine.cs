@@ -46,7 +46,6 @@ namespace EducationalGame
 
             // Updated IsGrounded
             bool isgrounded = CheckGrounded();
-            colliderC.IsGrounded = isgrounded;
             stateC.IsGrounded = isgrounded;
 
             // Updated State
