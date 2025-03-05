@@ -16,6 +16,8 @@ namespace EducationalGame.Component
         public bool IsGrounded { get; set; }
         public bool CanInteract { get; set; }
         public bool IsInteracting { get; set; }
+        public bool LookingInteractable { get; set; }       // 对接input到寻找
+        public bool RelieveInteractable { get; set; }
         public Entity InteractingObject { get; set; }
         // public bool OnAir { get; set; }
         // public bool IsDashing = false;
@@ -41,13 +43,17 @@ namespace EducationalGame.Component
         }
         public PlayerState GetCurrentState() { return CurrentState; }
         public PlayerState GetPreviousState() { return PreviousState; }
-        
+
         public void SetInteractingObject(Entity entity) 
         { 
             InteractingObject = entity; 
             CanInteract = false;
         }
-        public void ResetInteractingObject() { InteractingObject = null; CanInteract = true; }
+        public void ResetInteractingObject() 
+        { 
+            InteractingObject = null; 
+            CanInteract = true; 
+        }
     }
 
 
