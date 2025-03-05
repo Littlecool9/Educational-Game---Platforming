@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace EducationalGame.Component
 {
-    public enum PlayerState { Idle, Walking, Interacting, Jumping, OnAir }
+    public enum PlayerState { Idle, Walking, Jumping, OnAir }
 
     public class StateComponent : IComponent 
     {
@@ -14,13 +14,15 @@ namespace EducationalGame.Component
         public PlayerState PreviousState { get; private set; }
 
         public bool IsGrounded { get; set; }
+        public bool CanInteract { get; set; }
         public bool IsInteracting { get; set; }
-        public bool OnAir { get; set; }
-        public bool IsDashing = false;
+        public Entity InteractingObject { get; set; }
+        // public bool OnAir { get; set; }
+        // public bool IsDashing = false;
         
         public void InitComponent()
         {
-            
+            CanInteract = true;
         }
 
         public void SetCurrentState(PlayerState state) 
@@ -28,15 +30,20 @@ namespace EducationalGame.Component
             PreviousState = CurrentState;
             CurrentState = state; 
 
-            // Manage Variables
-            if (state == PlayerState.Interacting) IsInteracting = true;
-            if (state == PlayerState.OnAir) OnAir = true;
-            if (PreviousState == PlayerState.Interacting  && CurrentState == PlayerState.Idle) 
-                IsInteracting = false;
-            
+            // Update Variables
+            if (state == PlayerState.OnAir) {
+                // OnAir = true;
+                CanInteract = false;
+            }
         }
         public PlayerState GetCurrentState() { return CurrentState; }
         public PlayerState GetPreviousState() { return PreviousState; }
+        public void SetInteractingObject(Entity entity) 
+        { 
+            InteractingObject = entity; 
+            CanInteract = false;
+        }
+        public void ResetInteractingObject() { InteractingObject = null; CanInteract = true; }
     }
 
 

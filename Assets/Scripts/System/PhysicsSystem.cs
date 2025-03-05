@@ -42,6 +42,7 @@ namespace EducationalGame
                     // Handle User Input
 
                     // Handle Jump
+                    Debug.Log("input movement: " + inputC.MoveDir);
                     if (stateC.CurrentState == PlayerState.Jumping){
                         // Add an additional horizontal boost, apply jump speed
                         
@@ -49,7 +50,7 @@ namespace EducationalGame
                     }
                     // Handle Walk
                     // On Ground
-                    else if (stateC.CurrentState == PlayerState.Walking || stateC.CurrentState == PlayerState.OnAir || stateC.CurrentState == PlayerState.Interacting){
+                    else if (stateC.CurrentState == PlayerState.Walking || stateC.CurrentState == PlayerState.OnAir){
                         movementC.AddSpeed(movementC.MoveSpeed * inputC.MoveDir.x, 0); 
                     }
                     else if (stateC.CurrentState == PlayerState.Idle){

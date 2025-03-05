@@ -10,9 +10,13 @@ namespace EducationalGame
     {
         // Handle Interact Input and Behaviours and result
         private Player player;
+        private InputComponent inputC;
+        private StateComponent stateC;
         public void Init()
         {
             player = EntityManager.Instance.GetEntityWithID(0) as Player;
+            inputC = EntityManager.Instance.GetComponent<InputComponent>(player);
+            stateC = EntityManager.Instance.GetComponent<StateComponent>(player);
         }
 
         public void Process()
@@ -22,11 +26,11 @@ namespace EducationalGame
 
         public void Update()
         {
-            StateComponent stateC = EntityManager.Instance.GetComponent<StateComponent>(player.ID);
-
-            if (stateC.CurrentState == PlayerState.Interacting)
+            DetermineInteracting();
+            
+            if (stateC.IsInteracting && stateC.CanInteract)
             {
-                bool isInteracting = false;
+                bool findInteracatble = false;
                 foreach(Entity entity in EntityManager.Instance.GetAllEntities())
                 {
                     if (entity is SortingBoxes)     // TODO: Edit when more interactable objects added
@@ -39,7 +43,9 @@ namespace EducationalGame
 
                             
                             interactableC.Interactable = false;
-                            isInteracting = true;
+                            findInteracatble = true;
+                            // stateC.CanInteract = false;
+                            stateC.SetInteractingObject(entity);
                             break;
                         }
                     }
@@ -47,20 +53,41 @@ namespace EducationalGame
                         // TODO: Implement interact logic
                     }
                 }
-                if (!isInteracting) 
+                if (!findInteracatble) 
                 {
+                    // Failed to find an interactable
                     // return to previous state
                     stateC.SetCurrentState(stateC.GetPreviousState());
                     Debug.Log("Not Interacting");
                 }
             }
-            
+            else if (stateC.IsInteracting && inputC.InteractInput)
+            {
+                // 
+                stateC.ResetInteractingObject();
+            }            
         }
 
         private void InteractWithSortingBox(SortingBoxes box)
         {
             Debug.Log("Interacting Sorting Box");
 
+        }
+
+        private void DetermineInteracting()
+        {
+            if (inputC.InteractInput && stateC.GetCurrentState() == PlayerState.Idle && stateC.CanInteract)    // TODO: 加一个碰到交互物体的条件
+            {
+                // Idle -> Interacting
+                stateC.CanInteract = false;
+                stateC.IsInteracting = true;
+            }
+            else if (inputC.InteractInput && stateC.IsInteracting)
+            {
+                // Interacting -> Idle
+                stateC.IsInteracting = false;
+                stateC.CanInteract = true;
+            }
         }
     }
 }

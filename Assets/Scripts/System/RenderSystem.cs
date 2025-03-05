@@ -45,7 +45,6 @@ namespace EducationalGame
                     {
                         renderC.Flip();
                     }
-
                 }
             }
         }

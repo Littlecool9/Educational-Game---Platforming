@@ -17,9 +17,9 @@ namespace EducationalGame
 
         private static readonly Dictionary<PlayerState, HashSet<PlayerState>> StateTransitions = new Dictionary<PlayerState, HashSet<PlayerState>>()
         {
-            { PlayerState.Idle, new HashSet<PlayerState> { PlayerState.Walking, PlayerState.Jumping, PlayerState.Interacting } },
+            { PlayerState.Idle, new HashSet<PlayerState> { PlayerState.Walking, PlayerState.Jumping,} },
             { PlayerState.Walking, new HashSet<PlayerState> { PlayerState.Idle, PlayerState.Jumping } },
-            { PlayerState.Interacting, new HashSet<PlayerState> { PlayerState.Idle } },     // Jump not enabled during interacting
+            // { PlayerState.Interacting, new HashSet<PlayerState> { PlayerState.Idle } },     // Jump not enabled during interacting
             { PlayerState.Jumping, new HashSet<PlayerState> { PlayerState.Idle, PlayerState.Walking, PlayerState.OnAir } },
             { PlayerState.OnAir, new HashSet<PlayerState> { PlayerState.Idle, PlayerState.Walking } }
         };
@@ -57,42 +57,34 @@ namespace EducationalGame
                 stateC.SetCurrentState(nextState);
             }
             Debug.Log("Current State: " + stateC.CurrentState); 
+
+            // Update interaction status
+            // DetermineInteracting();
         }
 
         private PlayerState DetermineNextState()
         {
-            if (inputC.InteractInput && stateC.GetCurrentState() == PlayerState.Idle && interactionC.IsInteractable)    // TODO: 加一个碰到交互物体的条件
-            {
-                interactionC.SetIsInteractable(false);
-                return PlayerState.Interacting;
-            }
-            if (inputC.InteractInput && stateC.GetCurrentState() == PlayerState.Interacting)
-            {
-                interactionC.SetIsInteractable(true);
-                return PlayerState.Idle;
-            }
-            if (stateC.GetCurrentState() == PlayerState.Interacting)
-            {
-                return PlayerState.Interacting;
-            }
-            // Prioritize Interaction
-
             if (inputC.JumpInput && stateC.IsGrounded)
             {
                 // Jumping status last only one frame
+                // Idle -> Jumping
                 return PlayerState.Jumping;
             }
             if (!stateC.IsGrounded && math.abs(inputC.MoveDir.x) < 0.1f)
             {
+                // Idle/Jumping -> OnAir
                 return PlayerState.OnAir;       // avoid interacting on air
             }
             if (math.abs(inputC.MoveDir.x) > 0.1f)
             {
                 // NOTE: air walking is enabled
+                // Idle/OnAir -> Walking
                 return PlayerState.Walking;
             }
             return PlayerState.Idle;
         }
+
+
 
         public static bool CanTransition(PlayerState from, PlayerState to)
         {
