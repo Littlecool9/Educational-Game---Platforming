@@ -8,7 +8,11 @@ namespace EducationalGame.Component
 {
     public class RenderComponent : IComponent
     {
-        // Holds GameObject & Position; Links Unity Components to Customized Components
+        // Holds GameObject & Position & Unity Components
+        // Links Unity Components to Customized Components
+        public RenderComponent(){}
+
+
         public GameObject GameObject { get; private set; }
         public Transform transform;
         public Vector2 position
@@ -16,14 +20,24 @@ namespace EducationalGame.Component
             get => transform.position;
             set => transform.position = value;
         }
-        public SpriteRenderer sr { get; private set;}
-        public RenderComponent(){}
         public Collider2D collider;
-        public Animator animator;
-
         public Collider2D Collider { get{ return collider;} set{ collider = value; } }
-        public LayerMask GroundLayer; // 用于检测地面
-        public float DEVIATION = 0.002f;  //碰撞检测误差
+
+
+        // Interactable Specific
+        public Trigger trigger;
+
+
+        // Sorting Box Specific
+        public BoxBridge sortingBoxBridge;
+        public SlotBridge slotBridge;
+
+
+
+        // Player Specific
+        public Animator animator;
+        public SpriteRenderer sr { get; private set;}
+
 
 
         public void SetGameObject(GameObject gameObject){
@@ -32,6 +46,9 @@ namespace EducationalGame.Component
             collider = gameObject.GetComponent<Collider2D>();
             transform = gameObject.GetComponent<Transform>();
             animator = gameObject.GetComponent<Animator>();
+            sortingBoxBridge = gameObject.GetComponent<BoxBridge>();
+            slotBridge = gameObject.GetComponent<SlotBridge>();
+            trigger = gameObject.GetComponent<Trigger>();
         }
 
         public void InitComponent()

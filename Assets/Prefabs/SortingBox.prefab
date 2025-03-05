@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 494426671630880315}
   - component: {fileID: 2290628560261730515}
   - component: {fileID: 6234321137151985783}
+  - component: {fileID: 5657534194210892275}
   m_Layer: 0
   m_Name: SortingBox
   m_TagString: Untagged
@@ -122,3 +123,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61e00f57ea379bd4ca6577dbbd0b4111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5657534194210892275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2270492992176290273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c607b9a12163e41a560b6f26bc9dea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingBoxComponent:
+    order: 0
+    distance: 1.5
+    followSpeed: 5

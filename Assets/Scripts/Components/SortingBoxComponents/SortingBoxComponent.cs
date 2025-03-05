@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EducationalGame.Core;
+using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace EducationalGame.Component
 {
+    [Serializable]
     public class SortingBoxComponent : IComponent        // Dangerous Code Warning
     {
         // Store Information about the Sorting Box
 
 
-        public int order;     // Order of the Sorting Box, Adjusted in Inspector
+        public int index;     // Order of the Sorting Box, Adjusted in Inspector
         public bool CorrectlyPlaced { get; set; }
 
         // Render Related
@@ -22,7 +25,14 @@ namespace EducationalGame.Component
             
         }
 
-        public void SetCorrectlyPlaced(bool correctlyPlaced) => CorrectlyPlaced = correctlyPlaced;
+        public void SetOrder(int order) => this.index = order;
+
+
+        public bool ResultCorrect(int placedIndex)
+        {
+            return this.index == placedIndex;
+        }
+        
         
     }
 }

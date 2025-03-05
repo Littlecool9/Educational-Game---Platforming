@@ -91,6 +91,7 @@ namespace EducationalGame
 
         private void Interact(SortingBoxes box)         // Overload for different interactable
         {
+            
             InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(box.ID);
 
             interactableC.BeingInteracted = true;
@@ -113,7 +114,6 @@ namespace EducationalGame
         // Interacting with a SortingBoxSlot
         private void Interact(SortingBoxSlot slot, SortingBoxes box)
         {
-            Debug.Log("Interacting Sorting Box Slot");
             
             InteractableComponent boxIC = EntityManager.Instance.GetComponent<InteractableComponent>(slot);
             boxIC.Interactable = true;

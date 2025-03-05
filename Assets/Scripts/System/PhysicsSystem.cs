@@ -264,7 +264,7 @@ namespace EducationalGame
                                 0,
                                 direct,
                                 Mathf.Abs(distY) + Constants.DEVIATION, 
-                                renderC.GroundLayer);
+                                Constants.GroundLayer);
                             if (!hit)
                             {
                                 // renderC.position += new Vector2(-i * 0.1f, 0);

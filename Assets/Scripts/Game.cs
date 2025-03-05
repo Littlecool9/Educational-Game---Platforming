@@ -50,13 +50,15 @@ public class Game : MonoBehaviour
             SortingBoxes box = EntityManager.Instance.CreateEntity(EntityType.SortingBoxes) as SortingBoxes;
             InteractableComponent boxInteractableC = EntityManager.Instance.GetComponent<InteractableComponent>(box.ID);
             RenderComponent boxRenderC = EntityManager.Instance.GetComponent<RenderComponent>(box.ID);
+            SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box.ID);
 
-            boxRenderC.SetGameObject(sortingBox);
-            boxInteractableC.SetTrigger(sortingBox.GetComponent<Trigger>());
-            interactionC.AddInteractableToList(boxInteractableC);
+            boxRenderC?.SetGameObject(sortingBox);
+            sbC.SetOrder(boxRenderC.sortingBoxBridge.order);
+            boxInteractableC?.SetTrigger(boxRenderC.trigger);
+
+            interactionC?.AddInteractableToList(boxInteractableC);
         }
 
-        interactionC.InitInteracables();
 
         // SortingBoxSlots init
         foreach(GameObject sortingBoxSlot in SortingBoxSlots)
@@ -64,11 +66,17 @@ public class Game : MonoBehaviour
             SortingBoxSlot slot = EntityManager.Instance.CreateEntity(EntityType.SortingBoxSlot) as SortingBoxSlot;
             InteractableComponent slotInteractableC = EntityManager.Instance.GetComponent<InteractableComponent>(slot.ID);
             RenderComponent slotRenderC = EntityManager.Instance.GetComponent<RenderComponent>(slot.ID);
+            BoxSlotComponent slotC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot.ID);
 
-            slotRenderC.SetGameObject(sortingBoxSlot);   
-            slotInteractableC.SetTrigger(sortingBoxSlot.GetComponent<Trigger>());
+            slotRenderC?.SetGameObject(sortingBoxSlot);   
+            slotInteractableC?.SetTrigger(slotRenderC.trigger);
+            slotC?.SetIndex(slotRenderC.slotBridge.index);
+
             interactionC.AddInteractableToList(slotInteractableC);
         }
+
+        interactionC.InitInteracables();
+
     }
 }
 

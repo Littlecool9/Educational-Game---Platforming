@@ -5,14 +5,15 @@ using UnityEngine;
 
 namespace EducationalGame.Component
 {
-    public class SortingBoxSlotComponent : IComponent
+    public class BoxSlotComponent : IComponent
     {
-        public int index;
+        public int index { get; private set; }
         
 
         public void InitComponent()
         {
             
         }
+        public void SetIndex(int index) => this.index = index;
     }
 }

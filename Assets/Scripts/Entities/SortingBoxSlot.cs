@@ -14,7 +14,7 @@ namespace EducationalGame
 
         public override void InitEntity()
         {
-            entityManager.AddComponent(this, new SortingBoxSlotComponent());
+            entityManager.AddComponent(this, new BoxSlotComponent());
             entityManager.AddComponent(this, new InteractableComponent());
             entityManager.AddComponent(this, new RenderComponent());
 
