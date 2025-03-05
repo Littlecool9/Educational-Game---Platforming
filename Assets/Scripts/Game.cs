@@ -10,7 +10,7 @@ public class Game : MonoBehaviour
     [SerializeField]
     public Vector2 StartPosition;
     public GameObject playerObject;
-    public List<GameObject> triggerObjects;
+    public List<GameObject> SortingBoxes;
 
     void Start() {
         Constants.SetPlayerPrefab(playerObject);
@@ -37,15 +37,15 @@ public class Game : MonoBehaviour
         Player player = EntityManager.Instance.CreateEntity(EntityType.Player, "Player") as Player;
         // Initialize Components
         RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(player.ID);
-        InteractionComponent interactionC = EntityManager.Instance.GetComponent<InteractionComponent>(player.ID);
-        renderC.SetGameObject(playerObject);
+        renderC.SetGameObject(playerObject);        // Link Unity Components to customized Components
 
-        // Trigger init
-        foreach(GameObject triggerObject in triggerObjects)
+        InteractionComponent interactionC = EntityManager.Instance.GetComponent<InteractionComponent>(player.ID);
+        // SortingBoxes init
+        foreach(GameObject sortingBox in SortingBoxes)
         {
             SortingBoxes box = EntityManager.Instance.CreateEntity(EntityType.SortingBoxes) as SortingBoxes;
             InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(box.ID);
-            interactableC.SetTrigger(triggerObject.GetComponent<Trigger>());
+            interactableC.SetTrigger(sortingBox.GetComponent<Trigger>());
             interactionC.AddInteractable(interactableC);
         }
 

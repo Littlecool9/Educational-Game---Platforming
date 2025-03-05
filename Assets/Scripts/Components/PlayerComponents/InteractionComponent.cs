@@ -19,7 +19,6 @@ namespace EducationalGame.Component
         {
             // interactableC.OnInteract += Interact;
             foreach (InteractableComponent interactable in Interactables) { 
-                interactable.OnInteract += Interact; 
                 interactable.EnableInteraction += EnableInteraction;
                 interactable.DisableInteraction += DisableInteraction;
             }

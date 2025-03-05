@@ -34,7 +34,6 @@ namespace EducationalGame
                     // Gravity
                     float mult = (Math.Abs(movementC.Speed.y) < Constants.HalfGravThreshold && stateC.CurrentState == PlayerState.Jumping) ? .5f : 1f;
                     if (!stateC.IsGrounded ) {
-                        // Debug.Log("delta y: " + Mathf.MoveTowards(movementC.Speed.y, Constants.MaxFall, Constants.Gravity * mult * Constants.deltaTime));
                         movementC.AddSpeed(0, 
                         Mathf.MoveTowards(movementC.Speed.y, Constants.MaxFall, Constants.Gravity * mult 
                         ));
@@ -78,7 +77,7 @@ namespace EducationalGame
 
             RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
             MovementComponent movementC = EntityManager.Instance.GetComponent<MovementComponent>(entity);
-            if (renderC == null) throw new Exception("Missing RenderComponent in UpdateCollideX()");
+            if (renderC == null || movementC == null) throw new Exception("Missing RenderComponent or MovementComponent in UpdateCollideX()");
 
             while (true)
             {
@@ -115,7 +114,7 @@ namespace EducationalGame
             Vector2 direct = Math.Sign(distX) > 0 ? Vector2.right : Vector2.left;
 
             RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
-            if (renderC == null) throw new Exception("Missing RenderComponent in CheckGrounded()");
+            if (renderC == null) throw new Exception("Missing RenderComponent in MoveXStepWithCollide()");
 
             RaycastHit2D hit = Physics2D.BoxCast(
                 renderC.Collider.bounds.center,
@@ -142,7 +141,7 @@ namespace EducationalGame
 
             RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
             MovementComponent movementC = EntityManager.Instance.GetComponent<MovementComponent>(entity);
-            if (renderC == null || movementC == null) throw new Exception("Missing RenderComponent in CheckGrounded()");
+            if (renderC == null || movementC == null) throw new Exception("Missing RenderComponent in CorrectX()");
 
             return false;
         }
@@ -150,7 +149,7 @@ namespace EducationalGame
         public bool CollideCheck(Vector2 position, Vector2 dir, Entity entity, float dist = 0)
         {
             RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
-            if (renderC == null) throw new Exception("Missing RenderComponent in CheckGrounded()");
+            if (renderC == null) throw new Exception("Missing RenderComponent in CollideCheck()");
 
             Vector2 origion = position + renderC.position;
             return Physics2D.OverlapBox(origion + dir * (dist + Constants.DEVIATION), renderC.Collider.bounds.size, 0, Constants.GroundLayer);
@@ -159,7 +158,7 @@ namespace EducationalGame
         public bool DuckFreeAt(Entity entity, Vector2 at)
         {
             RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
-            if (renderC == null) throw new Exception("Missing RenderComponent in CheckGrounded()");
+            if (renderC == null) throw new Exception("Missing RenderComponent in DuckFreeAt()");
 
             Vector2 oldP = renderC.position;
             renderC.position = at;
@@ -176,7 +175,7 @@ namespace EducationalGame
         {
             RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
             MovementComponent movementC = EntityManager.Instance.GetComponent<MovementComponent>(entity);
-            if (renderC == null || movementC == null) throw new Exception("Missing ColliderComponent or RenderComponent in UpdateCollideY()");
+            if (renderC == null || movementC == null) throw new Exception("Missing MovementComponent or RenderComponent in UpdateCollideY()");
 
             //使用校正
             float distance = distY;
@@ -238,7 +237,7 @@ namespace EducationalGame
         {
             RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(entity);
             MovementComponent movementC = EntityManager.Instance.GetComponent<MovementComponent>(entity);
-            if (renderC == null || movementC == null) throw new Exception("Missing MovementComponent or RenderComponent in CheckGrounded()");
+            if (renderC == null || movementC == null) throw new Exception("Missing MovementComponent or RenderComponent in CorrectY()");
 
 
             // Vector2 origion = renderC.position + collider.position;

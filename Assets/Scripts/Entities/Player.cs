@@ -32,7 +32,6 @@ namespace EducationalGame
             entityManager.AddComponent(this, new StateComponent());
             entityManager.AddComponent(this, new InteractionComponent());
             entityManager.AddComponent(this, new RenderComponent());
-            entityManager.AddComponent(this, new ColliderComponent());
             entityManager.AddComponent(this, new InputComponent());
             
             foreach (var component in entityManager.GetComponents(this.ID)) { component.InitComponent(); }

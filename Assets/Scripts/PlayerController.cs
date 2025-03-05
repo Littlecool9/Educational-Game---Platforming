@@ -22,7 +22,7 @@ namespace EducationalGame
             inputC.InteractInput = Input.GetKeyDown(KeyCode.E);
 
             if (inputC.InteractInput){
-                Debug.Log("Interact Input");
+                // Debug.Log("Interact Input");
             }
             if (Input.GetKey(KeyCode.A))
             {

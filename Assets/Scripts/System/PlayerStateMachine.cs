@@ -118,7 +118,6 @@ namespace EducationalGame
 
             RaycastHit2D hit = Physics2D.BoxCast(
                 renderC.Collider.bounds.center,
-                // colliderC.Collider.bounds.size, 
                 boxSize,
                 0, 
                 Vector2.down, 

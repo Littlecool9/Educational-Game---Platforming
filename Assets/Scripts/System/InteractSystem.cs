@@ -8,6 +8,7 @@ namespace EducationalGame
 {
     public class InteractSystem : ISystem
     {
+        // Handle Interact Input and Behaviours and result
         private Player player;
         public void Init()
         {
@@ -22,22 +23,17 @@ namespace EducationalGame
         public void Update()
         {
             StateComponent stateC = EntityManager.Instance.GetComponent<StateComponent>(player.ID);
-            InteractionComponent interactionC = EntityManager.Instance.GetComponent<InteractionComponent>(player.ID);
 
             if (stateC.CurrentState == PlayerState.Interacting)
             {
                 bool isInteracting = false;
                 foreach(Entity entity in EntityManager.Instance.GetAllEntities())
                 {
-                    // if (EntityManager.Instance.HasComponent<InteractableComponent>(entity))
                     if (entity is SortingBoxes)     // TODO: Edit when more interactable objects added
                     {
                         InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity);
                         if (interactableC.Interactable){
-                            // interactableC.InvokeInteractionEvent();
-                            // interactionC.Interact();
-
-
+                            interactableC.InvokeInteractionEvent();
                             // implement interact logic
                             InteractWithSortingBox(entity as SortingBoxes);
 

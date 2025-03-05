@@ -9,6 +9,7 @@ namespace EducationalGame
 {
     public class RenderSystem : ISystem
     {
+        // Handle Sprites, Animation
         public void Init()
         {
             
