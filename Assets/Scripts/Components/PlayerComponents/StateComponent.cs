@@ -15,7 +15,7 @@ namespace EducationalGame.Component
 
         public bool IsGrounded { get; set; }
         public bool CanInteract { get; set; }
-        public bool IsInteracting { get; set; }
+        // public bool IsInteracting { get; set; }
         public bool LookingInteractable { get; set; }       // 对接input到寻找
         public bool RelieveInteractable { get; set; }
         public Entity InteractingObject { get; set; }

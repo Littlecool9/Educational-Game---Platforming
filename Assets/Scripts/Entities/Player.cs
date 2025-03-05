@@ -8,6 +8,7 @@ namespace EducationalGame
 {
     public class Player : Entity
     {
+        // Singleton
         private static Player _instance;
         public static Player Instance
         {
@@ -19,7 +20,6 @@ namespace EducationalGame
         }
 
 
-        private EntityManager entityManager = EntityManager.Instance;
         
         private Player() : base()
         {

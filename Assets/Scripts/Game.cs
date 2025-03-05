@@ -11,9 +11,10 @@ public class Game : MonoBehaviour
     public Vector2 StartPosition;
     public GameObject playerObject;
     public List<GameObject> SortingBoxes;
+    public List<GameObject> SortingBoxSlots;
 
     void Start() {
-        // Application.targetFrameRate = 60; // 将游戏帧率锁定为 60 FPS
+        Application.targetFrameRate = 60; // 将游戏帧率锁定为 60 FPS
         Constants.SetPlayerPrefab(playerObject);
         Constants.Init();
         Init();         // Init Player\TriggerObject
@@ -56,7 +57,18 @@ public class Game : MonoBehaviour
         }
 
         interactionC.InitInteracables();
-        
+
+        // SortingBoxSlots init
+        foreach(GameObject sortingBoxSlot in SortingBoxSlots)
+        {
+            SortingBoxSlot slot = EntityManager.Instance.CreateEntity(EntityType.SortingBoxSlot) as SortingBoxSlot;
+            InteractableComponent slotInteractableC = EntityManager.Instance.GetComponent<InteractableComponent>(slot.ID);
+            RenderComponent slotRenderC = EntityManager.Instance.GetComponent<RenderComponent>(slot.ID);
+
+            slotRenderC.SetGameObject(sortingBoxSlot);   
+            slotInteractableC.SetTrigger(sortingBoxSlot.GetComponent<Trigger>());
+            interactionC.AddInteractableToList(slotInteractableC);
+        }
     }
 }
 

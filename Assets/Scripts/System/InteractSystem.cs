@@ -28,26 +28,28 @@ namespace EducationalGame
         {
             DetermineAction();
 
-            if (stateC.IsInteracting && !stateC.RelieveInteractable 
-            && stateC.InteractingObject is SortingBoxes)
+            if (stateC.InteractingObject is SortingBoxes)        // The type needs consistent interaction
             {
-                // Consistently interact objects
-                Interact(stateC.InteractingObject as SortingBoxes); 
+                // Consistently interact with an object
+                if (stateC.InteractingObject is SortingBoxes) {
+                    Interact(stateC.InteractingObject as SortingBoxes); 
+                }
             }
-            if (stateC.LookingInteractable && stateC.CanInteract)
+            if (stateC.LookingInteractable)
             {
                 bool foundInteracatble = false;
                 foreach(Entity entity in EntityManager.Instance.GetAllEntities())
                 {
+                    InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity);
+                    if (interactableC == null) continue;
+
                     if (entity is SortingBoxes)     // TODO: Edit when more interactable objects added
                     {
-                        InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity);
-
+                        if (stateC.InteractingObject is SortingBoxes) continue;
                         if (interactableC.Interactable){
+
                             interactableC.InvokeInteractionEvent();
-                            // implement interact logic
                             stateC.SetInteractingObject(entity);            // TODO: Edit when more interactable objects added
-                            stateC.IsInteracting = true;
 
                             Interact(entity as SortingBoxes);
                         }
@@ -55,38 +57,40 @@ namespace EducationalGame
                         break;
 
                     }
+                    else if (entity is SortingBoxSlot){
+                        if (interactableC.Interactable && stateC.InteractingObject is SortingBoxes){
+
+                            stateC.RelieveInteractable = false;
+                            interactableC.InvokeInteractionEvent();
+
+                            Interact(entity as SortingBoxSlot, stateC.InteractingObject as SortingBoxes);
+
+                            stateC.ResetInteractingObject();
+                        }
+                        foundInteracatble = true;
+                        break;
+                    }
                     else if (entity is XORLever){
                         // TODO: Implement interact logic
-
-                        stateC.IsInteracting = false;       // 不会进入持续状态
-                        Interact(entity as XORLever);
+                        if (interactableC.Interactable)
+                        {
+                            Interact(entity as XORLever);
+                        }
+                        // stateC.IsInteracting = false;       // 不会进入持续状态
                     }
                 }
                 if (!foundInteracatble) 
                 {
                     // Failed to find an interactable
-                    Debug.Log("Not Found Interacting");
+                    
                 }
 
                 stateC.LookingInteractable = false;
             }
-            else if (stateC.RelieveInteractable && stateC.IsInteracting)
-            {
-                // 结束互动
-                stateC.ResetInteractingObject();
-                stateC.IsInteracting = false;
-
-                stateC.RelieveInteractable = false;
-                Entity interactingObject = stateC.GetInteractingObject();
-                if (interactingObject is SortingBoxes) QuitInteract(interactingObject as SortingBoxes);
-                
-                Debug.Log("Quit Interacting");
-            }   
         }
 
         private void Interact(SortingBoxes box)         // Overload for different interactable
         {
-            Debug.Log("Interacting Sorting Box");
             InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(box.ID);
 
             interactableC.BeingInteracted = true;
@@ -106,33 +110,45 @@ namespace EducationalGame
 
         }
 
+        // Interacting with a SortingBoxSlot
+        private void Interact(SortingBoxSlot slot, SortingBoxes box)
+        {
+            Debug.Log("Interacting Sorting Box Slot");
+            
+            InteractableComponent boxIC = EntityManager.Instance.GetComponent<InteractableComponent>(slot);
+            boxIC.Interactable = true;
+            boxIC.BeingInteracted = false;
+
+            RenderComponent boxRC = EntityManager.Instance.GetComponent<RenderComponent>(box);
+            RenderComponent slotRC = EntityManager.Instance.GetComponent<RenderComponent>(slot);
+            if (boxRC == null || slotRC == null) Debug.Log("Missing RenderComponent in InteractWithSortingBoxSlot()");
+
+            boxRC.MoveTransform(slotRC.transform.position - boxRC.transform.position);
+        }
+
         private void Interact(XORLever lever)
         {
             
         }
 
-        private void QuitInteract(SortingBoxes box)
-        {
-            
-        }
-
-        private void QuitInteract(XORLever lever)
-        {
-
-        }
-
         private void DetermineAction()
-        {
+        {   
+            if (stateC.InteractingObject is SortingBoxes && inputC.InteractInput)
+            {
+                stateC.LookingInteractable = true;
+            }
             if (inputC.InteractInput && stateC.CanInteract &&
             (stateC.GetCurrentState() == PlayerState.Idle))         // 可交互的状态
             {
                 // Idle -> Interacting
                 stateC.LookingInteractable = true;
+                return;
             }
-            else if (inputC.InteractInput && stateC.IsInteracting)
+            if (inputC.InteractInput && stateC.InteractingObject != null)
             {
                 // Interacting -> Idle
                 stateC.RelieveInteractable = true;
+                return;
             }
         }
     }

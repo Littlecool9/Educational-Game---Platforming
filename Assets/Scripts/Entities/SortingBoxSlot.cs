@@ -1,21 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
-using EducationalGame.Component;
 using EducationalGame.Core;
+using EducationalGame.Component;
 using UnityEngine;
 
 namespace EducationalGame
 {
-    public class SortingBoxes : Entity
+    public class SortingBoxSlot : Entity
     {
-        public SortingBoxes() : base()
+        public SortingBoxSlot() :base()
         {
         }
 
         public override void InitEntity()
         {
+            entityManager.AddComponent(this, new SortingBoxSlotComponent());
             entityManager.AddComponent(this, new InteractableComponent());
-            entityManager.AddComponent(this, new SortingBoxComponent());
             entityManager.AddComponent(this, new RenderComponent());
 
             foreach (IComponent component in entityManager.GetComponents(this.ID)) { component.InitComponent(); }

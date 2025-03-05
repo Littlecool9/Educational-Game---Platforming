@@ -7,24 +7,30 @@ using UnityEngine;
 
 namespace EducationalGame.Core
 {
-    public enum EntityType { Player, SortingBoxes }
+    public enum EntityType { Player, 
+        SortingBoxSlot, SortingBoxes,
+        XORLever
+        }
     public abstract class Entity
     {
         public int ID { get; private set; }
         
         private static int nextID = 0;
 
+        protected EntityManager entityManager = EntityManager.Instance;
 
 
         public static Entity CreateInstance(EntityType name){
             if (name is EntityType.Player) return Player.Instance;
             else if (name is EntityType.SortingBoxes) return new SortingBoxes();
+            else if (name is EntityType.SortingBoxSlot) return new SortingBoxSlot();
             else return null;
         }
 
         public Entity()
         {
             ID = nextID++;
+            Debug.Log("Entity ID: " + ID);
         }
 
         public abstract void InitEntity();

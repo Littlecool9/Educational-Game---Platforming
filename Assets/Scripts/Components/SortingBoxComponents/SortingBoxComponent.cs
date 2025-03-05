@@ -9,7 +9,8 @@ namespace EducationalGame.Component
     {
         // Store Information about the Sorting Box
 
-        public int order { get; private set; }      // Order of the Sorting Box, Adjusted in Inspector
+
+        public int order;     // Order of the Sorting Box, Adjusted in Inspector
         public bool CorrectlyPlaced { get; set; }
 
         // Render Related
