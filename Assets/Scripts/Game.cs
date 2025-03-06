@@ -3,6 +3,8 @@ using EducationalGame.Core;
 using UnityEngine;
 using EducationalGame;
 using EducationalGame.Component;
+using System.Threading.Tasks;
+using System.Linq;
 
 public class Game : MonoBehaviour
 {
@@ -16,6 +18,7 @@ public class Game : MonoBehaviour
     void Start() {
         Application.targetFrameRate = 60; // 将游戏帧率锁定为 60 FPS
         Constants.SetPlayerPrefab(playerObject);
+
         Constants.Init();
         Init();         // Init Player\TriggerObject
         SystemManager.Init();       // Init Systems
@@ -23,12 +26,25 @@ public class Game : MonoBehaviour
 
     void FixedUpdate() {
         Constants.SetDeltaTime(Time.deltaTime);
+
+
+        // await Task.WhenAll(SystemManager.asyncSystems.Select(asyncSystem => asyncSystem.UpdateAsync()));
+        // lastAsyncTask = lastAsyncTask.ContinueWith(async _ =>
+        // {
+        //     await Task.WhenAll(SystemManager.asyncSystems.Select(system => system.UpdateAsync()));
+        // });
+        // foreach(var asyncSystem in SystemManager.asyncSystems)
+        // {
+        //     Task.Run(asyncSystem.UpdateAsync);
+        // }
+
         foreach(var system in SystemManager.systems)
         {
             system.Update();
         }
     }
 
+    // Act as an init system
     private void Init(){
         
 
@@ -44,22 +60,6 @@ public class Game : MonoBehaviour
         InteractionComponent interactionC = EntityManager.Instance.GetComponent<InteractionComponent>(player.ID);
 
 
-        // SortingBoxes init
-        foreach(GameObject sortingBox in SortingBoxes)
-        {
-            SortingBoxes box = EntityManager.Instance.CreateEntity(EntityType.SortingBoxes) as SortingBoxes;
-            InteractableComponent boxInteractableC = EntityManager.Instance.GetComponent<InteractableComponent>(box.ID);
-            RenderComponent boxRenderC = EntityManager.Instance.GetComponent<RenderComponent>(box.ID);
-            SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box.ID);
-
-            boxRenderC?.SetGameObject(sortingBox);
-            sbC.SetOrder(boxRenderC.sortingBoxBridge.order);
-            boxInteractableC?.SetTrigger(boxRenderC.trigger);
-
-            interactionC?.AddInteractableToList(boxInteractableC);
-        }
-
-
         // SortingBoxSlots init
         foreach(GameObject sortingBoxSlot in SortingBoxSlots)
         {
@@ -70,11 +70,29 @@ public class Game : MonoBehaviour
 
             slotRenderC?.SetGameObject(sortingBoxSlot);   
             slotInteractableC?.SetTrigger(slotRenderC.trigger);
-            slotC?.SetIndex(slotRenderC.slotBridge.index);
+            slotC?.SetBridge(slotRenderC.slotBridge);
+            slotInteractableC.Interactable = !slotC.isPlaced;
 
             interactionC.AddInteractableToList(slotInteractableC);
         }
 
+        // SortingBoxes init
+        foreach(GameObject sortingBox in SortingBoxes)
+        {
+            SortingBoxes box = EntityManager.Instance.CreateEntity(EntityType.SortingBoxes) as SortingBoxes;
+            InteractableComponent boxInteractableC = EntityManager.Instance.GetComponent<InteractableComponent>(box.ID);
+            RenderComponent boxRenderC = EntityManager.Instance.GetComponent<RenderComponent>(box.ID);
+            SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box.ID);
+
+            boxRenderC?.SetGameObject(sortingBox);
+            sbC.SetOrder(boxRenderC.sortingBoxBridge.order);
+
+            sbC.SetBridge(boxRenderC.sortingBoxBridge);
+
+            boxInteractableC?.SetTrigger(boxRenderC.trigger);
+
+            interactionC?.AddInteractableToList(boxInteractableC);
+        }
         interactionC.InitInteracables();
 
     }

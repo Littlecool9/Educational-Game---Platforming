@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using EducationalGame.Core;
 using EducationalGame.Component;
+using System;
 
 namespace EducationalGame
 {
@@ -12,6 +13,10 @@ namespace EducationalGame
         private Player player;
         private InputComponent inputC;
         private StateComponent stateC;
+        public event Action OnInteractSlot;
+        public event Action OnInteractBox;
+        
+        
         public void Init()
         {
             player = EntityManager.Instance.GetEntityWithID(0) as Player;
@@ -48,27 +53,57 @@ namespace EducationalGame
                         if (stateC.InteractingObject is SortingBoxes) continue;
                         if (interactableC.Interactable){
 
-                            interactableC.InvokeInteractionEvent();
-                            stateC.SetInteractingObject(entity);            // TODO: Edit when more interactable objects added
+                            stateC.SetInteractingObject(entity);            
 
+                            // Update Box Status
+                            SortingBoxSlot slot = FindCorrespondSlot(entity as SortingBoxes);
+                            SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(entity);
+                            InteractableComponent sIC = EntityManager.Instance.GetComponent<InteractableComponent>(slot);
+                            BoxSlotComponent bsC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
+
+
+                            interactableC.ActivateInteractionBuffer();
+                            interactableC.Interactable = false;
+                            sbC.slotIndex = -1;
+
+                            // Update Slot Status
+                            if (slot == null) Debug.Log("Slot not found");
+                            bsC.isPlaced = false;
+                            sIC.Interactable = true;
+                            
                             Interact(entity as SortingBoxes);
-                        }
-                        foundInteracatble = true;
-                        break;
+                            OnInteractBox?.Invoke();
 
+
+                            foundInteracatble = true;
+                            break;
+                        }
                     }
                     else if (entity is SortingBoxSlot){
                         if (interactableC.Interactable && stateC.InteractingObject is SortingBoxes){
 
-                            stateC.RelieveInteractable = false;
-                            interactableC.InvokeInteractionEvent();
+                            InteractableComponent boxIC = EntityManager.Instance.GetComponent<InteractableComponent>(stateC.InteractingObject);
+
+                            BoxSlotComponent bsC = EntityManager.Instance.GetComponent<BoxSlotComponent>(entity);
+
+                            // Update Box Status
+                            SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(stateC.InteractingObject);
+                            sbC.slotIndex = bsC.index;
+                            boxIC.Interactable = true;
+
+                            // Update Slot Status
+                            bsC.isPlaced = true;
+                            interactableC.Interactable = false;
+                            interactableC.ActivateInteractionBuffer();
 
                             Interact(entity as SortingBoxSlot, stateC.InteractingObject as SortingBoxes);
+                            OnInteractSlot?.Invoke();
 
                             stateC.ResetInteractingObject();
+                            foundInteracatble = true;
+
+                            break;
                         }
-                        foundInteracatble = true;
-                        break;
                     }
                     else if (entity is XORLever){
                         // TODO: Implement interact logic
@@ -91,16 +126,10 @@ namespace EducationalGame
 
         private void Interact(SortingBoxes box)         // Overload for different interactable
         {
-            
-            InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(box.ID);
-
-            interactableC.BeingInteracted = true;
-            interactableC.Interactable = false;
-
             SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box.ID);
+
             RenderComponent boxRenderC = EntityManager.Instance.GetComponent<RenderComponent>(box.ID);
             Transform boxTransform = boxRenderC?.transform;
-
             RenderComponent playerRenderC = EntityManager.Instance.GetComponent<RenderComponent>(player);
             Transform playerTransform = playerRenderC?.transform;
             if(playerTransform == null || boxTransform == null) Debug.Log("Missing Transform in InteractWithSortingBox()");
@@ -108,17 +137,11 @@ namespace EducationalGame
             Vector2 direction = playerTransform.right * -1; // 让跟随物体始终在主角背后
             Vector2 targetPosition = (Vector2)playerTransform.position + direction.normalized * sbC.distance;
             boxTransform.position = Vector2.Lerp(boxTransform.position, targetPosition, sbC.followSpeed * Constants.deltaTime);
-
         }
 
         // Interacting with a SortingBoxSlot
         private void Interact(SortingBoxSlot slot, SortingBoxes box)
         {
-            
-            InteractableComponent boxIC = EntityManager.Instance.GetComponent<InteractableComponent>(slot);
-            boxIC.Interactable = true;
-            boxIC.BeingInteracted = false;
-
             RenderComponent boxRC = EntityManager.Instance.GetComponent<RenderComponent>(box);
             RenderComponent slotRC = EntityManager.Instance.GetComponent<RenderComponent>(slot);
             if (boxRC == null || slotRC == null) Debug.Log("Missing RenderComponent in InteractWithSortingBoxSlot()");
@@ -144,12 +167,40 @@ namespace EducationalGame
                 stateC.LookingInteractable = true;
                 return;
             }
-            if (inputC.InteractInput && stateC.InteractingObject != null)
+            // if (inputC.InteractInput && stateC.InteractingObject != null)
+            // {
+            //     // Interacting -> Idle
+            //     stateC.RelieveInteractable = true;
+            //     return;
+            // }
+        }
+
+        public static SortingBoxSlot FindCorrespondSlot(SortingBoxes box)
+        {
+            SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box.ID);
+            foreach (var entity in EntityManager.Instance.GetAllEntities())
             {
-                // Interacting -> Idle
-                stateC.RelieveInteractable = true;
-                return;
+                if (entity is SortingBoxSlot)
+                {
+                    BoxSlotComponent bsC = EntityManager.Instance.GetComponent<BoxSlotComponent>(entity.ID);
+                    if (bsC.index == sbC.slotIndex) return entity as SortingBoxSlot;
+                }
             }
+            return null;
+        }
+
+        public static SortingBoxSlot FindPreviousSlot(SortingBoxes box)
+        {
+            SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box);
+            foreach (var entity in EntityManager.Instance.GetAllEntities())
+            {
+                if (entity is SortingBoxSlot)
+                {
+                    BoxSlotComponent bsC = EntityManager.Instance.GetComponent<BoxSlotComponent>(entity.ID);
+                    if (bsC.index == sbC.previousSlotIndex) return entity as SortingBoxSlot;
+                }
+            }
+            return null;
         }
     }
 }

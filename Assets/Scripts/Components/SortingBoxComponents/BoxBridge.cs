@@ -9,4 +9,5 @@ public class BoxBridge : MonoBehaviour
     
     [SerializeField]
     public int order;
+    public int slotIndex;
 }

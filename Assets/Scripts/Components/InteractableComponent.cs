@@ -12,9 +12,9 @@ namespace EducationalGame.Component
 
         public Trigger triggerScript;
         public bool Interactable = false;   // true when player CAN interact with object
-
-        public bool BeingInteracted = false;
-
+        public bool InteractedBuffer = false;      
+        // Activate when interacted
+        // Comsumed in Judge System
         public event Action OnInteract;     // Triggered when interacted
         public event Action EnableInteraction;
         public event Action DisableInteraction;
@@ -40,6 +40,8 @@ namespace EducationalGame.Component
             DisableInteraction?.Invoke();
         }
 
-        public void InvokeInteractionEvent() => OnInteract?.Invoke();
+        public void ActivateInteractionBuffer() => InteractedBuffer = true;
+        public void ComsumeInteractionBuffer() => InteractedBuffer = false;
+
     }
 }

@@ -23,6 +23,8 @@ namespace EducationalGame.Component
         public Collider2D collider;
         public Collider2D Collider { get{ return collider;} set{ collider = value; } }
 
+        public Vector2 colliderBounds;
+
 
         // Interactable Specific
         public Trigger trigger;
@@ -49,6 +51,8 @@ namespace EducationalGame.Component
             sortingBoxBridge = gameObject.GetComponent<BoxBridge>();
             slotBridge = gameObject.GetComponent<SlotBridge>();
             trigger = gameObject.GetComponent<Trigger>();
+
+            colliderBounds = collider.bounds.size;
         }
 
         public void InitComponent()

@@ -30,7 +30,6 @@ namespace EducationalGame.Core
         public Entity()
         {
             ID = nextID++;
-            Debug.Log("Entity ID: " + ID);
         }
 
         public abstract void InitEntity();

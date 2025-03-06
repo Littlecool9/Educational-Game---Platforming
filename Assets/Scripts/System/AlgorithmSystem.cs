@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using EducationalGame.Component;
 using EducationalGame.Core;
 using UnityEngine;
 
@@ -8,19 +10,118 @@ namespace EducationalGame
     public class AlgorithmSystem : ISystem
     {
         // Judge the logic of whether an algorithm problem is successfully solved
+        // Async possible
+                        
+        private bool requireSlotCheck;      // Triggered when putting a box into the slot
+        private bool requireBoxCheck;       // Triggered when taking a box out of the slot
+
+        private SortingBoxSlot slot;
+        private SortingBoxes box;
+
         public void Init()
         {
-            
+            requireSlotCheck = false;
+            SystemManager.interactSystem.OnInteractSlot += RequireSlotCheck;
+            SystemManager.interactSystem.OnInteractBox += RequireBoxCheck;
         }
 
         public void Process()
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public void Update()
         {
-            
+            if (requireSlotCheck)
+            {
+                bool foundBox = false;
+                bool foundSlot = false;
+                foreach (Entity entity in EntityManager.Instance.GetAllEntities())
+                {
+                    InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity);
+                    if (interactableC == null) continue;
+
+                    if (interactableC.InteractedBuffer)
+                    {
+                        if (entity is SortingBoxSlot)           
+                        {
+                            slot = entity as SortingBoxSlot;
+                            foundSlot = true;
+                        }
+                        else if (entity is SortingBoxes)
+                        {
+                            box = entity as SortingBoxes;
+                            foundBox = true;
+                        }
+                    }
+                    if (foundBox && foundSlot) break;
+                }
+                
+
+                if (slot != null && box != null)
+                {
+                    InteractableComponent bIC = EntityManager.Instance.GetComponent<InteractableComponent>(box);
+                    InteractableComponent sIC = EntityManager.Instance.GetComponent<InteractableComponent>(slot);
+                    bIC.ComsumeInteractionBuffer();
+                    sIC.ComsumeInteractionBuffer();
+
+
+                    BoxSlotComponent slotComponent = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
+                    SortingBoxComponent boxComponent = EntityManager.Instance.GetComponent<SortingBoxComponent>(box);
+                    RenderComponent slotRC = EntityManager.Instance.GetComponent<RenderComponent>(slot);
+                    SpriteRenderer slotSR = slotRC?.sr;
+
+                    // May be moved to render system?
+                    if (boxComponent.index == slotComponent.index)
+                    {
+                        // Correctly placed
+                        slotSR.color = slotComponent.correctColor;
+                    }
+                    else if (boxComponent.index != slotComponent.index)
+                    {
+                        // Incorrectly placed
+                        slotSR.color = slotComponent.incorrectColor;
+                    }
+                    
+                }
+
+                requireSlotCheck = false;
+            }
+            else if (requireBoxCheck)
+            {
+                bool foundBox = false;
+                Player player = EntityManager.Instance.GetEntityWithID(0) as Player;
+                StateComponent stateC = EntityManager.Instance.GetComponent<StateComponent>(player);
+                foreach (var entity in EntityManager.Instance.GetAllEntities())
+                {
+                    if (entity.ID == stateC.InteractingObject.ID)
+                    {
+                        box = entity as SortingBoxes;
+                        SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box);
+                        slot = InteractSystem.FindPreviousSlot(box);
+                        BoxSlotComponent slotComponent = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
+                        foundBox = true;
+                    }
+                    if (foundBox) break;
+                }
+                if (foundBox)
+                {
+                    BoxSlotComponent slotComponent = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
+                    RenderComponent slotRC = EntityManager.Instance.GetComponent<RenderComponent>(slot);
+                    SpriteRenderer slotSR = slotRC?.sr;
+                    slotSR.color = slotComponent.incorrectColor;
+                }
+                requireBoxCheck = false;
+            }
+            ResetBoxAndSlot();
+        }
+
+        private void RequireSlotCheck() => requireSlotCheck = true;
+        private void RequireBoxCheck() => requireBoxCheck = true;
+        private void ResetBoxAndSlot() 
+        {
+            slot = null;
+            box = null;
         }
     }
 }
