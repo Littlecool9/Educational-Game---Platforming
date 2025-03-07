@@ -6,7 +6,7 @@ using UnityEngine.PlayerLoop;
 
 namespace EducationalGame.Core
 {
-    public class Constants : MonoBehaviour
+    public static class Constants 
     {
         // Store constants here
 
@@ -14,7 +14,7 @@ namespace EducationalGame.Core
         public static float deltaTime;
         public static float SetDeltaTime(float dt) { deltaTime = dt; return dt; }
 
-
+        #region Player Constant
         public readonly static string PlayerTag = "Player";
         public readonly static string SortingBoxTag = "SortingBox";
         public readonly static float JumpHBoost = 4f; //退离墙壁的力
@@ -29,12 +29,17 @@ namespace EducationalGame.Core
         public readonly static float Gravity = -9f; //重力
         public readonly static float HalfGravThreshold = 4f; //滞空时间阈值
         public readonly static float MaxFall = 20f;
+        # endregion
+
+        public static GameObject camera = Camera.main.gameObject;
+
 
         #region Corner Correct
         public static int UpwardCornerCorrection = 4; //向上移动，X轴上边缘校正的最大距离
         #endregion
 
         public static GameObject SetPlayerPrefab(GameObject prefab) { player = prefab; return prefab; }
+        
 
         public static void Init(){
             GroundLayer = LayerMask.GetMask("Ground");

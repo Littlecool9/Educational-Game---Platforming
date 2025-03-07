@@ -96,5 +96,42 @@ public class Game : MonoBehaviour
         interactionC.InitInteracables();
 
     }
+
+    [ExecuteInEditMode]
+    private void OnDrawGizmos() {
+        if (Camera.main == null) return;
+
+        // 计算摄像机的可视范围
+        // float camHeight = Camera.main.orthographicSize * 2;
+        float camHeight = Camera.main.orthographicSize * 2;
+        float camWidth = camHeight * Camera.main.aspect;
+
+        // 计算当前摄像机在哪个 "页面"
+        int xPage = Mathf.FloorToInt(transform.position.x / camWidth);
+        int yPage = Mathf.FloorToInt(transform.position.y / camHeight);
+
+        Gizmos.color = Color.green; // 设置边界颜色
+
+        // 遍历绘制相邻的 3x3 视野区域
+        for (int i = -1; i <= 3; i++)
+        {
+            for (int j = -1; j <= 3; j++)
+            {
+                float x = (xPage + i) * camWidth;
+                float y = (yPage + j) * camHeight;
+
+                Vector3 bottomLeft = new Vector3(x - camWidth / 2, y - camHeight / 2, 0);
+                Vector3 bottomRight = new Vector3(x + camWidth / 2, y - camHeight / 2, 0);
+                Vector3 topLeft = new Vector3(x - camWidth / 2, y + camHeight / 2, 0);
+                Vector3 topRight = new Vector3(x + camWidth / 2, y + camHeight / 2, 0);
+
+                // 画四条边线
+                Gizmos.DrawLine(bottomLeft, bottomRight);
+                Gizmos.DrawLine(bottomRight, topRight);
+                Gizmos.DrawLine(topRight, topLeft);
+                Gizmos.DrawLine(topLeft, bottomLeft);
+            }
+        }
+    }
 }
 
