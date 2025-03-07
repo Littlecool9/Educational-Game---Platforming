@@ -180,7 +180,7 @@ namespace EducationalGame
             //使用校正
             float distance = distY;
             int correctTimes = 1; //默认可以迭代位置10次
-            bool collided = true;
+            // bool collided = true;
             while (true)
             {
                 float moved = MoveYStepWithCollide(entity, distance);       // distance是距离目标位置剩余的距离
@@ -189,7 +189,7 @@ namespace EducationalGame
                 renderC.MoveTransform(Vector2.up * moved);
                 if (moved == distance || correctTimes == 0) //无碰撞，且校正次数为0
                 {
-                    collided = false;
+                    // collided = false;
                     break;
                 }
                 float tempDist = distance - moved;
