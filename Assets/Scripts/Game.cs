@@ -10,10 +10,11 @@ public class Game : MonoBehaviour
 {
     // Handle the main process of the game
     [SerializeField]
-    public Vector2 StartPosition;
     public GameObject playerObject;
-    public List<GameObject> SortingBoxes;
-    public List<GameObject> SortingBoxSlots;
+    // public List<GameObject> SortingBoxes;
+    // public List<GameObject> SortingBoxSlots;
+
+    public List<AlgorithmPuzzle> algorithmPuzzles; 
 
     void Start() {
         Application.targetFrameRate = 60; // 将游戏帧率锁定为 60 FPS
@@ -60,39 +61,13 @@ public class Game : MonoBehaviour
         InteractionComponent interactionC = EntityManager.Instance.GetComponent<InteractionComponent>(player.ID);
 
 
-        // SortingBoxSlots init
-        foreach(GameObject sortingBoxSlot in SortingBoxSlots)
+        // algorithm init
+        foreach (AlgorithmPuzzle puzzle in algorithmPuzzles)
         {
-            SortingBoxSlot slot = EntityManager.Instance.CreateEntity(EntityType.SortingBoxSlot) as SortingBoxSlot;
-            InteractableComponent slotInteractableC = EntityManager.Instance.GetComponent<InteractableComponent>(slot.ID);
-            RenderComponent slotRenderC = EntityManager.Instance.GetComponent<RenderComponent>(slot.ID);
-            BoxSlotComponent slotC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot.ID);
-
-            slotRenderC?.SetGameObject(sortingBoxSlot);   
-            slotInteractableC?.SetTrigger(slotRenderC.trigger);
-            slotC?.SetBridge(slotRenderC.slotBridge);
-            slotInteractableC.Interactable = !slotC.isPlaced;
-
-            interactionC.AddInteractableToList(slotInteractableC);
+            List<InteractableComponent> interactables = puzzle.Init();
+            interactionC.AddInteractableToList(interactables);
         }
 
-        // SortingBoxes init
-        foreach(GameObject sortingBox in SortingBoxes)
-        {
-            SortingBoxes box = EntityManager.Instance.CreateEntity(EntityType.SortingBoxes) as SortingBoxes;
-            InteractableComponent boxInteractableC = EntityManager.Instance.GetComponent<InteractableComponent>(box.ID);
-            RenderComponent boxRenderC = EntityManager.Instance.GetComponent<RenderComponent>(box.ID);
-            SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box.ID);
-
-            boxRenderC?.SetGameObject(sortingBox);
-            sbC.SetOrder(boxRenderC.sortingBoxBridge.order);
-
-            sbC.SetBridge(boxRenderC.sortingBoxBridge);
-
-            boxInteractableC?.SetTrigger(boxRenderC.trigger);
-
-            interactionC?.AddInteractableToList(boxInteractableC);
-        }
         interactionC.InitInteracables();
 
     }

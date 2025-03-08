@@ -39,6 +39,11 @@ namespace EducationalGame.Component
             Interactables.Add(interactableC);
         }
 
+        public void AddInteractableToList(List<InteractableComponent> interactables)
+        {
+            Interactables.AddRange(interactables);
+        }
+
         private void EnableInteraction()
         {
             
