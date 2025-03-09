@@ -697,7 +697,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1522710225}
+    m_TransformParent: {fileID: 1093985083}
     m_Modifications:
     - target: {fileID: 5248304189702601231, guid: d83f24b8a3004284fb36df8b1557d60f, type: 3}
       propertyPath: m_Name
@@ -713,7 +713,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5248304189702601235, guid: d83f24b8a3004284fb36df8b1557d60f, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5248304189702601235, guid: d83f24b8a3004284fb36df8b1557d60f, type: 3}
       propertyPath: m_LocalScale.x
@@ -855,6 +855,57 @@ Transform:
   m_Father: {fileID: 1522710225}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1093985081
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1093985083}
+  - component: {fileID: 1093985082}
+  m_Layer: 0
+  m_Name: AlgorithmPuzzle1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1093985082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093985081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ca0096d3bff8c4b8e1b26045d3c5fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortingBoxes:
+  - {fileID: 2045029297}
+  SortingBoxSlots:
+  - {fileID: 1286615599}
+  - {fileID: 265213739}
+--- !u!4 &1093985083
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093985081}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2045029302}
+  - {fileID: 1286615603}
+  - {fileID: 265213740}
+  m_Father: {fileID: 1522710225}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1123979486
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,9 +1025,7 @@ Transform:
   - {fileID: 519420032}
   - {fileID: 796319702}
   - {fileID: 1123979487}
-  - {fileID: 2045029302}
-  - {fileID: 1286615603}
-  - {fileID: 265213740}
+  - {fileID: 1093985083}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -992,13 +1041,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcbacd7b386e5c543824000db098192f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartPosition: {x: 0, y: 0}
   playerObject: {fileID: 324568285}
-  SortingBoxes:
-  - {fileID: 2045029297}
-  SortingBoxSlots:
-  - {fileID: 1286615599}
-  - {fileID: 265213739}
+  algorithmPuzzles:
+  - {fileID: 1093985082}
 --- !u!1 &1805823188
 GameObject:
   m_ObjectHideFlags: 0
@@ -1084,7 +1129,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1102,8 +1147,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1805823188}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 44.253223, y: 2.1622, z: 1}
+  m_LocalPosition: {x: 0, y: 1.12, z: 0}
+  m_LocalScale: {x: 44.253223, y: 0.20676038, z: 1}
   m_Children: []
   m_Father: {fileID: 1123979487}
   m_RootOrder: 0
@@ -1232,7 +1277,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1522710225}
+    m_TransformParent: {fileID: 1093985083}
     m_Modifications:
     - target: {fileID: 494426671630880315, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_Sprite
@@ -1260,7 +1305,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1402,7 +1447,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1522710225}
+    m_TransformParent: {fileID: 1093985083}
     m_Modifications:
     - target: {fileID: 5248304189702601231, guid: d83f24b8a3004284fb36df8b1557d60f, type: 3}
       propertyPath: m_Name
@@ -1418,7 +1463,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5248304189702601235, guid: d83f24b8a3004284fb36df8b1557d60f, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5248304189702601235, guid: d83f24b8a3004284fb36df8b1557d60f, type: 3}
       propertyPath: m_LocalPosition.x
