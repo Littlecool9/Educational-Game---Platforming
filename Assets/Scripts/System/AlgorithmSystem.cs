@@ -17,6 +17,9 @@ namespace EducationalGame
 
         private SortingBoxSlot slot;
         private SortingBoxes box;
+        private AlgorithmPuzzle puzzle;
+        private int MaxTriTime = -1;
+        private int TriTime = 0;
 
         public void Init()
         {
@@ -32,8 +35,23 @@ namespace EducationalGame
 
         public void Update()
         {
-            if (requireSlotCheck)
+            if ((requireBoxCheck || requireSlotCheck) && puzzle == null)
             {
+                foreach (AlgorithmPuzzle t in Constants.Game.algorithmPuzzles)
+                {
+                    if (t.GetTriggerStatus())
+                    {
+                        puzzle = t;
+                        MaxTriTime = t.GetMaxTryTime();
+                        puzzle.OnDisableTrigger += SetPuzzleNull;
+                    }
+                    // TODO: Multiple puzzles may be triggered at the same time, need to finetune the trigger last time
+                    break;
+                }
+            }
+            if (requireSlotCheck && puzzle != null)
+            {
+                // 放下箱子的逻辑
                 bool foundBox = false;
                 bool foundSlot = false;
                 foreach (Entity entity in EntityManager.Instance.GetAllEntities())
@@ -76,19 +94,35 @@ namespace EducationalGame
                     {
                         // Correctly placed
                         slotSR.color = slotComponent.correctColor;
+                        slotComponent.correctlyPlaced = true;
                     }
                     else if (boxComponent.index != slotComponent.index)
                     {
                         // Incorrectly placed
                         slotSR.color = slotComponent.incorrectColor;
+                        slotComponent.correctlyPlaced = false;
+                    }
+
+                    TriTime += 1;
+                    
+                    if (CheckPuzzleSuccess(puzzle))
+                    {
+                        puzzle.SolvePuzzle();       // Haven't handle status: Solved -> Unsolved
+                    }
+                    else if (TriTime >= MaxTriTime)
+                    {
+                        // Reset the puzzle
+                        puzzle.ResetPuzzle();
+                        TriTime = 0;
                     }
                     
                 }
-
+                
                 requireSlotCheck = false;
             }
             else if (requireBoxCheck)
             {
+                // 拿起箱子时的逻辑
                 bool foundBox = false;
                 Player player = EntityManager.Instance.GetEntityWithID(0) as Player;
                 StateComponent stateC = EntityManager.Instance.GetComponent<StateComponent>(player);
@@ -113,15 +147,34 @@ namespace EducationalGame
                 }
                 requireBoxCheck = false;
             }
-            ResetBoxAndSlot();
+            SetBoxAndSlotNull();
         }
 
         private void RequireSlotCheck() => requireSlotCheck = true;
         private void RequireBoxCheck() => requireBoxCheck = true;
-        private void ResetBoxAndSlot() 
+        private void SetBoxAndSlotNull() 
         {
             slot = null;
             box = null;
+        }
+        private void SetPuzzleNull()
+        {
+            puzzle = null;
+            MaxTriTime = -1;
+        }
+
+        private bool CheckPuzzleSuccess(AlgorithmPuzzle puzzle)
+        {
+            foreach(var slot in puzzle.Slots)           
+            {
+                // Check if all slots are correctly placed
+                BoxSlotComponent sC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
+                if (!sC.correctlyPlaced)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

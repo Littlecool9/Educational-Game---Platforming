@@ -22,6 +22,7 @@ namespace EducationalGame
             {
 
                 MovementComponent movementC = entityManager.GetComponent<MovementComponent>(entity);
+                if (movementC == null) continue;
                 
 
                 // Handle Player Walking Logic
@@ -32,11 +33,14 @@ namespace EducationalGame
                     StateComponent stateC = entityManager.GetComponent<StateComponent>(entity);
 
                     // Gravity
-                    float mult = (Math.Abs(movementC.Speed.y) < Constants.HalfGravThreshold && stateC.CurrentState == PlayerState.Jumping) ? .5f : 1f;
                     if (!stateC.IsGrounded ) {
+                        float mult = (Math.Abs(movementC.Speed.y) < Constants.HalfGravThreshold && 
+                        (stateC.CurrentState == PlayerState.Jumping || stateC.CurrentState == PlayerState.OnAir)
+                        ) ? .5f : 1f;
+                        float temp = Mathf.MoveTowards(movementC.Speed.y, Constants.MaxFall, Constants.Gravity * mult );
                         movementC.AddSpeed(0, 
-                        Mathf.MoveTowards(movementC.Speed.y, Constants.MaxFall, Constants.Gravity * mult 
-                        ));
+                        temp
+                        );
                     }
 
                     // Handle User Input
@@ -44,8 +48,9 @@ namespace EducationalGame
                     // Handle Jump
                     if (stateC.CurrentState == PlayerState.Jumping){
                         // Add an additional horizontal boost, apply jump speed
-                        
+                        Debug.Log("speed before jump: " + movementC.Speed.y);
                         movementC.AddSpeed(Constants.JumpHBoost * inputC.MoveDir.x, Constants.JumpSpeed);
+                        Debug.Log("Jumping: " + movementC.Speed.y);
                     }
                     // Handle Walk
                     // On Ground

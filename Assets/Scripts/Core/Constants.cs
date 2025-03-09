@@ -10,19 +10,19 @@ namespace EducationalGame.Core
     {
         // Store constants here
 
+        public static Game Game;
         public static LayerMask GroundLayer; // 用于检测地面
         public static float deltaTime;
         public static float SetDeltaTime(float dt) { deltaTime = dt; return dt; }
 
         #region Player Constant
-        public readonly static string PlayerTag = "Player";
-        public readonly static string SortingBoxTag = "SortingBox";
-        public readonly static float JumpHBoost = 4f; //退离墙壁的力
-        public readonly static float JumpGraceTime = 0.1f;//土狼时间
-        public readonly static float JumpSpeed = 8.8f;  //最大跳跃速度
-        public readonly static float PlayerMoveSpeed = 4f;
-
         public static GameObject player { get; private set; }
+        public readonly static float JumpHBoost = 8f; //退离墙壁的力
+        public readonly static float JumpGraceTime = 0.1f;//土狼时间
+        // 8.999 ~ Jump distance: 3.7; 8.995 ~ Jump distance: 3.1
+        // 8.993 ~ Jump distance: 2.9
+        public readonly static float JumpSpeed = 8.993f;  //最大跳跃速度
+        public readonly static float PlayerMoveSpeed = 4f;
         public readonly static int DashCornerCorrection = 4;     //水平Dash时，遇到阻挡物的可纠正像素值
         public readonly static float DEVIATION = 0.002f;  //碰撞检测误差
 
@@ -41,7 +41,8 @@ namespace EducationalGame.Core
         public static GameObject SetPlayerPrefab(GameObject prefab) { player = prefab; return prefab; }
         
 
-        public static void Init(){
+        public static void Init(Game context){
+            Game = context;
             GroundLayer = LayerMask.GetMask("Ground");
         }
     }

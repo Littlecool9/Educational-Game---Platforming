@@ -3,24 +3,24 @@ using EducationalGame.Core;
 using UnityEngine;
 using EducationalGame;
 using EducationalGame.Component;
-using System.Threading.Tasks;
-using System.Linq;
 
 public class Game : MonoBehaviour
 {
+    
     // Handle the main process of the game
     [SerializeField]
     public GameObject playerObject;
     // public List<GameObject> SortingBoxes;
     // public List<GameObject> SortingBoxSlots;
 
+    [SerializeField]
     public List<AlgorithmPuzzle> algorithmPuzzles; 
 
     void Start() {
-        Application.targetFrameRate = 60; // 将游戏帧率锁定为 60 FPS
+        // Application.targetFrameRate = 60; // 将游戏帧率锁定为 60 FPS
         Constants.SetPlayerPrefab(playerObject);
 
-        Constants.Init();
+        Constants.Init(this);
         Init();         // Init Player\TriggerObject
         SystemManager.Init();       // Init Systems
     }
@@ -76,6 +76,7 @@ public class Game : MonoBehaviour
     private void OnDrawGizmos() {
         if (Camera.main == null) return;
 
+        // Draw the grid of the map
         // 计算摄像机的可视范围
         // float camHeight = Camera.main.orthographicSize * 2;
         float camHeight = Camera.main.orthographicSize * 2;
