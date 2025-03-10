@@ -10,8 +10,6 @@ public class Game : MonoBehaviour
     // Handle the main process of the game
     [SerializeField]
     public GameObject playerObject;
-    // public List<GameObject> SortingBoxes;
-    // public List<GameObject> SortingBoxSlots;
 
     [SerializeField]
     public List<AlgorithmPuzzle> algorithmPuzzles; 

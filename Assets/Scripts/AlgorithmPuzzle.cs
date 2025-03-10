@@ -115,6 +115,12 @@ public class AlgorithmPuzzle : MonoBehaviour
                 }
             }
         }
+        foreach (SortingBoxSlot slot in Slots.Cast<SortingBoxSlot>())
+        {
+            RenderComponent slotRenderC = EntityManager.Instance.GetComponent<RenderComponent>(slot.ID);
+            BoxSlotComponent slotC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot.ID);
+            slotRenderC.sr.color = slotC.initialColor;
+        }
     }
 
     private IEnumerator MoveToPosition(Transform obj, Vector3 targetPosition)
@@ -140,6 +146,9 @@ public class AlgorithmPuzzle : MonoBehaviour
     }
 
     public List<Entity> GetEntities() => Entities;
+    public int GetMaxTryTime() => MaxTryTime;
+    public bool GetTriggerStatus() => triggered;
+
     public bool ContainEntities(Entity entity)
     {
         foreach (Entity e in Entities)
@@ -148,14 +157,14 @@ public class AlgorithmPuzzle : MonoBehaviour
         }
         return false;
     }
-    public int GetMaxTryTime() => MaxTryTime;
-    public bool GetTriggerStatus() => triggered;
+
+    public event Action OnDisableTrigger;
+    public event Action OnEnableTrigger;
     public void DisableTrigger()
     {
         triggered = false;
         OnDisableTrigger?.Invoke();
     }
-    public event Action OnDisableTrigger;
 
     public void RefreshTrigger()
     {
@@ -171,7 +180,6 @@ public class AlgorithmPuzzle : MonoBehaviour
         // 启动新的倒计时协程
         resetCoroutine = StartCoroutine(ResetTriggeredAfterDelay());
     }
-    public event Action OnEnableTrigger;
 
     private IEnumerator ResetTriggeredAfterDelay()
     {

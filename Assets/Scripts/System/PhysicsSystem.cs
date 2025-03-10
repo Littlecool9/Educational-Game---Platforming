@@ -20,7 +20,6 @@ namespace EducationalGame
             var entityManager = EntityManager.Instance;
 
             Entity entity = entityManager.GetPlayer();
-            // foreach (Entity entity in entityManager.GetAllEntities())
                 
             // Handle Player Walking Logic
             // Player logic, including movement
@@ -44,9 +43,7 @@ namespace EducationalGame
             // Handle Jump
             if (stateC.CurrentState == PlayerState.Jumping){
                 // Add an additional horizontal boost, apply jump speed
-                Debug.Log("speed before jump: " + movementC.Speed.y);
                 movementC.AddSpeed(Constants.JumpHBoost * inputC.MoveDir.x, Constants.JumpSpeed);
-                Debug.Log("Jumping: " + movementC.Speed.y);
             }
             // Handle Walk
             // On Ground
