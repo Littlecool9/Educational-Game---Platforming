@@ -166,11 +166,11 @@ namespace EducationalGame
 
         private bool CheckPuzzleSuccess(AlgorithmPuzzle puzzle)
         {
-            foreach(var slot in puzzle.Slots)           
+            foreach(Entity slot in puzzle.Slots)           
             {
                 // Check if all slots are correctly placed
                 BoxSlotComponent sC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
-                if (!sC.correctlyPlaced)
+                if (!sC.correctlyPlaced && !sC.isTempSlot)
                 {
                     return false;
                 }

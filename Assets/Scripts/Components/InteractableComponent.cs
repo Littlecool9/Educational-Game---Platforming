@@ -48,5 +48,14 @@ namespace EducationalGame.Component
         // Deactivate when interacted or being interacted
         public void ComsumeInteractionBuffer() => InteractedBuffer = false;
 
+        public void DisableComponent()
+        {
+            triggerScript.OnTriggerEnterEvent -= EnableTrigger;
+            triggerScript.OnTriggerExitEvent -= DisableTrigger;
+            triggerScript.OnTriggerStayEvent -= OnStayTriggerEvent;
+            Interactable = false;
+            InteractedBuffer = false;
+        }
+
     }
 }

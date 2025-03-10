@@ -9,6 +9,7 @@ namespace EducationalGame.Component
     {
         public int index { get; private set; }
         public bool isPlaced;       // Updated in Interaction system
+        public bool isTempSlot;
         public bool correctlyPlaced;        // Updated in Judgement system
         public Color incorrectColor = new Color(255f / 255f, 129f / 255f, 129f / 255f, 1f);
         public Color correctColor = new Color(1f,1f,1f);
@@ -24,6 +25,7 @@ namespace EducationalGame.Component
             isPlaced = bridge.isPlaced;
             index = bridge.index;
             correctlyPlaced = bridge.correctlyPlaced;
+            isTempSlot = bridge.isTempSlot;
             initialColor = correctlyPlaced ? correctColor : incorrectColor;
         }
         // public void SetExistBox(bool existBox) => this.existBox = existBox;

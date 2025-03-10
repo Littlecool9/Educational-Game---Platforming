@@ -9,5 +9,6 @@ public class SlotBridge : MonoBehaviour
     
     public int index;
     public bool isPlaced;
+    public bool isTempSlot;
     public bool correctlyPlaced;
 }

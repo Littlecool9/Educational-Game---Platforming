@@ -143,6 +143,12 @@ public class AlgorithmPuzzle : MonoBehaviour
         {
             gate.SetActive(false);
         }
+        foreach (Entity entity in Entities)
+        {
+            InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity.ID);
+            if (interactableC == null) throw new Exception("Missing InteractableComponent in SolvePuzzle()");
+            interactableC.DisableComponent();
+        }
     }
 
     public List<Entity> GetEntities() => Entities;

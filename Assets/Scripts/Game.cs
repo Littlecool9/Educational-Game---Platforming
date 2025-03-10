@@ -15,7 +15,7 @@ public class Game : MonoBehaviour
     public List<AlgorithmPuzzle> algorithmPuzzles; 
 
     void Start() {
-        // Application.targetFrameRate = 60; // 将游戏帧率锁定为 60 FPS
+        Application.targetFrameRate = 60; // 将游戏帧率锁定为 60 FPS
         Constants.SetPlayerPrefab(playerObject);
 
         Constants.Init(this);
