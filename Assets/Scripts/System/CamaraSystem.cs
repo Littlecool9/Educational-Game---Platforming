@@ -64,7 +64,9 @@ namespace EducationalGame
             // 只有超出范围才移动摄像机
             if (needMove)
             {
-                camera.transform.position = new Vector3(newCamPos.x, newCamPos.y, camPos.z);
+                Vector3 targetPos = new Vector3(newCamPos.x, newCamPos.y, camPos.z);
+                camera.transform.position = targetPos;
+                Constants.Background.transform.position = targetPos;
             }
         }
 

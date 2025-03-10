@@ -12,6 +12,7 @@ namespace EducationalGame.Core
 
         public static Game Game;
         public static LayerMask GroundLayer; // 用于检测地面
+        public static Transform Background;
         public static float deltaTime;
         public static float SetDeltaTime(float dt) { deltaTime = dt; return dt; }
 
@@ -44,6 +45,7 @@ namespace EducationalGame.Core
         public static void Init(Game context){
             Game = context;
             GroundLayer = LayerMask.GetMask("Ground");
+            Background = context.transform.Find("Background");
         }
     }
 }
