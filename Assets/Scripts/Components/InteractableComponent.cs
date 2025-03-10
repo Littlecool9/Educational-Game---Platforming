@@ -43,7 +43,6 @@ namespace EducationalGame.Component
         }
         public void OnStayTriggerEvent(Collider2D other) 
         {
-            Debug.Log("Stay Trigger");
             OnStayTrigger?.Invoke();
         }
 

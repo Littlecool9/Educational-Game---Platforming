@@ -30,7 +30,7 @@ public class AlgorithmPuzzle : MonoBehaviour
     // Trigger the puzzle, signs this puzzle is on
     private bool triggered = false;
     private Coroutine resetCoroutine;
-    public float resetTime = 2f;
+    public float resetTime = 10f;
 
     private bool success = false;
 
@@ -107,7 +107,7 @@ public class AlgorithmPuzzle : MonoBehaviour
             if (initialState.ContainsKey(boxRenderC))
             {
                 int slotIndex = initialState[boxRenderC];
-                foreach (SortingBoxSlot slot in Slots)
+                foreach (SortingBoxSlot slot in Slots.Cast<SortingBoxSlot>())
                 {
                     BoxSlotComponent slotC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot.ID);
                     if (slotC.index == slotIndex)
@@ -130,7 +130,6 @@ public class AlgorithmPuzzle : MonoBehaviour
 
     private IEnumerator MoveToPosition(Transform obj, Vector3 targetPosition)
     {
-        Debug.Log("Failed, Reseting");
         yield return new WaitForSeconds(1f);        // time for fail animation
         while (Vector3.Distance(obj.position, targetPosition) > 0.01f)
         {
@@ -154,7 +153,7 @@ public class AlgorithmPuzzle : MonoBehaviour
             if (interactableC == null) throw new Exception("Missing InteractableComponent in SolvePuzzle()");
             interactableC.DisableComponent();
         }
-        DisableTrigger();
+        DisableTrigger();       // Unsubscribe objects
     }
 
     public List<Entity> GetEntities() => Entities;
