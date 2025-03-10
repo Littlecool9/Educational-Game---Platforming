@@ -30,6 +30,8 @@ public class Game : MonoBehaviour
         {
             system.Update();
         }
+        // if (GetTriggerPuzzle() != null) Debug.Log("Trigger puzzle: " + Constants.Game.GetTriggerPuzzle().puzzleID);
+        
     }
 
     // Act as an init system
@@ -51,7 +53,7 @@ public class Game : MonoBehaviour
         // Algorithm Area puzzles init
         foreach (AlgorithmPuzzle puzzle in algorithmPuzzles)
         {
-            Debug.Log("id:" + puzzle.puzzleID);
+            // Debug.Log("id:" + puzzle.puzzleID);
             List<InteractableComponent> interactables = puzzle.Init();
             interactionC.AddInteractableToList(interactables);
         }

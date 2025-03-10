@@ -41,7 +41,11 @@ namespace EducationalGame.Component
             Interactable = false;
             DisableInteraction?.Invoke();
         }
-        public void OnStayTriggerEvent(Collider2D other) => OnStayTrigger?.Invoke();
+        public void OnStayTriggerEvent(Collider2D other) 
+        {
+            Debug.Log("Stay Trigger");
+            OnStayTrigger?.Invoke();
+        }
 
         // Activate when interacted or being interacted
         public void ActivateInteractionBuffer() => InteractedBuffer = true;
