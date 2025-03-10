@@ -15,7 +15,7 @@ public class Game : MonoBehaviour
     public List<AlgorithmPuzzle> algorithmPuzzles; 
 
     void Start() {
-        // Application.targetFrameRate = 60; // 将游戏帧率锁定为 60 FPS
+        Application.targetFrameRate = 60; // 将游戏帧率锁定为 60 FPS
         Constants.SetPlayerPrefab(playerObject);
 
         Constants.Init(this);
@@ -30,6 +30,12 @@ public class Game : MonoBehaviour
         {
             system.Update();
         }
+        Debug.Log("puzzle triggered: " + algorithmPuzzles[0].GetTriggerStatus());
+        // for(int i = 6; i < 10; i++)
+        // {
+        //     InteractableComponent interactable = EntityManager.Instance.GetComponent<InteractableComponent>(i);
+        //     interactable.PrintInvocationList();
+        // }
     }
 
     // Act as an init system

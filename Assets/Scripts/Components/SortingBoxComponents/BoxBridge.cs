@@ -8,6 +8,6 @@ public class BoxBridge : MonoBehaviour
     // A bridge to receive set parameter from inspector
     
     [SerializeField]
-    public int order;
+    public int boxIndex;
     public int slotIndex;
 }

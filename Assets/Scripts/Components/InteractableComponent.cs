@@ -28,25 +28,37 @@ namespace EducationalGame.Component
 
         public void SetTrigger(Trigger GameObject){
             triggerScript = GameObject;
-            triggerScript.OnTriggerEnterEvent += EnableTrigger;
-            triggerScript.OnTriggerExitEvent += DisableTrigger;
+            triggerScript.OnTriggerEnterEvent += EnterTrigger;
+            triggerScript.OnTriggerExitEvent += ExitTrigger;
             triggerScript.OnTriggerStayEvent += OnStayTriggerEvent;
         }
 
-        public void EnableTrigger(Collider2D other){
+        public void EnterTrigger(Collider2D other){
             Interactable = true;
             EnableInteraction?.Invoke();
         }
-        public void DisableTrigger(Collider2D other){
+        public void ExitTrigger(Collider2D other){
             Interactable = false;
             DisableInteraction?.Invoke();
         }
-        public void OnStayTriggerEvent(Collider2D other) => OnStayTrigger?.Invoke();
+        public void OnStayTriggerEvent(Collider2D other)
+        {
+            OnStayTrigger?.Invoke();
+        }
 
         // Activate when interacted or being interacted
         public void ActivateInteractionBuffer() => InteractedBuffer = true;
         // Deactivate when interacted or being interacted
         public void ComsumeInteractionBuffer() => InteractedBuffer = false;
 
+        public void PrintInvocationList(){
+            if (EnableInteraction != null)
+            {
+                foreach (var d in EnableInteraction.GetInvocationList())
+                {
+                    Debug.Log($"Subscribed method: {d.Method.Name} in {d.Target}");
+                }
+            }
+        }
     }
 }

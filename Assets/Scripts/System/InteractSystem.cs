@@ -137,10 +137,14 @@ namespace EducationalGame
         private void UpdatePuzzle()
         {
             puzzle = Constants.Game.GetTriggerPuzzle();
+            if (puzzle is null) return;
             puzzle.OnDisableTrigger += SetPuzzleNull;
         }
         private void SetPuzzleNull()
         {
+            // BUG: this function is called twice for unknown reason
+            if (puzzle is null) return;
+            puzzle.OnDisableTrigger -= SetPuzzleNull;
             puzzle = null;
         }
 

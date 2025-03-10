@@ -6,6 +6,7 @@ using EducationalGame;
 using UnityEngine;
 using System.Linq;
 using System;
+using UnityEditor;
 
 
 public class AlgorithmPuzzle : MonoBehaviour        
@@ -30,7 +31,7 @@ public class AlgorithmPuzzle : MonoBehaviour
     // Trigger the puzzle, signs this puzzle is on
     private bool triggered = false;
     private Coroutine resetCoroutine;
-    public float resetTime = 2f;
+    public float resetTime = 10f;
 
     private bool success = false;
 
@@ -61,6 +62,8 @@ public class AlgorithmPuzzle : MonoBehaviour
             slotInteractableC?.SetTrigger(slotRenderC.trigger);
             slotC?.SetBridge(slotRenderC.slotBridge);
             slotInteractableC.Interactable = !slotC.isPlaced;
+            slotInteractableC.EnableInteraction += RefreshTrigger;
+            slotInteractableC.OnStayTrigger += RefreshTrigger;
 
             // interactionC.AddInteractableToList(slotInteractableC);
             interactables.Add(slotInteractableC);
@@ -77,15 +80,15 @@ public class AlgorithmPuzzle : MonoBehaviour
             SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box.ID);
 
             boxRenderC?.SetGameObject(sortingBox);
-            sbC.SetOrder(boxRenderC.sortingBoxBridge.order);
+            sbC.SetOrder(boxRenderC.sortingBoxBridge.boxIndex);
 
             sbC.SetBridge(boxRenderC.sortingBoxBridge);
 
             boxInteractableC?.SetTrigger(boxRenderC.trigger);
             boxInteractableC.OnStayTrigger += RefreshTrigger;
+            boxInteractableC.EnableInteraction += RefreshTrigger;
 
 
-            // interactionC?.AddInteractableToList(boxInteractableC);
             interactables.Add(boxInteractableC);
 
             // Store initial state
@@ -163,6 +166,7 @@ public class AlgorithmPuzzle : MonoBehaviour
     public void DisableTrigger()
     {
         triggered = false;
+        Debug.Log("invoke disable trigger");
         OnDisableTrigger?.Invoke();
     }
 

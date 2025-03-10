@@ -36,7 +36,7 @@ namespace EducationalGame.Component
         public void SetBridge(BoxBridge bridge)
         {
             slotIndex = bridge.slotIndex;
-            index = bridge.order;
+            index = bridge.boxIndex;
             previousSlotIndex = bridge.slotIndex;
         }
 

@@ -14,6 +14,7 @@ public class Trigger : MonoBehaviour
         OnTriggerStayEvent?.Invoke(other);
     }
     private void OnTriggerEnter2D(Collider2D other) {
+        // Debug.Log($"{gameObject.name} trigger {other.name}");
         OnTriggerEnterEvent?.Invoke(other);
     }
     private void OnTriggerExit2D(Collider2D other) {

@@ -154,12 +154,15 @@ namespace EducationalGame
         }
         private void SetPuzzleNull()
         {
+            if (puzzle is null) return;
+            puzzle.OnDisableTrigger -= SetPuzzleNull;
             puzzle = null;
             MaxTriTime = -1;
         }
         private void UpdatePuzzle()
         {
             puzzle = Constants.Game.GetTriggerPuzzle();
+            if (puzzle is null) return;
             MaxTriTime = puzzle.GetMaxTryTime();
             puzzle.OnDisableTrigger += SetPuzzleNull;
         }
