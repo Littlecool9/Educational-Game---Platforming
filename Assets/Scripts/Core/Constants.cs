@@ -21,8 +21,8 @@ namespace EducationalGame.Core
         public readonly static float JumpGraceTime = 0.1f;//土狼时间
         // 8.999 ~ Jump distance: 3.7; 8.995 ~ Jump distance: 3.1
         // 8.993 ~ Jump distance: 2.9
-        public readonly static float JumpSpeed = 8.993f;  //最大跳跃速度
-        public readonly static float PlayerMoveSpeed = 4f;
+        public readonly static float JumpSpeed = 8.9999f;  //最大跳跃速度
+        public readonly static float PlayerMoveSpeed = 8f;
         public readonly static int DashCornerCorrection = 4;     //水平Dash时，遇到阻挡物的可纠正像素值
         public readonly static float DEVIATION = 0.002f;  //碰撞检测误差
 
