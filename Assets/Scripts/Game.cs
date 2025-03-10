@@ -21,23 +21,12 @@ public class Game : MonoBehaviour
         Constants.SetPlayerPrefab(playerObject);
 
         Constants.Init(this);
-        Init();         // Init Player\TriggerObject
+        Init();                     // Init Player\TriggerObject
         SystemManager.Init();       // Init Systems
     }
 
     void FixedUpdate() {
         Constants.SetDeltaTime(Time.deltaTime);
-
-
-        // await Task.WhenAll(SystemManager.asyncSystems.Select(asyncSystem => asyncSystem.UpdateAsync()));
-        // lastAsyncTask = lastAsyncTask.ContinueWith(async _ =>
-        // {
-        //     await Task.WhenAll(SystemManager.asyncSystems.Select(system => system.UpdateAsync()));
-        // });
-        // foreach(var asyncSystem in SystemManager.asyncSystems)
-        // {
-        //     Task.Run(asyncSystem.UpdateAsync);
-        // }
 
         foreach(var system in SystemManager.systems)
         {
@@ -56,12 +45,12 @@ public class Game : MonoBehaviour
         Player player = EntityManager.Instance.CreateEntity(EntityType.Player, "Player") as Player;
         // Initialize Components
         RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(player.ID);
-        renderC.SetGameObject(playerObject);        // Link Unity Components to customized Components
+        renderC.SetGameObject(playerObject);        
 
         InteractionComponent interactionC = EntityManager.Instance.GetComponent<InteractionComponent>(player.ID);
 
 
-        // algorithm init
+        // Algorithm Area puzzles init
         foreach (AlgorithmPuzzle puzzle in algorithmPuzzles)
         {
             List<InteractableComponent> interactables = puzzle.Init();
@@ -74,11 +63,11 @@ public class Game : MonoBehaviour
 
     public AlgorithmPuzzle GetTriggerPuzzle()
     {
-        foreach (AlgorithmPuzzle t in Constants.Game.algorithmPuzzles)
+        foreach (AlgorithmPuzzle puzzle in Constants.Game.algorithmPuzzles)
         {
-            if (t.GetTriggerStatus())
+            if (puzzle.GetTriggerStatus())
             {
-                return t;
+                return puzzle;
             }
             // TODO: Multiple puzzles may be triggered at the same time, need to adjust the trigger last time
         }
@@ -86,12 +75,11 @@ public class Game : MonoBehaviour
     }
 
     [ExecuteInEditMode]
+    // 计算摄像机的可视范围
     private void OnDrawGizmos() {
         if (Camera.main == null) return;
 
         // Draw the grid of the map
-        // 计算摄像机的可视范围
-        // float camHeight = Camera.main.orthographicSize * 2;
         float camHeight = Camera.main.orthographicSize * 2;
         float camWidth = camHeight * Camera.main.aspect;
 
@@ -101,7 +89,6 @@ public class Game : MonoBehaviour
 
         Gizmos.color = Color.green; // 设置边界颜色
 
-        // 遍历绘制相邻的 3x3 视野区域
         for (int i = -1; i <= 3; i++)
         {
             for (int j = -1; j <= 3; j++)

@@ -1,7 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using EducationalGame.Component;
-using UnityEngine;
 
 
 namespace EducationalGame.Core
@@ -28,6 +25,7 @@ namespace EducationalGame.Core
             algorithmSystem = new AlgorithmSystem();
             camaraSystem = new CamaraSystem();
 
+            // Adding order determines the order of execution
             systems.Add(playerController);      // 接受输入
             systems.Add(playerStateMachine);    // 处理状态
             systems.Add(interactSystem);        // 处理互动逻辑

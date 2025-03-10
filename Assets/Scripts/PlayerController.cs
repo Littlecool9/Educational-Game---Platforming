@@ -21,6 +21,7 @@ namespace EducationalGame
             inputC.MoveInput = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D);
             inputC.InteractInput = Input.GetKeyDown(KeyCode.E);
 
+            // Record input in input component
             if (inputC.InteractInput){
                 Debug.Log("Interact Input");
             }
@@ -43,7 +44,7 @@ namespace EducationalGame
 
         public void Init()
         {
-            player = EntityManager.Instance.GetEntityWithID(0) as Player;
+            player = EntityManager.Instance.GetPlayer();
         }
     }
 }

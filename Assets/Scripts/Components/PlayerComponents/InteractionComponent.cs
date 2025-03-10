@@ -19,6 +19,7 @@ namespace EducationalGame.Component
             
         }
 
+        // Initialize the interaction of all interactables in the scene by adding callback functions to their events.
         public void InitInteracables()
         {
             // interactableC.OnInteract += Interact;

@@ -109,6 +109,9 @@ namespace EducationalGame.Core
         public Entity GetEntityWithID(int ID){
             return entities[ID];
         }
+        public Player GetPlayer(){
+            return GetEntityWithID(0) as Player;
+        }
         
         public void DestroyEntity(int ID){
             if (entities.ContainsKey(ID)){

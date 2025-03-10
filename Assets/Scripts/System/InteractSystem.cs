@@ -16,7 +16,7 @@ namespace EducationalGame
         public event Action OnInteractSlot;
         public event Action OnInteractBox;
         
-        private AlgorithmPuzzle puzzle;
+        private AlgorithmPuzzle puzzle;     // Record the puzzle interacting
         
         public void Init()
         {
@@ -53,24 +53,25 @@ namespace EducationalGame
                 bool foundInteracatble = false;
                 foreach(Entity entity in EntityManager.Instance.GetAllEntities())
                 {
+                    // Choose only the entities within the puzzle
                     if (!puzzle.ContainEntities(entity)) continue;
+
                     InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity);
                     if (interactableC == null) continue;
 
                     if (entity is SortingBoxes)     // TODO: Edit when more interactable objects added
                     {
-                        if (stateC.InteractingObject is SortingBoxes) continue;
+                        if (stateC.InteractingObject is SortingBoxes) continue;      // Skip sorting boxes when already interacting
                         if (interactableC.Interactable){
 
                             stateC.SetInteractingObject(entity);            
 
-                            // Update Box Status
                             SortingBoxSlot slot = FindCorrespondSlot(entity as SortingBoxes);
                             SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(entity);
                             InteractableComponent sIC = EntityManager.Instance.GetComponent<InteractableComponent>(slot);
                             BoxSlotComponent bsC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
 
-
+                            // Update Box Status
                             interactableC.ActivateInteractionBuffer();
                             interactableC.Interactable = false;
                             sbC.slotIndex = -1;
@@ -175,6 +176,7 @@ namespace EducationalGame
 
         private void DetermineAction()
         {   
+            // Permit looking for interactables
             if (stateC.InteractingObject is SortingBoxes && inputC.InteractInput)
             {
                 stateC.LookingInteractable = true;

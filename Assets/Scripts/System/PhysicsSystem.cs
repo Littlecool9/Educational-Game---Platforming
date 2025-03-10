@@ -9,6 +9,7 @@ namespace EducationalGame
 {
     public class PhysicsSystem : ISystem
     {
+        // 物理模拟、碰撞检测
         public void Process()
         {
             
@@ -18,51 +19,45 @@ namespace EducationalGame
         {
             var entityManager = EntityManager.Instance;
 
-            foreach (Entity entity in entityManager.GetAllEntities())
-            {
-
-                MovementComponent movementC = entityManager.GetComponent<MovementComponent>(entity);
-                if (movementC == null) continue;
+            Entity entity = entityManager.GetPlayer();
+            // foreach (Entity entity in entityManager.GetAllEntities())
                 
+            // Handle Player Walking Logic
+            // Player logic, including movement
+            MovementComponent movementC = entityManager.GetComponent<MovementComponent>(entity);
+            InputComponent inputC = entityManager.GetComponent<InputComponent>(entity);
+            StateComponent stateC = entityManager.GetComponent<StateComponent>(entity);
 
-                // Handle Player Walking Logic
-                if (entity is Player)
-                {
-                    // Player logic, including movement
-                    InputComponent inputC = entityManager.GetComponent<InputComponent>(entity);
-                    StateComponent stateC = entityManager.GetComponent<StateComponent>(entity);
-
-                    // Gravity
-                    if (!stateC.IsGrounded ) {
-                        float mult = (Math.Abs(movementC.Speed.y) < Constants.HalfGravThreshold && 
-                        (stateC.CurrentState == PlayerState.Jumping || stateC.CurrentState == PlayerState.OnAir)
-                        ) ? .5f : 1f;
-                        float temp = Mathf.MoveTowards(movementC.Speed.y, Constants.MaxFall, Constants.Gravity * mult );
-                        movementC.AddSpeed(0, 
-                        temp
-                        );
-                    }
-
-                    // Handle User Input
-
-                    // Handle Jump
-                    if (stateC.CurrentState == PlayerState.Jumping){
-                        // Add an additional horizontal boost, apply jump speed
-                        Debug.Log("speed before jump: " + movementC.Speed.y);
-                        movementC.AddSpeed(Constants.JumpHBoost * inputC.MoveDir.x, Constants.JumpSpeed);
-                        Debug.Log("Jumping: " + movementC.Speed.y);
-                    }
-                    // Handle Walk
-                    // On Ground
-                    else if (stateC.CurrentState == PlayerState.Walking || stateC.CurrentState == PlayerState.OnAir){
-                        movementC.AddSpeed(movementC.MoveSpeed * inputC.MoveDir.x, 0); 
-                    }
-                    else if (stateC.CurrentState == PlayerState.Idle){
-                        movementC.SetSpeed(0, movementC.Speed.y);
-                    }
-                    ApplyMovement(entity, movementC.Speed * Constants.deltaTime);
-                }
+            // Gravity
+            if (!stateC.IsGrounded ) {
+                float mult = (Math.Abs(movementC.Speed.y) < Constants.HalfGravThreshold && 
+                (stateC.CurrentState == PlayerState.Jumping || stateC.CurrentState == PlayerState.OnAir)
+                ) ? .5f : 1f;
+                float temp = Mathf.MoveTowards(movementC.Speed.y, Constants.MaxFall, Constants.Gravity * mult );
+                movementC.AddSpeed(0, 
+                temp
+                );
             }
+
+            // Handle User Input
+
+            // Handle Jump
+            if (stateC.CurrentState == PlayerState.Jumping){
+                // Add an additional horizontal boost, apply jump speed
+                Debug.Log("speed before jump: " + movementC.Speed.y);
+                movementC.AddSpeed(Constants.JumpHBoost * inputC.MoveDir.x, Constants.JumpSpeed);
+                Debug.Log("Jumping: " + movementC.Speed.y);
+            }
+            // Handle Walk
+            // On Ground
+            else if (stateC.CurrentState == PlayerState.Walking || stateC.CurrentState == PlayerState.OnAir){
+                movementC.AddSpeed(movementC.MoveSpeed * inputC.MoveDir.x, 0); 
+            }
+            else if (stateC.CurrentState == PlayerState.Idle){
+                movementC.SetSpeed(0, movementC.Speed.y);
+            }
+            ApplyMovement(entity, movementC.Speed * Constants.deltaTime);
+            
 
             // Handle other objects' logic when walking
 

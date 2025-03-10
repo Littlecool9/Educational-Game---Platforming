@@ -46,7 +46,9 @@ namespace EducationalGame
                 bool foundBox = false;
                 bool foundSlot = false;
                 foreach (Entity entity in EntityManager.Instance.GetAllEntities())
+                // foreach (Entity entity in puzzle.GetEntities())     // 节约搜索性能
                 {
+                    // 找到正在互动的箱子和槽
                     InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity);
                     if (interactableC == null) continue;
 

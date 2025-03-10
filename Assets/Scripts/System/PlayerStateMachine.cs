@@ -13,13 +13,11 @@ namespace EducationalGame
         StateComponent stateC;
         InputComponent inputC;
         RenderComponent renderC;
-        InteractionComponent interactionC;
 
         private static readonly Dictionary<PlayerState, HashSet<PlayerState>> StateTransitions = new Dictionary<PlayerState, HashSet<PlayerState>>()
         {
             { PlayerState.Idle, new HashSet<PlayerState> { PlayerState.Walking, PlayerState.Jumping,} },
             { PlayerState.Walking, new HashSet<PlayerState> { PlayerState.Idle, PlayerState.Jumping } },
-            // { PlayerState.Interacting, new HashSet<PlayerState> { PlayerState.Idle } },     // Jump not enabled during interacting
             { PlayerState.Jumping, new HashSet<PlayerState> { PlayerState.Idle, PlayerState.Walking, PlayerState.OnAir } },
             { PlayerState.OnAir, new HashSet<PlayerState> { PlayerState.Idle, PlayerState.Walking } }
         };
@@ -31,9 +29,7 @@ namespace EducationalGame
             player = EntityManager.Instance.GetEntityWithID(0) as Player;
             stateC = EntityManager.Instance.GetComponent<StateComponent>(player);
             inputC = EntityManager.Instance.GetComponent<InputComponent>(player);
-            interactionC = EntityManager.Instance.GetComponent<InteractionComponent>(player);
             renderC = EntityManager.Instance.GetComponent<RenderComponent>(player);
-            
         }
 
         public void Process()
@@ -56,10 +52,7 @@ namespace EducationalGame
             {
                 stateC.SetCurrentState(nextState);
             }
-            Debug.Log("Current State: " + stateC.CurrentState); 
-
-            // Update interaction status
-            // DetermineInteracting();
+            Debug.Log("Current State: <<" + stateC.CurrentState + ">>"); 
         }
 
         private PlayerState DetermineNextState()
@@ -99,6 +92,7 @@ namespace EducationalGame
             Vector3 boxSize = renderC.Collider.bounds.size;
             boxSize.x -= 0.5f;      // 修复检测竖直碰撞时会触发水平碰撞检测的bug,用实际检测碰撞箱水平大小小于实际collider实现
 
+            // 画出用于检测的碰撞箱
             // Debug.DrawRay(origion, Vector3.up * 0.2f, Color.green, 2f);  // 绿色的点，持续2秒
             // Debug.DrawRay(origion, Vector3.right * 0.2f, Color.green, 2f); // 右侧的小线，方便看到
 

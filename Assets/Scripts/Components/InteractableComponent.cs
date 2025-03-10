@@ -12,12 +12,13 @@ namespace EducationalGame.Component
 
         public Trigger triggerScript;
         public bool Interactable = false;   // true when player CAN interact with object
-        public bool InteractedBuffer = false;      
         // Activate when interacted
         // Comsumed in Judge System
+        public bool InteractedBuffer = false;      
         public event Action OnInteract;     // Triggered when interacted
         public event Action EnableInteraction;
         public event Action DisableInteraction;
+        public event Action OnStayTrigger;      // Triggered when stay on trigger
 
 
         public void InitComponent()
@@ -29,6 +30,7 @@ namespace EducationalGame.Component
             triggerScript = GameObject;
             triggerScript.OnTriggerEnterEvent += EnableTrigger;
             triggerScript.OnTriggerExitEvent += DisableTrigger;
+            triggerScript.OnTriggerStayEvent += OnStayTriggerEvent;
         }
 
         public void EnableTrigger(Collider2D other){
@@ -39,8 +41,11 @@ namespace EducationalGame.Component
             Interactable = false;
             DisableInteraction?.Invoke();
         }
+        public void OnStayTriggerEvent(Collider2D other) => OnStayTrigger?.Invoke();
 
+        // Activate when interacted or being interacted
         public void ActivateInteractionBuffer() => InteractedBuffer = true;
+        // Deactivate when interacted or being interacted
         public void ComsumeInteractionBuffer() => InteractedBuffer = false;
 
     }

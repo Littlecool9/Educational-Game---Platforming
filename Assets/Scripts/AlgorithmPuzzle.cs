@@ -8,18 +8,18 @@ using System.Linq;
 using System;
 
 
-public class AlgorithmPuzzle : MonoBehaviour        // TODO: Puzzle common variable and function can be defined with interface at the end
+public class AlgorithmPuzzle : MonoBehaviour        
 {
+    // TODO: Puzzle common variable and function can be defined with interface at the end
+    // TODO: Refactor when more puzzles implementing
     private static int nextID = 1;
     private int puzzleID;
     public int MaxTryTime;
 
 
     public List<GameObject> SortingBoxes;
-    // public List<RenderComponent> Boxes = new List<RenderComponent>();
     public List<Entity> Boxes = new List<Entity>();
     public List<GameObject> SortingBoxSlots;
-    // public List<RenderComponent> Slots = new List<RenderComponent>();
     public List<Entity> Slots = new List<Entity>();
     private List<Entity> Entities => Boxes.Concat(Slots).ToList();        // TODO: Current implement way is not following framework>
     public List<GameObject> Gates;
@@ -82,7 +82,8 @@ public class AlgorithmPuzzle : MonoBehaviour        // TODO: Puzzle common varia
             sbC.SetBridge(boxRenderC.sortingBoxBridge);
 
             boxInteractableC?.SetTrigger(boxRenderC.trigger);
-            boxInteractableC.EnableInteraction += EnableTrigger;
+            boxInteractableC.OnStayTrigger += RefreshTrigger;
+
 
             // interactionC?.AddInteractableToList(boxInteractableC);
             interactables.Add(boxInteractableC);
@@ -156,7 +157,7 @@ public class AlgorithmPuzzle : MonoBehaviour        // TODO: Puzzle common varia
     }
     public event Action OnDisableTrigger;
 
-    public void EnableTrigger()
+    public void RefreshTrigger()
     {
         triggered = true;
         OnEnableTrigger?.Invoke();
