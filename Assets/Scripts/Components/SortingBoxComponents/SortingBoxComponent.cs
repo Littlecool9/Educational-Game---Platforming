@@ -23,7 +23,11 @@ namespace EducationalGame.Component
         }
         public int previousSlotIndex;
 
+        public bool swapable = false;
+
         // Render Related
+        public Color initColor = new Color(1f,1f,1f);
+        public Color enabledSwapColor = Color.green;
         public float distance = 1.5f;
         public float followSpeed = 5f;
 

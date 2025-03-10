@@ -6,7 +6,6 @@ using EducationalGame;
 using UnityEngine;
 using System.Linq;
 using System;
-using UnityEditor;
 using TMPro;
 
 
@@ -64,7 +63,6 @@ public class AlgorithmPuzzle : MonoBehaviour
             slotInteractableC?.SetTrigger(slotRenderC.trigger);
             slotC?.SetBridge(slotRenderC.slotBridge);
             slotRenderC.sr.color = slotC.initialColor;
-            slotInteractableC.Interactable = !slotC.isPlaced;
             slotInteractableC.EnableInteraction += RefreshTrigger;
             slotInteractableC.OnStayTrigger += RefreshTrigger;
 
@@ -179,16 +177,13 @@ public class AlgorithmPuzzle : MonoBehaviour
     public event Action OnEnableTrigger;
     public void DisableTrigger()
     {
-        Debug.Log("Disable Puzzle "+puzzleID);
         triggered = false;
-        Debug.Log("invoke disable trigger");
         OnDisableTrigger?.Invoke();
     }
 
     public void RefreshTrigger()
     {
         triggered = true;
-        Debug.Log("Enable Puzzle "+puzzleID);
         OnEnableTrigger?.Invoke();
 
         // 如果之前有倒计时协程在运行，先停止它

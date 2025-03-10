@@ -11,7 +11,7 @@ namespace EducationalGame.Component
         // All interactable objects. Determine the state and the result of interaction result
 
         public Trigger triggerScript;
-        public bool Interactable = false;   // true when player CAN interact with object
+        public bool Interactable = false;   // true when player enter the object's trigger
         // Activate when interacted
         // Comsumed in Judge System
         public bool InteractedBuffer = false;      
@@ -43,9 +43,11 @@ namespace EducationalGame.Component
         }
         public void OnStayTriggerEvent(Collider2D other) 
         {
+            Interactable = true;
             OnStayTrigger?.Invoke();
         }
 
+        // 这两个方法可以被改为使用事件传递信息
         // Activate when interacted or being interacted
         public void ActivateInteractionBuffer() => InteractedBuffer = true;
         // Deactivate when interacted or being interacted
