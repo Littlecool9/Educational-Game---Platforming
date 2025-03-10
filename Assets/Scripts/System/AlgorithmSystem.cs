@@ -135,7 +135,7 @@ namespace EducationalGame
                     {
                         box = entity as SortingBoxes;
                         SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box);
-                        slot = InteractSystem.FindPreviousSlot(box, puzzle);
+                        slot = InteractSystem.FindCorrespondSlot(box, puzzle);
                         BoxSlotComponent slotComponent = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
                         foundBox = true;
                     }
