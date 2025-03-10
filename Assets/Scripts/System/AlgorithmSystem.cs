@@ -45,8 +45,8 @@ namespace EducationalGame
                 // 放下箱子的逻辑
                 bool foundBox = false;
                 bool foundSlot = false;
-                foreach (Entity entity in EntityManager.Instance.GetAllEntities())
-                // foreach (Entity entity in puzzle.GetEntities())     // 节约搜索性能
+                // foreach (Entity entity in EntityManager.Instance.GetAllEntities())
+                foreach (Entity entity in puzzle.GetEntities())     // 节约搜索性能
                 {
                     // 找到正在互动的箱子和槽
                     InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity);
@@ -121,13 +121,14 @@ namespace EducationalGame
                 bool foundBox = false;
                 Player player = EntityManager.Instance.GetEntityWithID(0) as Player;
                 StateComponent stateC = EntityManager.Instance.GetComponent<StateComponent>(player);
-                foreach (var entity in EntityManager.Instance.GetAllEntities())
+                // foreach (var entity in EntityManager.Instance.GetAllEntities())
+                foreach (Entity entity in puzzle.GetEntities())
                 {
                     if (entity.ID == stateC.InteractingObject.ID)
                     {
                         box = entity as SortingBoxes;
                         SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box);
-                        slot = InteractSystem.FindPreviousSlot(box);
+                        slot = InteractSystem.FindPreviousSlot(box, puzzle);
                         BoxSlotComponent slotComponent = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
                         foundBox = true;
                     }
@@ -154,12 +155,15 @@ namespace EducationalGame
         }
         private void SetPuzzleNull()
         {
+            if (puzzle == null) return;
+            puzzle.OnDisableTrigger -= SetPuzzleNull;
             puzzle = null;
             MaxTriTime = -1;
         }
         private void UpdatePuzzle()
         {
             puzzle = Constants.Game.GetTriggerPuzzle();
+            if (puzzle == null) return;
             MaxTriTime = puzzle.GetMaxTryTime();
             puzzle.OnDisableTrigger += SetPuzzleNull;
         }

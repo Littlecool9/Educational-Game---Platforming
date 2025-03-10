@@ -96,7 +96,7 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 1
+  m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
@@ -135,7 +135,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c607b9a12163e41a560b6f26bc9dea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sortingBoxComponent:
-    order: 0
-    distance: 1.5
-    followSpeed: 5
+  order: 0
+  slotIndex: 0

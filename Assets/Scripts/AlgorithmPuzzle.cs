@@ -13,7 +13,7 @@ public class AlgorithmPuzzle : MonoBehaviour
     // TODO: Puzzle common variable and function can be defined with interface at the end
     // TODO: Refactor when more puzzles implementing
     private static int nextID = 1;
-    private int puzzleID;
+    public int puzzleID { get; private set; }
     public int MaxTryTime;
 
 
@@ -40,7 +40,6 @@ public class AlgorithmPuzzle : MonoBehaviour
     public AlgorithmPuzzle()
     {
         puzzleID = nextID++;
-        
     }
 
     public List<InteractableComponent> Init()
@@ -109,7 +108,7 @@ public class AlgorithmPuzzle : MonoBehaviour
                 int index = initialState[boxRenderC];
                 if (index >= 0 && index < Slots.Count)
                 {
-                    RenderComponent slotRenderC = EntityManager.Instance.GetComponent<RenderComponent>(Slots[index].ID);
+                    RenderComponent slotRenderC = EntityManager.Instance.GetComponent<RenderComponent>(Slots[index-1].ID);
                     Vector3 target = slotRenderC.transform.position;
                     StartCoroutine(MoveToPosition(boxRenderC.transform, target));
                 }
@@ -149,6 +148,7 @@ public class AlgorithmPuzzle : MonoBehaviour
             if (interactableC == null) throw new Exception("Missing InteractableComponent in SolvePuzzle()");
             interactableC.DisableComponent();
         }
+        DisableTrigger();
     }
 
     public List<Entity> GetEntities() => Entities;
@@ -168,6 +168,7 @@ public class AlgorithmPuzzle : MonoBehaviour
     public event Action OnEnableTrigger;
     public void DisableTrigger()
     {
+        Debug.Log("Disable Puzzle "+puzzleID);
         triggered = false;
         OnDisableTrigger?.Invoke();
     }
@@ -175,6 +176,7 @@ public class AlgorithmPuzzle : MonoBehaviour
     public void RefreshTrigger()
     {
         triggered = true;
+        Debug.Log("Enable Puzzle "+puzzleID);
         OnEnableTrigger?.Invoke();
 
         // 如果之前有倒计时协程在运行，先停止它
