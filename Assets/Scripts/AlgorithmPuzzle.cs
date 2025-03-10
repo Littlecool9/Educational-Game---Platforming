@@ -105,12 +105,17 @@ public class AlgorithmPuzzle : MonoBehaviour
             RenderComponent boxRenderC = EntityManager.Instance.GetComponent<RenderComponent>(box.ID);
             if (initialState.ContainsKey(boxRenderC))
             {
-                int index = initialState[boxRenderC];
-                if (index >= 0 && index < Slots.Count)
+                int slotIndex = initialState[boxRenderC];
+                foreach (SortingBoxSlot slot in Slots)
                 {
-                    RenderComponent slotRenderC = EntityManager.Instance.GetComponent<RenderComponent>(Slots[index-1].ID);
-                    Vector3 target = slotRenderC.transform.position;
-                    StartCoroutine(MoveToPosition(boxRenderC.transform, target));
+                    BoxSlotComponent slotC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot.ID);
+                    if (slotC.index == slotIndex)
+                    {
+                        RenderComponent slotRenderC = EntityManager.Instance.GetComponent<RenderComponent>(slot.ID);
+                        Vector3 target = slotRenderC.transform.position;
+                        StartCoroutine(MoveToPosition(boxRenderC.transform, target));
+                        break;
+                    }
                 }
             }
         }
