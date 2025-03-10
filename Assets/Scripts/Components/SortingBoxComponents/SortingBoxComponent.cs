@@ -31,6 +31,8 @@ namespace EducationalGame.Component
         public float distance = 1.5f;
         public float followSpeed = 5f;
 
+        private BoxBridge boxBridge;
+
         public void InitComponent()
         {
             
@@ -39,11 +41,13 @@ namespace EducationalGame.Component
         public void SetOrder(int order) => this.index = order;
         public void SetBridge(BoxBridge bridge)
         {
+            boxBridge = bridge;
             slotIndex = bridge.slotIndex;
             index = bridge.boxIndex;
             previousSlotIndex = bridge.slotIndex;
         }
 
+        public void Reset() => SetBridge(boxBridge);
 
         public bool ResultCorrect(int placedIndex)
         {

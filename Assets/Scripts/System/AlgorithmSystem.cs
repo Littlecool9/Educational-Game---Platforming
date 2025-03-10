@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Timers;
 using EducationalGame.Component;
@@ -14,11 +16,13 @@ namespace EducationalGame
         // Judge the logic of whether an algorithm problem is successfully solved
         // Async possible
                         
+        // Flags
         private bool requireSlotCheck;      // Triggered when putting a box into the slot
         private bool requireBoxCheck;       // Triggered when taking a box out of the slot
+        private bool requireSwapCheck;      // Triggered when swapping two boxes
 
-        private SortingBoxSlot slot;
-        private SortingBoxes box;
+        // private SortingBoxSlot slot;
+        // private SortingBoxes box;
         private AlgorithmPuzzle puzzle;
         private int MaxTriTime = -1;
         private int TriTime = 0;
@@ -28,8 +32,9 @@ namespace EducationalGame
             requireSlotCheck = false;
 
             // Event Management
-            SystemManager.interactSystem.OnInteractSlot += RequireSlotCheck;
-            SystemManager.interactSystem.OnInteractBox += RequireBoxCheck;
+            SystemManager.interactSystem.OnInteractSlot += SlotCheck;
+            SystemManager.interactSystem.OnInteractBox += BoxCheck;
+            SystemManager.interactSystem.OnSwapBoxes += SwapCheck;
             foreach(AlgorithmPuzzle puzzle in Constants.Game.algorithmPuzzles)
             {
                 puzzle.OnEnableTrigger += UpdatePuzzle;
@@ -45,11 +50,12 @@ namespace EducationalGame
 
         public void Update()
         {
-            if (requireSlotCheck && puzzle != null)
+            if (puzzle == null) return;
+            if (requireSlotCheck)
             {
                 // 放下箱子的逻辑
-                bool foundBox = false;
-                bool foundSlot = false;
+                SortingBoxes box = null;
+                SortingBoxSlot slot = null;
                 // foreach (Entity entity in EntityManager.Instance.GetAllEntities())
                 foreach (Entity entity in puzzle.GetEntities())     // 节约搜索性能
                 {
@@ -62,15 +68,13 @@ namespace EducationalGame
                         if (entity is SortingBoxSlot)           
                         {
                             slot = entity as SortingBoxSlot;
-                            foundSlot = true;
                         }
                         else if (entity is SortingBoxes)
                         {
                             box = entity as SortingBoxes;
-                            foundBox = true;
                         }
                     }
-                    if (foundBox && foundSlot) break;
+                    if (box != null && slot != null) break;
                 }
                 
 
@@ -83,7 +87,6 @@ namespace EducationalGame
 
 
                     BoxSlotComponent slotComponent = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
-                    SortingBoxComponent boxComponent = EntityManager.Instance.GetComponent<SortingBoxComponent>(box);
                     RenderComponent slotRC = EntityManager.Instance.GetComponent<RenderComponent>(slot);
                     SpriteRenderer slotSR = slotRC?.sr;
 
@@ -92,34 +95,12 @@ namespace EducationalGame
                     {
                         slotSR.color = slotComponent.incorrectColor;
                     }
-                    else if(boxComponent.index == slotComponent.index)
+                    else 
                     {
-                        // Correctly placed
-                        slotSR.color = slotComponent.correctColor;
-                        slotComponent.correctlyPlaced = true;
-                    }
-                    else if (boxComponent.index != slotComponent.index)
-                    {
-                        // Incorrectly placed
-                        slotSR.color = slotComponent.incorrectColor;
-                        slotComponent.correctlyPlaced = false;
+                        BoxCorrectlyInSlot(box, slot);
                     }
 
-                    TriTime += 1;
-                    
-                    if (CheckPuzzleSuccess(puzzle))
-                    {
-                        Debug.Log("successfully solved the puzzle");
-                        puzzle.SolvePuzzle();       // Haven't handle status: Solved -> Unsolved
-                    }
-                    else if (TriTime >= MaxTriTime)
-                    {
-                        // Reset the puzzle
-                        Debug.Log("Failed to solve the puzzle");
-                        puzzle.ResetPuzzle();
-                        TriTime = 0;
-                    }
-                    
+                    TriTime++;
                 }
                 
                 requireSlotCheck = false;
@@ -127,7 +108,8 @@ namespace EducationalGame
             else if (requireBoxCheck)
             {
                 // 拿起箱子时的逻辑
-                bool foundBox = false;
+                SortingBoxes box = null;
+                SortingBoxSlot slot = null;
                 Player player = EntityManager.Instance.GetEntityWithID(0) as Player;
                 StateComponent stateC = EntityManager.Instance.GetComponent<StateComponent>(player);
                 // foreach (var entity in EntityManager.Instance.GetAllEntities())
@@ -139,11 +121,9 @@ namespace EducationalGame
                         SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box);
                         slot = InteractSystem.FindCorrespondSlot(box, puzzle);
                         BoxSlotComponent slotComponent = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
-                        foundBox = true;
                     }
-                    if (foundBox) break;
                 }
-                if (foundBox)
+                if (box != null && slot != null)
                 {
                     BoxSlotComponent slotComponent = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
                     if (!slotComponent.isTempSlot)
@@ -155,16 +135,59 @@ namespace EducationalGame
                 }
                 requireBoxCheck = false;
             }
-            SetBoxAndSlotNull();
+            else if (requireSwapCheck)
+            {
+                Debug.Log("swap check");
+                // 交换箱子时的逻辑
+                // SortingBoxes[] swapBoxes = InteractSystem.FindPreviousSwapBoxes(puzzle);
+                SortingBoxes[] swapBoxes = puzzle.LastSwaps;
+                if (swapBoxes[0] == null || swapBoxes[1] == null) throw new Exception("Swap boxes not found");
+
+                SortingBoxComponent sbC0 = EntityManager.Instance.GetComponent<SortingBoxComponent>(swapBoxes[0]);
+                SortingBoxComponent sbC1 = EntityManager.Instance.GetComponent<SortingBoxComponent>(swapBoxes[1]);
+
+                InteractableComponent bIC0 = EntityManager.Instance.GetComponent<InteractableComponent>(swapBoxes[0]);
+                InteractableComponent bIC1 = EntityManager.Instance.GetComponent<InteractableComponent>(swapBoxes[1]);
+                bIC0.ComsumeInteractionBuffer();
+                bIC1.ComsumeInteractionBuffer();
+
+                SortingBoxSlot slot0 = null;
+                SortingBoxSlot slot1 = null;
+
+                foreach (SortingBoxSlot slot in puzzle.Slots.Cast<SortingBoxSlot>())
+                {
+                    BoxSlotComponent slotC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
+                    if (slotC.index == sbC0.slotIndex) slot0 = slot;
+                    else if (slotC.index == sbC1.slotIndex) slot1 = slot;
+                }
+                if (slot0 == null || slot1 == null) throw new Exception("Slot not found");
+                BoxCorrectlyInSlot(swapBoxes[0], slot0);
+                BoxCorrectlyInSlot(swapBoxes[1], slot1);
+
+                TriTime++;
+                
+                requireSwapCheck = false;
+
+            }
+
+            if (CheckPuzzleSuccess(puzzle))
+            {
+                Debug.Log("successfully solved the puzzle");
+                puzzle.SolvePuzzle();       // Haven't handle status: Solved -> Unsolved
+            }
+            else if (TriTime >= MaxTriTime)
+            {
+                // Reset the puzzle
+                Debug.Log("Failed to solve the puzzle");
+                puzzle.ResetPuzzle();
+                TriTime = 0;
+            }
         }
 
-        private void RequireSlotCheck() => requireSlotCheck = true;
-        private void RequireBoxCheck() => requireBoxCheck = true;
-        private void SetBoxAndSlotNull() 
-        {
-            slot = null;
-            box = null;
-        }
+        private void SlotCheck(AlgorithmPuzzle puzzle) => requireSlotCheck = true;
+        private void BoxCheck(AlgorithmPuzzle puzzle) => requireBoxCheck = true;
+        private void SwapCheck(AlgorithmPuzzle puzzle) => requireSwapCheck = true;
+
         private void SetPuzzleNull()
         {
             if (puzzle == null) return;
@@ -172,6 +195,7 @@ namespace EducationalGame
             puzzle = null;
             MaxTriTime = -1;
         }
+
         private void UpdatePuzzle()
         {
             puzzle = Constants.Game.GetTriggerPuzzle();
@@ -186,10 +210,7 @@ namespace EducationalGame
             {
                 // Check if all slots are correctly placed
                 BoxSlotComponent sC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
-                if (!sC.correctlyPlaced && !sC.isTempSlot)
-                {
-                    return false;
-                }
+                if (!sC.correctlyPlaced && !sC.isTempSlot) return false;
             }
             return true;
         }
@@ -197,10 +218,23 @@ namespace EducationalGame
         private void DisplayRestTime()
         {
             if (puzzle == null) return;
-            int restTriTime = MaxTriTime - TriTime;
             TextMeshPro tmp = puzzle.text;
             tmp.gameObject.SetActive(true);
-            tmp.text = "Available Time: " + restTriTime.ToString();
+
+            int restTriTime = MaxTriTime - TriTime;
+            if (puzzle.success) 
+            {
+                tmp.text = "Solved a Puzzle!";
+            }
+            else if (restTriTime <= 0)
+            {
+                tmp.text = "Failed a Puzzle!";
+            }
+            else
+            {
+                tmp.text = "Available Move: " + restTriTime.ToString();
+            }
+            
         }
 
         private void RemoveDisplayTime()
@@ -208,6 +242,29 @@ namespace EducationalGame
             if (puzzle == null) return;
             TextMeshPro tmp = puzzle.text;
             tmp.gameObject.SetActive(false);
+        }
+
+        private bool BoxCorrectlyInSlot(SortingBoxes box, SortingBoxSlot slot)
+        {
+            // Respond after a box is placed in a slot
+
+            SpriteRenderer slotSR = EntityManager.Instance.GetComponent<RenderComponent>(slot).sr;
+            BoxSlotComponent slotC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
+            SortingBoxComponent boxC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box);
+            if(boxC.index == slotC.index)
+            {
+                // Correctly placed
+                slotSR.color = slotC.correctColor;
+                slotC.correctlyPlaced = true;
+                return true;
+            }
+            else
+            {
+                // Incorrectly placed
+                slotSR.color = slotC.incorrectColor;
+                slotC.correctlyPlaced = false;
+                return false;
+            }
         }
     }
 }

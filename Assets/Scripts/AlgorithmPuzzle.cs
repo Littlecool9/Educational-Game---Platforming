@@ -26,7 +26,7 @@ public class AlgorithmPuzzle : MonoBehaviour
     public List<Entity> Slots = new List<Entity>();
     private List<Entity> Entities => Boxes.Concat(Slots).ToList();        // TODO: Current implement way is not following framework>
     public List<GameObject> Gates;
-
+    public SortingBoxes[] LastSwaps = new SortingBoxes[2];
 
     public float returnSpeed = 5f; // 飞回的速度
 
@@ -35,7 +35,7 @@ public class AlgorithmPuzzle : MonoBehaviour
     private Coroutine resetCoroutine;
     public float resetTime = 10f;
 
-    private bool success = false;
+    public bool success { get; private set; }
 
 
     private Dictionary<RenderComponent, int> initialState = new Dictionary<RenderComponent, int>();         // TODO: Current implement way is not following framework
@@ -43,6 +43,7 @@ public class AlgorithmPuzzle : MonoBehaviour
     public AlgorithmPuzzle()
     {
         puzzleID = nextID++;
+        success = false;
     }
 
     public List<InteractableComponent> Init()
@@ -103,7 +104,6 @@ public class AlgorithmPuzzle : MonoBehaviour
 
     public void ResetPuzzle()
     {
-        // Handle Animation
         // Put each sorting box back to its initial position
         foreach (SortingBoxes box in Boxes.Cast<SortingBoxes>())
         {
@@ -129,6 +129,15 @@ public class AlgorithmPuzzle : MonoBehaviour
             RenderComponent slotRenderC = EntityManager.Instance.GetComponent<RenderComponent>(slot.ID);
             BoxSlotComponent slotC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot.ID);
             slotRenderC.sr.color = slotC.initialColor;
+        }
+
+        // Reset each component
+        foreach (Entity entity in Entities)
+        {
+            SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(entity.ID);
+            sbC?.Reset();
+            BoxSlotComponent slotC = EntityManager.Instance.GetComponent<BoxSlotComponent>(entity.ID);
+            slotC?.Reset();
         }
     }
 

@@ -15,11 +15,13 @@ namespace EducationalGame
         private Player player;
         private InputComponent inputC;
         private StateComponent stateC;
-        public event Action OnInteractSlot;
-        public event Action OnInteractBox;
+        public event Action<AlgorithmPuzzle> OnInteractSlot;
+        public event Action<AlgorithmPuzzle> OnInteractBox;
+        public event Action<AlgorithmPuzzle> OnSwapBoxes;
         
         private AlgorithmPuzzle puzzle;     // Record the puzzle interacting
         private SortingBoxes[] neighbors = new SortingBoxes[2];
+        
         
         public void Init()
         {
@@ -105,7 +107,7 @@ namespace EducationalGame
 
 
                             Interact(entity as SortingBoxes);
-                            OnInteractBox?.Invoke();
+                            OnInteractBox?.Invoke(puzzle);
 
 
                             foundInteracatble = true;
@@ -122,9 +124,7 @@ namespace EducationalGame
 
                             // Update Boxes Status
                             InteractableComponent sbIC = EntityManager.Instance.GetComponent<InteractableComponent>(stateC.InteractingObject);
-                            // interactableC.Interactable = true;
                             interactableC.ActivateInteractionBuffer();
-                            // sbIC.Interactable = true;
 
                             // Update Slots Status
                             SortingBoxSlot targetSlot = FindCorrespondSlot(entity as SortingBoxes, puzzle);
@@ -140,8 +140,11 @@ namespace EducationalGame
                             // Swap position
                             selfBox.slotIndex = targetSlotC.index;
                             targetBox.slotIndex = selfSlotC.index;
+                            puzzle.LastSwaps[0] = stateC.InteractingObject as SortingBoxes;
+                            puzzle.LastSwaps[1] = entity as SortingBoxes;
 
                             Interact(stateC.InteractingObject as SortingBoxes, targetSlot, entity as SortingBoxes, selfSlot);
+                            OnSwapBoxes?.Invoke(puzzle);
                             stateC.ResetInteractingObject();
 
 
@@ -159,13 +162,11 @@ namespace EducationalGame
 
                             // put the interacting box to the empty slot
 
-                            Debug.Log("interacting slot: " + bsC.index);
                             InteractableComponent boxIC = EntityManager.Instance.GetComponent<InteractableComponent>(stateC.InteractingObject);
 
                             // Update Box Status
                             SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(stateC.InteractingObject);
                             sbC.slotIndex = bsC.index;
-                            // boxIC.Interactable = true;
 
                             // Update Slot Status
                             bsC.isPlaced = true;
@@ -175,7 +176,7 @@ namespace EducationalGame
                             CompleteSwap();
 
                             Interact(entity as SortingBoxSlot, stateC.InteractingObject as SortingBoxes);
-                            // OnInteractSlot?.Invoke();
+                            OnInteractSlot?.Invoke(puzzle);
 
                             stateC.ResetInteractingObject();
                             foundInteracatble = true;
@@ -279,6 +280,34 @@ namespace EducationalGame
             }
         }
 
+        public static SortingBoxes[] FindPreviousSwapBoxes(AlgorithmPuzzle puzzle)
+        {
+            //换的是1和3时，后面无论查找多少次返回都是1和3
+            SortingBoxes[] res = new SortingBoxes[2];
+            for (int i = 0; i < puzzle.Boxes.Count; i++)
+            {
+                bool found = false;
+                SortingBoxComponent sb1C = EntityManager.Instance.GetComponent<SortingBoxComponent>(puzzle.Boxes[i]);
+                for (int j = i+1; j < puzzle.Boxes.Count; j++)
+                {
+                    SortingBoxComponent sb2C = EntityManager.Instance.GetComponent<SortingBoxComponent>(puzzle.Boxes[j]);
+                    if (sb1C.previousSlotIndex == sb2C.slotIndex && sb2C.previousSlotIndex == sb1C.slotIndex)
+                    {
+                        res[0] = puzzle.Boxes[i] as SortingBoxes;
+                        res[1] = puzzle.Boxes[j] as SortingBoxes;
+                        Debug.Log("box 1: " + sb1C.index + " box 2: " + sb2C.index);
+                        Debug.Log("box 1 pre slot: " + sb1C.previousSlotIndex + " box 2 pre slot: " + sb2C.previousSlotIndex);
+                        found = true;
+                    }
+                    if (found) break;
+
+                }
+                if (found) break;
+            }
+
+            return res;
+        }
+
         public static SortingBoxSlot FindCorrespondSlot(SortingBoxes box, AlgorithmPuzzle puzzle)
         {
             SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box.ID);
@@ -347,7 +376,6 @@ namespace EducationalGame
 
         public static void DisableSwap(SortingBoxes box)
         {
-
             // Called after swap complete
             SortingBoxComponent nbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box);
             RenderComponent nbRenderC = EntityManager.Instance.GetComponent<RenderComponent>(box);
