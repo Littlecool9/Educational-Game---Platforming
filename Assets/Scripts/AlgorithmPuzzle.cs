@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 using UnityEditor;
+using TMPro;
 
 
 public class AlgorithmPuzzle : MonoBehaviour        
@@ -16,6 +17,8 @@ public class AlgorithmPuzzle : MonoBehaviour
     private static int nextID = 1;
     public int puzzleID { get; private set; }
     public int MaxTryTime;
+
+    public TextMeshPro text;
 
 
     public List<GameObject> SortingBoxes;
@@ -203,4 +206,5 @@ public class AlgorithmPuzzle : MonoBehaviour
         yield return new WaitForSeconds(resetTime);
         DisableTrigger();
     }
+
 }

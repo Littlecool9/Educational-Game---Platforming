@@ -4,6 +4,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Timers;
 using EducationalGame.Component;
 using EducationalGame.Core;
+using TMPro;
 using UnityEngine;
 
 namespace EducationalGame
@@ -32,7 +33,8 @@ namespace EducationalGame
             foreach(AlgorithmPuzzle puzzle in Constants.Game.algorithmPuzzles)
             {
                 puzzle.OnEnableTrigger += UpdatePuzzle;
-
+                puzzle.OnEnableTrigger += DisplayRestTime;
+                puzzle.OnDisableTrigger += RemoveDisplayTime;
             }
         }
 
@@ -190,6 +192,22 @@ namespace EducationalGame
                 }
             }
             return true;
+        }
+
+        private void DisplayRestTime()
+        {
+            if (puzzle == null) return;
+            int restTriTime = MaxTriTime - TriTime;
+            TextMeshPro tmp = puzzle.text;
+            tmp.gameObject.SetActive(true);
+            tmp.text = "Available Time: " + restTriTime.ToString();
+        }
+
+        private void RemoveDisplayTime()
+        {
+            if (puzzle == null) return;
+            TextMeshPro tmp = puzzle.text;
+            tmp.gameObject.SetActive(false);
         }
     }
 }
