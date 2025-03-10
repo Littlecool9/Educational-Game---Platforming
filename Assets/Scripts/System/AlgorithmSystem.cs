@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
+using System.Timers;
 using EducationalGame.Component;
 using EducationalGame.Core;
 using UnityEngine;
@@ -30,6 +32,7 @@ namespace EducationalGame
             foreach(AlgorithmPuzzle puzzle in Constants.Game.algorithmPuzzles)
             {
                 puzzle.OnEnableTrigger += UpdatePuzzle;
+
             }
         }
 
@@ -83,7 +86,11 @@ namespace EducationalGame
                     SpriteRenderer slotSR = slotRC?.sr;
 
                     // May be moved to render system?
-                    if (boxComponent.index == slotComponent.index)
+                    if (slotComponent.isTempSlot)
+                    {
+                        slotSR.color = slotComponent.incorrectColor;
+                    }
+                    else if(boxComponent.index == slotComponent.index)
                     {
                         // Correctly placed
                         slotSR.color = slotComponent.correctColor;
@@ -137,9 +144,12 @@ namespace EducationalGame
                 if (foundBox)
                 {
                     BoxSlotComponent slotComponent = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
-                    RenderComponent slotRC = EntityManager.Instance.GetComponent<RenderComponent>(slot);
-                    SpriteRenderer slotSR = slotRC?.sr;
-                    slotSR.color = slotComponent.incorrectColor;
+                    if (!slotComponent.isTempSlot)
+                    {
+                        RenderComponent slotRC = EntityManager.Instance.GetComponent<RenderComponent>(slot);
+                        SpriteRenderer slotSR = slotRC?.sr;
+                        slotSR.color = slotComponent.incorrectColor;
+                    }
                 }
                 requireBoxCheck = false;
             }

@@ -59,6 +59,7 @@ public class AlgorithmPuzzle : MonoBehaviour
             slotRenderC?.SetGameObject(sortingBoxSlot);   
             slotInteractableC?.SetTrigger(slotRenderC.trigger);
             slotC?.SetBridge(slotRenderC.slotBridge);
+            slotRenderC.sr.color = slotC.initialColor;
             slotInteractableC.Interactable = !slotC.isPlaced;
 
             // interactionC.AddInteractableToList(slotInteractableC);
