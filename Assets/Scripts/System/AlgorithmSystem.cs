@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
+using System.Timers;
 using EducationalGame.Component;
 using EducationalGame.Core;
 using UnityEngine;
@@ -30,6 +32,7 @@ namespace EducationalGame
             foreach(AlgorithmPuzzle puzzle in Constants.Game.algorithmPuzzles)
             {
                 puzzle.OnEnableTrigger += UpdatePuzzle;
+
             }
         }
 
@@ -45,8 +48,8 @@ namespace EducationalGame
                 // 放下箱子的逻辑
                 bool foundBox = false;
                 bool foundSlot = false;
-                foreach (Entity entity in EntityManager.Instance.GetAllEntities())
-                // foreach (Entity entity in puzzle.GetEntities())     // 节约搜索性能
+                // foreach (Entity entity in EntityManager.Instance.GetAllEntities())
+                foreach (Entity entity in puzzle.GetEntities())     // 节约搜索性能
                 {
                     // 找到正在互动的箱子和槽
                     InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity);
@@ -83,7 +86,11 @@ namespace EducationalGame
                     SpriteRenderer slotSR = slotRC?.sr;
 
                     // May be moved to render system?
-                    if (boxComponent.index == slotComponent.index)
+                    if (slotComponent.isTempSlot)
+                    {
+                        slotSR.color = slotComponent.incorrectColor;
+                    }
+                    else if(boxComponent.index == slotComponent.index)
                     {
                         // Correctly placed
                         slotSR.color = slotComponent.correctColor;
@@ -121,13 +128,14 @@ namespace EducationalGame
                 bool foundBox = false;
                 Player player = EntityManager.Instance.GetEntityWithID(0) as Player;
                 StateComponent stateC = EntityManager.Instance.GetComponent<StateComponent>(player);
-                foreach (var entity in EntityManager.Instance.GetAllEntities())
+                // foreach (var entity in EntityManager.Instance.GetAllEntities())
+                foreach (Entity entity in puzzle.GetEntities())
                 {
                     if (entity.ID == stateC.InteractingObject.ID)
                     {
                         box = entity as SortingBoxes;
                         SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box);
-                        slot = InteractSystem.FindPreviousSlot(box);
+                        slot = InteractSystem.FindPreviousSlot(box, puzzle);
                         BoxSlotComponent slotComponent = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
                         foundBox = true;
                     }
@@ -136,9 +144,12 @@ namespace EducationalGame
                 if (foundBox)
                 {
                     BoxSlotComponent slotComponent = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
-                    RenderComponent slotRC = EntityManager.Instance.GetComponent<RenderComponent>(slot);
-                    SpriteRenderer slotSR = slotRC?.sr;
-                    slotSR.color = slotComponent.incorrectColor;
+                    if (!slotComponent.isTempSlot)
+                    {
+                        RenderComponent slotRC = EntityManager.Instance.GetComponent<RenderComponent>(slot);
+                        SpriteRenderer slotSR = slotRC?.sr;
+                        slotSR.color = slotComponent.incorrectColor;
+                    }
                 }
                 requireBoxCheck = false;
             }
@@ -154,7 +165,7 @@ namespace EducationalGame
         }
         private void SetPuzzleNull()
         {
-            if (puzzle is null) return;
+            if (puzzle == null) return;
             puzzle.OnDisableTrigger -= SetPuzzleNull;
             puzzle = null;
             MaxTriTime = -1;
@@ -162,18 +173,18 @@ namespace EducationalGame
         private void UpdatePuzzle()
         {
             puzzle = Constants.Game.GetTriggerPuzzle();
-            if (puzzle is null) return;
+            if (puzzle == null) return;
             MaxTriTime = puzzle.GetMaxTryTime();
             puzzle.OnDisableTrigger += SetPuzzleNull;
         }
 
         private bool CheckPuzzleSuccess(AlgorithmPuzzle puzzle)
         {
-            foreach(var slot in puzzle.Slots)           
+            foreach(Entity slot in puzzle.Slots)           
             {
                 // Check if all slots are correctly placed
                 BoxSlotComponent sC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
-                if (!sC.correctlyPlaced)
+                if (!sC.correctlyPlaced && !sC.isTempSlot)
                 {
                     return false;
                 }

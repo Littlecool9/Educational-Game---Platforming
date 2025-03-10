@@ -14,7 +14,7 @@ public class AlgorithmPuzzle : MonoBehaviour
     // TODO: Puzzle common variable and function can be defined with interface at the end
     // TODO: Refactor when more puzzles implementing
     private static int nextID = 1;
-    private int puzzleID;
+    public int puzzleID { get; private set; }
     public int MaxTryTime;
 
 
@@ -41,7 +41,6 @@ public class AlgorithmPuzzle : MonoBehaviour
     public AlgorithmPuzzle()
     {
         puzzleID = nextID++;
-        
     }
 
     public List<InteractableComponent> Init()
@@ -61,6 +60,7 @@ public class AlgorithmPuzzle : MonoBehaviour
             slotRenderC?.SetGameObject(sortingBoxSlot);   
             slotInteractableC?.SetTrigger(slotRenderC.trigger);
             slotC?.SetBridge(slotRenderC.slotBridge);
+            slotRenderC.sr.color = slotC.initialColor;
             slotInteractableC.Interactable = !slotC.isPlaced;
             slotInteractableC.EnableInteraction += RefreshTrigger;
             slotInteractableC.OnStayTrigger += RefreshTrigger;
@@ -109,12 +109,17 @@ public class AlgorithmPuzzle : MonoBehaviour
             RenderComponent boxRenderC = EntityManager.Instance.GetComponent<RenderComponent>(box.ID);
             if (initialState.ContainsKey(boxRenderC))
             {
-                int index = initialState[boxRenderC];
-                if (index >= 0 && index < Slots.Count)
+                int slotIndex = initialState[boxRenderC];
+                foreach (SortingBoxSlot slot in Slots.Cast<SortingBoxSlot>())
                 {
-                    RenderComponent slotRenderC = EntityManager.Instance.GetComponent<RenderComponent>(Slots[index].ID);
-                    Vector3 target = slotRenderC.transform.position;
-                    StartCoroutine(MoveToPosition(boxRenderC.transform, target));
+                    BoxSlotComponent slotC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot.ID);
+                    if (slotC.index == slotIndex)
+                    {
+                        RenderComponent slotRenderC = EntityManager.Instance.GetComponent<RenderComponent>(slot.ID);
+                        Vector3 target = slotRenderC.transform.position;
+                        StartCoroutine(MoveToPosition(boxRenderC.transform, target));
+                        break;
+                    }
                 }
             }
         }
@@ -128,7 +133,6 @@ public class AlgorithmPuzzle : MonoBehaviour
 
     private IEnumerator MoveToPosition(Transform obj, Vector3 targetPosition)
     {
-        Debug.Log("Failed, Reseting");
         yield return new WaitForSeconds(1f);        // time for fail animation
         while (Vector3.Distance(obj.position, targetPosition) > 0.01f)
         {
@@ -146,6 +150,13 @@ public class AlgorithmPuzzle : MonoBehaviour
         {
             gate.SetActive(false);
         }
+        foreach (Entity entity in Entities)
+        {
+            InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity.ID);
+            if (interactableC == null) throw new Exception("Missing InteractableComponent in SolvePuzzle()");
+            interactableC.DisableComponent();
+        }
+        DisableTrigger();       // Unsubscribe objects
     }
 
     public List<Entity> GetEntities() => Entities;
@@ -165,6 +176,7 @@ public class AlgorithmPuzzle : MonoBehaviour
     public event Action OnEnableTrigger;
     public void DisableTrigger()
     {
+        Debug.Log("Disable Puzzle "+puzzleID);
         triggered = false;
         Debug.Log("invoke disable trigger");
         OnDisableTrigger?.Invoke();
@@ -173,6 +185,7 @@ public class AlgorithmPuzzle : MonoBehaviour
     public void RefreshTrigger()
     {
         triggered = true;
+        Debug.Log("Enable Puzzle "+puzzleID);
         OnEnableTrigger?.Invoke();
 
         // 如果之前有倒计时协程在运行，先停止它

@@ -48,7 +48,7 @@ namespace EducationalGame
                 }
             }
             
-            if (stateC.LookingInteractable)
+            if (puzzle != null && stateC.LookingInteractable)
             {
                 bool foundInteracatble = false;
                 foreach(Entity entity in EntityManager.Instance.GetAllEntities())
@@ -66,7 +66,7 @@ namespace EducationalGame
 
                             stateC.SetInteractingObject(entity);            
 
-                            SortingBoxSlot slot = FindCorrespondSlot(entity as SortingBoxes);
+                            SortingBoxSlot slot = FindCorrespondSlot(entity as SortingBoxes, puzzle);
                             SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(entity);
                             InteractableComponent sIC = EntityManager.Instance.GetComponent<InteractableComponent>(slot);
                             BoxSlotComponent bsC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
@@ -137,13 +137,12 @@ namespace EducationalGame
         private void UpdatePuzzle()
         {
             puzzle = Constants.Game.GetTriggerPuzzle();
-            if (puzzle is null) return;
+            if (puzzle == null) return;
             puzzle.OnDisableTrigger += SetPuzzleNull;
         }
         private void SetPuzzleNull()
         {
-            // BUG: this function is called twice for unknown reason
-            if (puzzle is null) return;
+            if (puzzle == null) return;
             puzzle.OnDisableTrigger -= SetPuzzleNull;
             puzzle = null;
         }
@@ -180,8 +179,14 @@ namespace EducationalGame
 
         private void DetermineAction()
         {   
+            // Update every frame
             // Permit looking for interactables
-            if (stateC.InteractingObject is SortingBoxes && inputC.InteractInput)
+            if (!inputC.InteractInput)
+            {
+                stateC.LookingInteractable = false;
+                return;
+            }
+            if (inputC.InteractInput && stateC.InteractingObject is SortingBoxes)
             {
                 stateC.LookingInteractable = true;
             }
@@ -194,10 +199,11 @@ namespace EducationalGame
             }
         }
 
-        public static SortingBoxSlot FindCorrespondSlot(SortingBoxes box)
+        public static SortingBoxSlot FindCorrespondSlot(SortingBoxes box, AlgorithmPuzzle puzzle)
         {
             SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box.ID);
-            foreach (var entity in EntityManager.Instance.GetAllEntities())
+            // foreach (var entity in EntityManager.Instance.GetAllEntities())
+            foreach (Entity entity in puzzle.GetEntities())
             {
                 if (entity is SortingBoxSlot)
                 {
@@ -208,10 +214,11 @@ namespace EducationalGame
             return null;
         }
 
-        public static SortingBoxSlot FindPreviousSlot(SortingBoxes box)
+        public static SortingBoxSlot FindPreviousSlot(SortingBoxes box, AlgorithmPuzzle puzzle)
         {
             SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box);
-            foreach (var entity in EntityManager.Instance.GetAllEntities())
+            // foreach (var entity in EntityManager.Instance.GetAllEntities())
+            foreach (Entity entity in puzzle.GetEntities())
             {
                 if (entity is SortingBoxSlot)
                 {

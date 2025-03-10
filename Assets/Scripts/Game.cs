@@ -30,12 +30,8 @@ public class Game : MonoBehaviour
         {
             system.Update();
         }
-        Debug.Log("puzzle triggered: " + algorithmPuzzles[0].GetTriggerStatus());
-        // for(int i = 6; i < 10; i++)
-        // {
-        //     InteractableComponent interactable = EntityManager.Instance.GetComponent<InteractableComponent>(i);
-        //     interactable.PrintInvocationList();
-        // }
+        // if (GetTriggerPuzzle() != null) Debug.Log("Trigger puzzle: " + Constants.Game.GetTriggerPuzzle().puzzleID);
+        
     }
 
     // Act as an init system
@@ -57,6 +53,7 @@ public class Game : MonoBehaviour
         // Algorithm Area puzzles init
         foreach (AlgorithmPuzzle puzzle in algorithmPuzzles)
         {
+            // Debug.Log("id:" + puzzle.puzzleID);
             List<InteractableComponent> interactables = puzzle.Init();
             interactionC.AddInteractableToList(interactables);
         }

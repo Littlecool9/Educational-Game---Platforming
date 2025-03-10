@@ -41,7 +41,7 @@ namespace EducationalGame.Component
             Interactable = false;
             DisableInteraction?.Invoke();
         }
-        public void OnStayTriggerEvent(Collider2D other)
+        public void OnStayTriggerEvent(Collider2D other) 
         {
             OnStayTrigger?.Invoke();
         }
@@ -51,14 +51,14 @@ namespace EducationalGame.Component
         // Deactivate when interacted or being interacted
         public void ComsumeInteractionBuffer() => InteractedBuffer = false;
 
-        public void PrintInvocationList(){
-            if (EnableInteraction != null)
-            {
-                foreach (var d in EnableInteraction.GetInvocationList())
-                {
-                    Debug.Log($"Subscribed method: {d.Method.Name} in {d.Target}");
-                }
-            }
+        public void DisableComponent()
+        {
+            triggerScript.OnTriggerEnterEvent -= EnterTrigger;
+            triggerScript.OnTriggerExitEvent -= ExitTrigger;
+            triggerScript.OnTriggerStayEvent -= OnStayTriggerEvent;
+            Interactable = false;
+            InteractedBuffer = false;
         }
+
     }
 }
