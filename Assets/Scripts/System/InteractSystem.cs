@@ -16,17 +16,24 @@ namespace EducationalGame
         public event Action OnInteractSlot;
         public event Action OnInteractBox;
         
+        private AlgorithmPuzzle puzzle;
         
         public void Init()
         {
             player = EntityManager.Instance.GetEntityWithID(0) as Player;
             inputC = EntityManager.Instance.GetComponent<InputComponent>(player);
             stateC = EntityManager.Instance.GetComponent<StateComponent>(player);
+
+            // Event Management
+            foreach(AlgorithmPuzzle puzzle in Constants.Game.algorithmPuzzles) 
+            { 
+                puzzle.OnEnableTrigger += UpdatePuzzle; 
+            }
         }
 
         public void Process()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Update()
@@ -40,11 +47,13 @@ namespace EducationalGame
                     Interact(stateC.InteractingObject as SortingBoxes); 
                 }
             }
+            
             if (stateC.LookingInteractable)
             {
                 bool foundInteracatble = false;
                 foreach(Entity entity in EntityManager.Instance.GetAllEntities())
                 {
+                    if (!puzzle.ContainEntities(entity)) continue;
                     InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity);
                     if (interactableC == null) continue;
 
@@ -124,6 +133,16 @@ namespace EducationalGame
             }
         }
 
+        private void UpdatePuzzle()
+        {
+            puzzle = Constants.Game.GetTriggerPuzzle();
+            puzzle.OnDisableTrigger += SetPuzzleNull;
+        }
+        private void SetPuzzleNull()
+        {
+            puzzle = null;
+        }
+
         private void Interact(SortingBoxes box)         // Overload for different interactable
         {
             SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box.ID);
@@ -167,12 +186,6 @@ namespace EducationalGame
                 stateC.LookingInteractable = true;
                 return;
             }
-            // if (inputC.InteractInput && stateC.InteractingObject != null)
-            // {
-            //     // Interacting -> Idle
-            //     stateC.RelieveInteractable = true;
-            //     return;
-            // }
         }
 
         public static SortingBoxSlot FindCorrespondSlot(SortingBoxes box)

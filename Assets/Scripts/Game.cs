@@ -72,6 +72,19 @@ public class Game : MonoBehaviour
 
     }
 
+    public AlgorithmPuzzle GetTriggerPuzzle()
+    {
+        foreach (AlgorithmPuzzle t in Constants.Game.algorithmPuzzles)
+        {
+            if (t.GetTriggerStatus())
+            {
+                return t;
+            }
+            // TODO: Multiple puzzles may be triggered at the same time, need to adjust the trigger last time
+        }
+        return null;
+    }
+
     [ExecuteInEditMode]
     private void OnDrawGizmos() {
         if (Camera.main == null) return;

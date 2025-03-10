@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using EducationalGame.Component;
 using EducationalGame.Core;
 using UnityEngine;
@@ -24,8 +23,14 @@ namespace EducationalGame
         public void Init()
         {
             requireSlotCheck = false;
+
+            // Event Management
             SystemManager.interactSystem.OnInteractSlot += RequireSlotCheck;
             SystemManager.interactSystem.OnInteractBox += RequireBoxCheck;
+            foreach(AlgorithmPuzzle puzzle in Constants.Game.algorithmPuzzles)
+            {
+                puzzle.OnEnableTrigger += UpdatePuzzle;
+            }
         }
 
         public void Process()
@@ -35,20 +40,6 @@ namespace EducationalGame
 
         public void Update()
         {
-            if ((requireBoxCheck || requireSlotCheck) && puzzle == null)
-            {
-                foreach (AlgorithmPuzzle t in Constants.Game.algorithmPuzzles)
-                {
-                    if (t.GetTriggerStatus())
-                    {
-                        puzzle = t;
-                        MaxTriTime = t.GetMaxTryTime();
-                        puzzle.OnDisableTrigger += SetPuzzleNull;
-                    }
-                    // TODO: Multiple puzzles may be triggered at the same time, need to finetune the trigger last time
-                    break;
-                }
-            }
             if (requireSlotCheck && puzzle != null)
             {
                 // 放下箱子的逻辑
@@ -107,11 +98,13 @@ namespace EducationalGame
                     
                     if (CheckPuzzleSuccess(puzzle))
                     {
+                        Debug.Log("successfully solved the puzzle");
                         puzzle.SolvePuzzle();       // Haven't handle status: Solved -> Unsolved
                     }
                     else if (TriTime >= MaxTriTime)
                     {
                         // Reset the puzzle
+                        Debug.Log("Failed to solve the puzzle");
                         puzzle.ResetPuzzle();
                         TriTime = 0;
                     }
@@ -161,6 +154,12 @@ namespace EducationalGame
         {
             puzzle = null;
             MaxTriTime = -1;
+        }
+        private void UpdatePuzzle()
+        {
+            puzzle = Constants.Game.GetTriggerPuzzle();
+            MaxTriTime = puzzle.GetMaxTryTime();
+            puzzle.OnDisableTrigger += SetPuzzleNull;
         }
 
         private bool CheckPuzzleSuccess(AlgorithmPuzzle puzzle)

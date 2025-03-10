@@ -8,7 +8,7 @@ using System.Linq;
 using System;
 
 
-public class AlgorithmPuzzle : MonoBehaviour
+public class AlgorithmPuzzle : MonoBehaviour        // TODO: Puzzle common variable and function can be defined with interface at the end
 {
     private static int nextID = 1;
     private int puzzleID;
@@ -17,10 +17,11 @@ public class AlgorithmPuzzle : MonoBehaviour
 
     public List<GameObject> SortingBoxes;
     // public List<RenderComponent> Boxes = new List<RenderComponent>();
-    public List<SortingBoxes> Boxes = new List<SortingBoxes>();
+    public List<Entity> Boxes = new List<Entity>();
     public List<GameObject> SortingBoxSlots;
     // public List<RenderComponent> Slots = new List<RenderComponent>();
-    public List<SortingBoxSlot> Slots = new List<SortingBoxSlot>();
+    public List<Entity> Slots = new List<Entity>();
+    private List<Entity> Entities => Boxes.Concat(Slots).ToList();        // TODO: Current implement way is not following framework>
     public List<GameObject> Gates;
 
 
@@ -29,7 +30,7 @@ public class AlgorithmPuzzle : MonoBehaviour
     // Trigger the puzzle, signs this puzzle is on
     private bool triggered = false;
     private Coroutine resetCoroutine;
-    public float resetTime = 10f;
+    public float resetTime = 2f;
 
     private bool success = false;
 
@@ -99,7 +100,7 @@ public class AlgorithmPuzzle : MonoBehaviour
     {
         // Handle Animation
         // Put each sorting box back to its initial position
-        foreach (SortingBoxes box in Boxes)
+        foreach (SortingBoxes box in Boxes.Cast<SortingBoxes>())
         {
             RenderComponent boxRenderC = EntityManager.Instance.GetComponent<RenderComponent>(box.ID);
             if (initialState.ContainsKey(boxRenderC))
@@ -127,6 +128,7 @@ public class AlgorithmPuzzle : MonoBehaviour
         obj.position = targetPosition; // 确保到达最终位置
     }
 
+
     public void SolvePuzzle()
     {
         success = true;
@@ -136,7 +138,15 @@ public class AlgorithmPuzzle : MonoBehaviour
         }
     }
 
-
+    public List<Entity> GetEntities() => Entities;
+    public bool ContainEntities(Entity entity)
+    {
+        foreach (Entity e in Entities)
+        {
+            if (e.ID == entity.ID) return true;
+        }
+        return false;
+    }
     public int GetMaxTryTime() => MaxTryTime;
     public bool GetTriggerStatus() => triggered;
     public void DisableTrigger()
@@ -149,6 +159,7 @@ public class AlgorithmPuzzle : MonoBehaviour
     public void EnableTrigger()
     {
         triggered = true;
+        OnEnableTrigger?.Invoke();
 
         // 如果之前有倒计时协程在运行，先停止它
         if (resetCoroutine != null)
@@ -159,6 +170,7 @@ public class AlgorithmPuzzle : MonoBehaviour
         // 启动新的倒计时协程
         resetCoroutine = StartCoroutine(ResetTriggeredAfterDelay());
     }
+    public event Action OnEnableTrigger;
 
     private IEnumerator ResetTriggeredAfterDelay()
     {
