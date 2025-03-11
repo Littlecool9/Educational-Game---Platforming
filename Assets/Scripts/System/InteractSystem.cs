@@ -98,7 +98,7 @@ namespace EducationalGame
                             // Update Box Status
                             interactableC.ActivateInteractionBuffer();
                             interactableC.Interactable = false;
-                            sbC.slotIndex = -1;
+                            // sbC.slotIndex = -1;
 
                             // Update Slot Status
                             if (slot == null) Debug.Log("Slot not found");
@@ -128,7 +128,7 @@ namespace EducationalGame
 
                             // Update Slots Status
                             SortingBoxSlot targetSlot = FindCorrespondSlot(entity as SortingBoxes, puzzle);
-                            SortingBoxSlot selfSlot = FindPreviousSlot(stateC.InteractingObject as SortingBoxes, puzzle);
+                            SortingBoxSlot selfSlot = FindCorrespondSlot(stateC.InteractingObject as SortingBoxes, puzzle);
                             BoxSlotComponent targetSlotC = EntityManager.Instance.GetComponent<BoxSlotComponent>(targetSlot);
                             BoxSlotComponent selfSlotC = EntityManager.Instance.GetComponent<BoxSlotComponent>(selfSlot);
                             selfSlotC.isPlaced = true;
@@ -201,6 +201,8 @@ namespace EducationalGame
 
                 stateC.LookingInteractable = false;
             }
+
+
         }
 
         private void UpdatePuzzle()
@@ -208,6 +210,7 @@ namespace EducationalGame
             puzzle = Constants.Game.GetTriggerPuzzle();
             if (puzzle == null) return;
             puzzle.OnDisableTrigger += SetPuzzleNull;
+            puzzle.OnSolvePuzzle += SetPuzzleNull;
         }
         private void SetPuzzleNull()
         {
@@ -311,14 +314,10 @@ namespace EducationalGame
         public static SortingBoxSlot FindCorrespondSlot(SortingBoxes box, AlgorithmPuzzle puzzle)
         {
             SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box.ID);
-            // foreach (var entity in EntityManager.Instance.GetAllEntities())
-            foreach (Entity entity in puzzle.GetEntities())
+            foreach (SortingBoxSlot slot in puzzle.Slots.Cast<SortingBoxSlot>())
             {
-                if (entity is SortingBoxSlot)
-                {
-                    BoxSlotComponent bsC = EntityManager.Instance.GetComponent<BoxSlotComponent>(entity.ID);
-                    if (bsC.index == sbC.slotIndex) return entity as SortingBoxSlot;
-                }
+                BoxSlotComponent bsC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot.ID);
+                if (bsC.index == sbC.slotIndex) return slot;
             }
             return null;
         }

@@ -39,7 +39,7 @@ namespace EducationalGame
             {
                 puzzle.OnEnableTrigger += UpdatePuzzle;
                 puzzle.OnEnableTrigger += DisplayRestTime;
-                puzzle.OnDisableTrigger += RemoveDisplayTime;
+                puzzle.OnDisableTrigger += RemoveDisplay;
             }
         }
 
@@ -173,13 +173,19 @@ namespace EducationalGame
             if (CheckPuzzleSuccess(puzzle))
             {
                 Debug.Log("successfully solved the puzzle");
+                
+                DisplaySuccess();
                 puzzle.SolvePuzzle();       // Haven't handle status: Solved -> Unsolved
+                TriTime = 0;
             }
             else if (TriTime >= MaxTriTime)
             {
                 // Reset the puzzle
                 Debug.Log("Failed to solve the puzzle");
+                puzzle.OnEnableTrigger -= UpdatePuzzle;
+                DisplayFail();
                 puzzle.ResetPuzzle();
+                puzzle.OnEnableTrigger += UpdatePuzzle;
                 TriTime = 0;
             }
         }
@@ -202,6 +208,7 @@ namespace EducationalGame
             if (puzzle == null) return;
             MaxTriTime = puzzle.GetMaxTryTime();
             puzzle.OnDisableTrigger += SetPuzzleNull;
+            puzzle.OnSolvePuzzle += SetPuzzleNull;
         }
 
         private bool CheckPuzzleSuccess(AlgorithmPuzzle puzzle)
@@ -219,25 +226,26 @@ namespace EducationalGame
         {
             if (puzzle == null) return;
             TextMeshPro tmp = puzzle.text;
-            tmp.gameObject.SetActive(true);
-
+            tmp.gameObject.SetActive(true);;
             int restTriTime = MaxTriTime - TriTime;
-            if (puzzle.success) 
-            {
-                tmp.text = "Solved a Puzzle!";
-            }
-            else if (restTriTime <= 0)
-            {
-                tmp.text = "Failed a Puzzle!";
-            }
-            else
-            {
-                tmp.text = "Available Move: " + restTriTime.ToString();
-            }
-            
+            tmp.text = "Available Move: " + restTriTime.ToString();
+        }
+        private void DisplaySuccess()
+        {
+            if (puzzle == null) return;
+            TextMeshPro tmp = puzzle.text;
+            tmp.gameObject.SetActive(true);
+            tmp.text = "Solved a Puzzle!";
+        }
+        private void DisplayFail()
+        {
+            if (puzzle == null) return;
+            TextMeshPro tmp = puzzle.text;
+            tmp.gameObject.SetActive(true);
+            tmp.text = "Failed a Puzzle!";
         }
 
-        private void RemoveDisplayTime()
+        private void RemoveDisplay()
         {
             if (puzzle == null) return;
             TextMeshPro tmp = puzzle.text;

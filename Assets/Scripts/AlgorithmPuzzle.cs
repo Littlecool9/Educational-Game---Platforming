@@ -156,6 +156,7 @@ public class AlgorithmPuzzle : MonoBehaviour
     public void SolvePuzzle()
     {
         success = true;
+        OnSolvePuzzle?.Invoke();
         foreach (GameObject gate in Gates)
         {
             gate.SetActive(false);
@@ -168,6 +169,7 @@ public class AlgorithmPuzzle : MonoBehaviour
         }
         DisableTrigger();       // Unsubscribe objects
     }
+    public event Action OnSolvePuzzle;
 
     public List<Entity> GetEntities() => Entities;
     public int GetMaxTryTime() => MaxTryTime;
