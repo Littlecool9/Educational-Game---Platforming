@@ -90,9 +90,9 @@ public class Game : MonoBehaviour
 
         Gizmos.color = Color.green; // 设置边界颜色
 
-        for (int i = -1; i <= 3; i++)
+        for (int i = -3; i <= 5; i++)
         {
-            for (int j = -1; j <= 3; j++)
+            for (int j = -3; j <= 5; j++)
             {
                 float x = (xPage + i) * camWidth;
                 float y = (yPage + j) * camHeight;

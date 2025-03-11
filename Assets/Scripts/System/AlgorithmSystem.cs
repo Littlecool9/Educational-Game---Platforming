@@ -137,7 +137,6 @@ namespace EducationalGame
             }
             else if (requireSwapCheck)
             {
-                Debug.Log("swap check");
                 // 交换箱子时的逻辑
                 // SortingBoxes[] swapBoxes = InteractSystem.FindPreviousSwapBoxes(puzzle);
                 SortingBoxes[] swapBoxes = puzzle.LastSwaps;
