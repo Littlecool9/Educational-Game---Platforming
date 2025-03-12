@@ -29,8 +29,6 @@ public class KnowledgeBoard : MonoBehaviour
     {
         // StartCoroutine(MoveText(startPosition, targetPosition));
         StartCoroutine(ChangeColor(startColor, endColor));
-        // textMeshPro.gameObject.SetActive(true);
-        Debug.Log("RiseText");
         
     }
 
@@ -39,9 +37,6 @@ public class KnowledgeBoard : MonoBehaviour
         
         // StartCoroutine(MoveText(targetPosition, startPosition));
         StartCoroutine(ChangeColor(endColor, startColor));
-        // textMeshPro.gameObject.SetActive(false);
-        Debug.Log("FallText");
-        
     }
 
     IEnumerator MoveText(Vector3 from, Vector3 to)
