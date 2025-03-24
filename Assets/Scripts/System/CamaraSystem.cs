@@ -13,10 +13,11 @@ namespace EducationalGame
         private Vector3 startPos; // 记录摄像机初始位置
         private float camWidth;
         private float camHeight;
+        private string camName = "Camera";
 
         public void Init()
         {
-            camera = GameObject.Find("Main Camera");
+            camera = GameObject.Find(camName);
             player = Constants.player.transform;
 
             camHeight = Camera.main.orthographicSize * 2;
