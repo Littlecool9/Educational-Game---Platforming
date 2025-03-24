@@ -39,7 +39,7 @@ public class Game : MonoBehaviour
         if (playerObject == null)
         {
             // InitPlayer(temp);  
-            Debug.Log("player null");
+            // Debug.Log("player null");
         }
         else
         {

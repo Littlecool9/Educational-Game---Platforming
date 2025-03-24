@@ -17,7 +17,7 @@ namespace EducationalGame.Core
         public static List<IAsyncUpdate> asyncSystems = new List<IAsyncUpdate>();
         
         public static void Init() {
-            // playerController = new PlayerController();
+            playerController = new PlayerController();
             // playerStateMachine = new PlayerStateMachine();
             // physicsSystem = new PhysicsSystem();
             // renderSystem = new RenderSystem();
@@ -26,7 +26,7 @@ namespace EducationalGame.Core
             camaraSystem = new CamaraSystem();
 
             // Adding order determines the order of execution
-            // systems.Add(playerController);      // 接受输入
+            systems.Add(playerController);      // 接受输入
             // systems.Add(playerStateMachine);    // 处理状态
             systems.Add(interactSystem);        // 处理互动逻辑
             systems.Add(algorithmSystem);       // 处理算法区域的谜题判定

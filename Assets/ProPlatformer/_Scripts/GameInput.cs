@@ -78,6 +78,7 @@ namespace Myd.Platform
         public static VisualButton Jump = new VisualButton(KeyCode.Space, 0.08f);
         public static VisualButton Dash = new VisualButton(KeyCode.K, 0.08f);
         public static VisualButton Grab = new VisualButton(KeyCode.J);
+        public static VisualButton Interact = new VisualButton(KeyCode.E);
         public static VirtualJoystick Aim = new VirtualJoystick();
         public static Vector2 LastAim;
 
