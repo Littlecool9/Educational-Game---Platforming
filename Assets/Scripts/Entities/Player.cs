@@ -21,9 +21,9 @@ namespace EducationalGame
 
 
         
-        private Player() : base()
+        private Player()
         {
-            
+            ID = 0;
         }
 
         public override void InitEntity()

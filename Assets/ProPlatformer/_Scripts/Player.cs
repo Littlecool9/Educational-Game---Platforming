@@ -1,8 +1,8 @@
-﻿
-
+﻿using System;
 using Myd.Common;
 using Myd.Platform;
 using Myd.Platform.Core;
+using EducationalGame.Core;
 using UnityEngine;
 
 namespace Myd.Platform
@@ -18,6 +18,9 @@ namespace Myd.Platform
         private PlayerRenderer playerRenderer;
         private PlayerController playerController;
 
+        // 实际的单例模式
+        public static event Action<GameObject> OnPlayerInstantiate;
+
         private IGameContext gameContext;
 
         public Player(IGameContext gameContext)
@@ -28,7 +31,9 @@ namespace Myd.Platform
         //加载玩家实体
         public void Reload(Bounds bounds, Vector2 startPosition)
         {
-            this.playerRenderer = Object.Instantiate(Resources.Load<PlayerRenderer>("PlayerRenderer"));
+            this.playerRenderer = UnityEngine.Object.Instantiate(Resources.Load<PlayerRenderer>("PlayerRenderer"));
+            OnPlayerInstantiate?.Invoke(playerRenderer.gameObject);
+            
             //this.playerRenderer = AssetHelper.Create<PlayerRenderer>("Assets/ProPlatformer/_Prefabs/PlayerRenderer.prefab");
             this.playerRenderer.Reload();
             //初始化
@@ -39,6 +44,7 @@ namespace Myd.Platform
             //PlayerParams playerParams = AssetHelper.LoadObject<PlayerParams>("Assets/ProPlatformer/PlayerParam.asset");
             playerParams.SetReloadCallback(() => this.playerController.RefreshAbility());
             playerParams.ReloadParams();
+
         }
 
         public void Update(float deltaTime)

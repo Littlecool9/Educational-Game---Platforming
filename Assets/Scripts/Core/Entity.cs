@@ -13,9 +13,9 @@ namespace EducationalGame.Core
         }
     public abstract class Entity
     {
-        public int ID { get; private set; }
+        public int ID { get; protected set; }
         
-        private static int nextID = 0;
+        private static int nextID = 1;
 
         protected EntityManager entityManager = EntityManager.Instance;
 

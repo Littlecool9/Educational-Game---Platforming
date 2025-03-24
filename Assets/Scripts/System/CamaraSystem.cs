@@ -18,7 +18,7 @@ namespace EducationalGame
         public void Init()
         {
             camera = GameObject.Find(camName);
-            player = Constants.player.transform;
+            // player = Constants.player.transform;
 
             camHeight = Camera.main.orthographicSize * 2;
             camWidth = camHeight * Camera.main.aspect;
@@ -33,6 +33,9 @@ namespace EducationalGame
 
         public void Update()
         {
+            if (player == null) player = Constants.player.transform;
+
+
             Vector3 playerPos = player.position;
             Vector3 camPos = camera.transform.position;
 

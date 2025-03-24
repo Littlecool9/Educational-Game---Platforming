@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Myd.Platform
 {
@@ -105,5 +106,10 @@ namespace Myd.Platform
         #endregion
 
         public static float LaunchedMinSpeedSq = 196;
+
+        internal static void SetPlayerPrefab(GameObject player)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

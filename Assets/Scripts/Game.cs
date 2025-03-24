@@ -14,57 +14,74 @@ public class Game : MonoBehaviour
     [SerializeField]
     public List<AlgorithmPuzzle> algorithmPuzzles; 
 
-    void Start() {
+    private List<InteractableComponent> interactables = new List<InteractableComponent>();
+
+
+    private void Awake() 
+    {
+        Myd.Platform.Player.OnPlayerInstantiate += InitPlayer;
+    }
+
+    void Start() 
+    {
         Application.targetFrameRate = 60; // 将游戏帧率锁定为 60 FPS
-        Constants.SetPlayerPrefab(playerObject);
+
+        EntityManager.Instance.CreateEntity(EntityType.Player, "Player");
 
         Constants.Init(this);
-        Init();                     // Init Player\TriggerObject
+        InitPuzzles();
         SystemManager.Init();       // Init Systems
     }
 
-    void FixedUpdate() {
-        Constants.SetDeltaTime(Time.deltaTime);
+    void FixedUpdate() 
+    {
 
-        foreach(var system in SystemManager.systems)
+        if (playerObject == null)
         {
-            system.Update();
+            // InitPlayer(temp);  
+            Debug.Log("player null");
         }
-        // if (GetTriggerPuzzle() != null) Debug.Log("Trigger puzzle: " + Constants.Game.GetTriggerPuzzle().puzzleID);
+        else
+        {
+            Constants.SetDeltaTime(Time.deltaTime);
+
+            foreach(var system in SystemManager.systems)
+            {
+                system.Update();
+            }
+        }
         
     }
 
+    private void InitPlayer(GameObject player)
+    {
+        RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(EntityManager.Instance.GetPlayer());
+
+        Constants.SetPlayerPrefab(player);
+        renderC.SetGameObject(player);    
+
+        playerObject = player;
+    }
+
     // Act as an init system
-    private void Init(){
-        
-
+    private void InitPuzzles()
+    {
         // The following logic will be put in level.cs in the future
-        // Player init
-        GameObject playerObject = Constants.player;
-
-        Player player = EntityManager.Instance.CreateEntity(EntityType.Player, "Player") as Player;
-        // Initialize Components
-        RenderComponent renderC = EntityManager.Instance.GetComponent<RenderComponent>(player.ID);
-        renderC.SetGameObject(playerObject);        
-
-        InteractionComponent interactionC = EntityManager.Instance.GetComponent<InteractionComponent>(player.ID);
-
 
         // Algorithm Area puzzles init
         foreach (AlgorithmPuzzle puzzle in algorithmPuzzles)
         {
             // Debug.Log("id:" + puzzle.puzzleID);
-            List<InteractableComponent> interactables = puzzle.Init();
-            interactionC.AddInteractableToList(interactables);
+            // List<InteractableComponent> interactables = puzzle.Init();
+            // interactionC.AddInteractableToList(interactables);
+
+            interactables.AddRange(puzzle.Init());
         }
-
-        interactionC.InitInteracables();
-
     }
 
     public AlgorithmPuzzle GetTriggerPuzzle()
     {
-        foreach (AlgorithmPuzzle puzzle in Constants.Game.algorithmPuzzles)
+        foreach (AlgorithmPuzzle puzzle in algorithmPuzzles)
         {
             if (puzzle.GetTriggerStatus())
             {
@@ -109,6 +126,11 @@ public class Game : MonoBehaviour
                 Gizmos.DrawLine(topLeft, bottomLeft);
             }
         }
+    }
+
+    private void SetPlayerObject()
+    {
+
     }
 }
 

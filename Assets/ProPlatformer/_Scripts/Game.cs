@@ -46,6 +46,7 @@ namespace Myd.Platform
             //加载玩家
             player.Reload(level.Bounds, level.StartPosition);
             this.gameState = EGameState.Play;
+
             yield return null;
         }
 
@@ -60,7 +61,7 @@ namespace Myd.Platform
                     //更新玩家逻辑数据
                     player.Update(deltaTime);
                     //更新摄像机
-                    gameCamera.SetCameraPosition(player.GetCameraPosition());
+                    // gameCamera.SetCameraPosition(player.GetCameraPosition());
                 }
             }
         }

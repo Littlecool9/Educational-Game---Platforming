@@ -135,14 +135,14 @@ namespace Myd.Platform
             Vector2 origion = this.Position + collider.position + offset;
             Vector3 boxSize = collider.size;
 
-            Debug.DrawRay(origion, Vector3.up * 0.2f, Color.green, 2f);  // 绿色的点，持续2秒
-            Debug.DrawRay(origion, Vector3.right * 0.2f, Color.green, 2f); // 右侧的小线，方便看到
+            // Debug.DrawRay(origion, Vector3.up * 0.2f, Color.green, 2f);  // 绿色的点，持续2秒
+            // Debug.DrawRay(origion, Vector3.right * 0.2f, Color.green, 2f); // 右侧的小线，方便看到
 
-            // 画出 BoxCast 检测方向
-            Debug.DrawRay(origion, Vector3.down * DEVIATION, Color.red, 2f);  // 红色的射线表示 BoxCast 方向
+            // // 画出 BoxCast 检测方向
+            // Debug.DrawRay(origion, Vector3.down * DEVIATION, Color.red, 2f);  // 红色的射线表示 BoxCast 方向
 
-            // 可视化 `BoxCast` 的边界
-            DrawBox(origion, boxSize, Color.blue, 2f);
+            // // 可视化 `BoxCast` 的边界
+            // DrawBox(origion, boxSize, Color.blue, 2f);
 
             RaycastHit2D hit = Physics2D.BoxCast(origion, collider.size, 0, Vector2.down, DEVIATION, GroundMask);
             if (hit && hit.normal != Vector2.up) Debug.Log("hitting wall");
