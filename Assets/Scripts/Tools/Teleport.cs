@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class Teleport : MonoBehaviour
 {
-    Collider2D collider;
     public Transform target;
-    void Start()
-    {
-        collider = GetComponent<Collider2D>();
-    }
 
     // Update is called once per frame
     private void OnTriggerEnter2D(Collider2D other) {

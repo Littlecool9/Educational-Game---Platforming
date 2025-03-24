@@ -8,10 +8,12 @@ public class Trap : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.tag == "Player") {
+            Debug.Log("Trap");
             other.gameObject.transform.position = respawnPoint.position;
         }
     }
     private void OnCollisionStay2D(Collision2D other) {
+        Debug.Log("Trap");
         if (other.gameObject.tag == "Player") {
             other.gameObject.transform.position = respawnPoint.position;
         }

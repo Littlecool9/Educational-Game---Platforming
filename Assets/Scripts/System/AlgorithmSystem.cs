@@ -99,7 +99,7 @@ namespace EducationalGame
                     {
                         BoxCorrectlyInSlot(box, slot);
                     }
-
+                    
                     TriTime++;
                 }
                 
