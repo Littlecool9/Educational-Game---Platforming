@@ -20,13 +20,13 @@ public class EquationPuzzleEditor : Editor
 
     private void OnEnable() 
     {
-        Bits = serializedObject.FindProperty("Bits");
-        Carry = serializedObject.FindProperty("Carry");
-        Sum = serializedObject.FindProperty("Sum");
+        Bits = serializedObject.FindProperty("BitsObjects");
+        Carry = serializedObject.FindProperty("CarryObject");
+        Sum = serializedObject.FindProperty("SumObject");
 
-        EquationNumbers = serializedObject.FindProperty("EquationNumbers");
+        EquationNumbers = serializedObject.FindProperty("EquationNumbersObjects");
         // EquationBitsPerNumber = serializedObject.FindProperty("EquationBitsPerNumber");
-        EquationBits = serializedObject.FindProperty("EquationBits");
+        EquationBits = serializedObject.FindProperty("EquationBitsObjects");
     }
 
     public override void OnInspectorGUI()

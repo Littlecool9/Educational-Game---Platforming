@@ -11,7 +11,11 @@ namespace EducationalGame.Component
         // All interactable objects. Determine the state and the result of interaction result
 
         public Trigger triggerScript;
-        public bool Interactable = false;   // true when player enter the object's trigger
+
+        /// <summary>
+        /// true when player enter the object's trigger
+        /// </summary>
+        public bool Interactable = false;  
         // Activate when interacted
         // Comsumed in Judge System
         public bool InteractedBuffer = false;      

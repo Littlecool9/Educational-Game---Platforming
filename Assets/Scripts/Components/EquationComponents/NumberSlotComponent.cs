@@ -7,9 +7,10 @@ namespace EducationalGame.Component
 {
     public class NumberSlotComponent : IComponent
     {
+        // A number in the decimal equation
         public int CurrentNumber { get; private set; }
 
-        public bool IsResult = false;
+        public bool IsResult = false;       // Is the result of equation
 
         // Assigned from bridge
         private int _result;
@@ -27,13 +28,15 @@ namespace EducationalGame.Component
             }
             set => _result = value;
         }
+
+        // Link the set of binary representation
         public int BinaryGroupNumber;
         // Dict structure: digital: 位数, value: binary
         private Dictionary<int, NumberSwitchComponent> Binaries = new Dictionary<int, NumberSwitchComponent>();
         private List<NumberVibeComponent> Vibes = new List<NumberVibeComponent>();
-        
-
         private int digital = 0;
+
+        private NumberBridge bridge;
 
         
         public void InitComponent()
@@ -41,7 +44,7 @@ namespace EducationalGame.Component
             
         }
 
-        public void AddBinary(NumberSwitchComponent binary)
+        public void AddBitToBinary(NumberSwitchComponent binary)
         {
             Binaries.Add(digital++, binary);
         }
@@ -62,11 +65,14 @@ namespace EducationalGame.Component
 
         public void Init()
         {
-            foreach (var binary in Binaries)
-            {
-                binary.Value.OnToggleBinary += UpdateNumber;
-            }
+            
+            foreach (var binary in Binaries) { binary.Value.OnToggleBinary += UpdateNumber; }
         }
 
+        public void SetBridge(NumberBridge bridge)
+        {
+            this.bridge = bridge;
+            this.CurrentNumber = bridge.Number;
+        }
     }
 }

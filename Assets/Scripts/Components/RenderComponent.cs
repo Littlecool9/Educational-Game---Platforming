@@ -1,5 +1,6 @@
 using System;
 using EducationalGame.Core;
+using TMPro;
 using UnityEngine;
 
 namespace EducationalGame.Component
@@ -31,6 +32,12 @@ namespace EducationalGame.Component
         public BoxBridge sortingBoxBridge;
         public SlotBridge slotBridge;
 
+        
+        // Equation Area Specific
+        public NumberBridge numberBridge;
+        public SwitchBridge switchBridge;
+
+        public TextMeshPro textMeshPro;
 
 
         // Player Specific
@@ -45,10 +52,16 @@ namespace EducationalGame.Component
             collider = gameObject.GetComponent<Collider2D>();
             transform = gameObject.GetComponent<Transform>();
             animator = gameObject.GetComponent<Animator>();
-            sortingBoxBridge = gameObject.GetComponent<BoxBridge>();
-            slotBridge = gameObject.GetComponent<SlotBridge>();
+
+            textMeshPro = gameObject.GetComponent<TextMeshPro>();
+
             trigger = gameObject.GetComponent<Trigger>();
 
+            sortingBoxBridge = gameObject.GetComponent<BoxBridge>();
+            slotBridge = gameObject.GetComponent<SlotBridge>();
+            
+            numberBridge = gameObject.GetComponent<NumberBridge>();
+            switchBridge = gameObject.GetComponent<SwitchBridge>();
         }
 
         public void InitComponent()

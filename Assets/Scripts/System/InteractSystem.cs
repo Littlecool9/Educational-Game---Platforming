@@ -58,7 +58,7 @@ namespace EducationalGame
                 bool foundInteracatble = false;
                 if (puzzle is AlgorithmPuzzle algorithmPuzzle)      // Search for algorithm puzzles
                 {
-                    foreach(Entity entity in puzzle.GetEntities())
+                    foreach(Entity entity in algorithmPuzzle.GetEntities())
                     {
                         // Choose only the entities within the puzzle
                         InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity);
@@ -74,7 +74,7 @@ namespace EducationalGame
 
                                 SortingBoxSlot slot = FindCorrespondSlot(entity as SortingBoxes, algorithmPuzzle);
                                 
-                                InteractableComponent sIC = EntityManager.Instance.GetComponent<InteractableComponent>(slot);
+                                InteractableComponent sIC = EntityManager.Instance.GetComponent<InteractableComponent>(slot);       // REDUNDANT
                                 BoxSlotComponent bsC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
                                 int slotIndex = sbC.slotIndex;
 
@@ -185,6 +185,27 @@ namespace EducationalGame
                         }
                     }
                 }
+                else if (puzzle is EquationPuzzle equationPuzzle)
+                {
+                    foreach(Entity entity in equationPuzzle.GetEntities())
+                    {
+                        InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity);
+                        if (interactableC == null) continue;
+
+                        if (entity is NumberSwitch switchEntity)
+                        {
+                            NumberSwitchComponent nsC = EntityManager.Instance.GetComponent<NumberSwitchComponent>(entity);
+                            
+                            if (interactableC.Interactable)
+                            {
+                                Interact(switchEntity);
+                                
+                                foundInteracatble = true;
+                                break;
+                            }
+                        }
+                    }
+                }
                 if (!foundInteracatble) 
                 {
                     // Failed to find an interactable
@@ -248,10 +269,11 @@ namespace EducationalGame
             boxRC.MoveTransform(slotRC.transform.position - boxRC.transform.position);
         }
 
-        // private void Interact(XORLever lever)
-        // {
-            
-        // }
+        private void Interact(NumberSwitch numberSwitch)
+        {
+            NumberSwitchComponent nsC = EntityManager.Instance.GetComponent<NumberSwitchComponent>(numberSwitch);
+            nsC.ToggleBinary();
+        }
 
         private void DetermineAction()
         {   

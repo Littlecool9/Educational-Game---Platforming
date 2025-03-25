@@ -13,6 +13,7 @@ namespace EducationalGame
         public override void InitEntity()
         {
             entityManager.AddComponent(this, new NumberSwitchComponent());
+            entityManager.AddComponent(this, new RenderComponent());
             entityManager.AddComponent(this, new InteractableComponent());
 
             foreach (IComponent component in entityManager.GetComponents(this.ID)) { component.InitComponent(); }

@@ -1,20 +1,27 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using EducationalGame.Core;
-using UnityEngine;
+using TMPro;
 
 namespace EducationalGame.Component
 {
+    [Serializable]
     public enum Binary{ Zero, One }
     public class NumberSwitchComponent : IComponent
     {
-        public Binary CurrentBinary { get; private set; }
-        public event Action OnToggleBinary;
+        public bool isSum;
+        public bool isCarry;
+        public Binary TargetBinary;
+
+        public Binary CurrentBinary { get; set; }
+
+        public TextMeshPro textMeshPro;
+
+
+        public SwitchBridge bridge;
 
         public void InitComponent()
         {
-            
+            OnToggleBinary += UpdateText;
         }
 
         public void ToggleBinary()
@@ -22,5 +29,33 @@ namespace EducationalGame.Component
             CurrentBinary = CurrentBinary == Binary.Zero ? Binary.One : Binary.Zero;
             OnToggleBinary?.Invoke();
         }
+        public event Action OnToggleBinary;
+
+        /// <summary>
+        /// Set initial status according to inspector setting
+        /// </summary>
+        public void SetBridge(SwitchBridge bridge)
+        {
+            this.bridge = bridge;
+            this.isCarry = bridge.isCarry;
+            this.isSum = bridge.isSum;
+            this.CurrentBinary = bridge.InitialBinary;
+            this.textMeshPro = bridge.text;
+
+            if (isCarry || isSum) 
+            {
+                TargetBinary = bridge.TargetBinary;
+                string addingText = isSum ? "Sum" : "Carry";
+                string number = CurrentBinary == Binary.Zero ? "0" : "1";
+                textMeshPro.text = addingText + ": " + number;
+            }
+        }
+
+        public void UpdateText()
+        {
+            textMeshPro.text = CurrentBinary.ToString();
+        }
+
+        public void Reset() => SetBridge(bridge);
     }
 }
