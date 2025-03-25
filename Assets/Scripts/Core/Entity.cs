@@ -9,6 +9,7 @@ namespace EducationalGame.Core
 {
     public enum EntityType { Player, 
         SortingBoxSlot, SortingBoxes,
+        NumberSlot, NumberSwitch, NumberVibe
         }
     public abstract class Entity
     {
@@ -23,6 +24,9 @@ namespace EducationalGame.Core
             if (name is EntityType.Player) return Player.Instance;
             else if (name is EntityType.SortingBoxes) return new SortingBoxes();
             else if (name is EntityType.SortingBoxSlot) return new SortingBoxSlot();
+            else if (name is EntityType.NumberSlot) return new NumberSlot();
+            else if (name is EntityType.NumberSwitch) return new NumberSwitch();
+            else if (name is EntityType.NumberVibe) return new NumberVibe();
             else return null;
         }
 

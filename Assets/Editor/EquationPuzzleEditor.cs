@@ -1,0 +1,74 @@
+using System.Collections;
+using System.Collections.Generic;
+using Codice.Client.Common.GameUI;
+using UnityEditor;
+using UnityEngine;
+
+[CustomEditor(typeof(EquationPuzzle))]
+public class EquationPuzzleEditor : Editor
+{
+
+    #region SerializableProperties
+    SerializedProperty Bits;
+    SerializedProperty Carry;
+    SerializedProperty Sum;
+
+    SerializedProperty EquationNumbers;
+    // SerializedProperty EquationBitsPerNumber;
+    SerializedProperty EquationBits;
+    #endregion
+
+    private void OnEnable() 
+    {
+        Bits = serializedObject.FindProperty("Bits");
+        Carry = serializedObject.FindProperty("Carry");
+        Sum = serializedObject.FindProperty("Sum");
+
+        EquationNumbers = serializedObject.FindProperty("EquationNumbers");
+        // EquationBitsPerNumber = serializedObject.FindProperty("EquationBitsPerNumber");
+        EquationBits = serializedObject.FindProperty("EquationBits");
+    }
+
+    public override void OnInspectorGUI()
+    {
+        
+        EquationPuzzle script = (EquationPuzzle)target;     // 获取目标对象
+        serializedObject.Update();                          // 更新 Inspector 数据
+
+
+        // 创建一个勾选框
+        script.isBinaryPuzzle = EditorGUILayout.Toggle("isBinaryPuzzle", script.isBinaryPuzzle);
+
+        // 根据勾选框的状态显示不同的 Puzzle
+        if (script.isBinaryPuzzle)
+        {
+            EditorGUILayout.PropertyField(Bits, new GUIContent("Bits"), true);
+            EditorGUILayout.PropertyField(Carry, new GUIContent("Carry"), true);
+            EditorGUILayout.PropertyField(Sum, new GUIContent("Sum"), true);
+        }
+        else
+        {
+            EditorGUILayout.PropertyField(EquationNumbers, new GUIContent("EquationNumbers"), true);
+
+            int currentSize = EquationNumbers.arraySize;
+            while (EquationBits.arraySize < currentSize)
+            {
+                EquationBits.InsertArrayElementAtIndex(EquationBits.arraySize);
+            }
+            while (EquationBits.arraySize > currentSize)
+            {
+                EquationBits.DeleteArrayElementAtIndex(EquationBits.arraySize - 1);
+            }
+
+            // 显示动态生成的子列表
+            for (int i = 0; i < EquationBits.arraySize; i++)
+            {
+                SerializedProperty subList = EquationBits.GetArrayElementAtIndex(i).FindPropertyRelative("objects");
+                EditorGUILayout.PropertyField(subList, new GUIContent($"Binaries of Element {i}"), true);
+            }
+            // EditorGUILayout.PropertyField(EquationBits, new GUIContent("EquationBits"), true);
+        }
+
+        serializedObject.ApplyModifiedProperties(); // 保存修改
+    }
+}
