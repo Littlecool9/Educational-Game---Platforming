@@ -9,42 +9,43 @@ using System;
 using TMPro;
 
 
-public class AlgorithmPuzzle : MonoBehaviour        
+public class AlgorithmPuzzle : MonoBehaviour, IPuzzle    
 {
-    // TODO: Puzzle common variable and function can be defined with interface at the end
-    // TODO: Refactor when more puzzles implementing
-    private static int nextID = 1;
-    public int puzzleID { get; private set; }
+    // An instance of a algorithm puzzle
     public int MaxTryTime;
 
     public TextMeshPro text;
 
 
-    public List<GameObject> SortingBoxes;
+    [SerializeField] public List<GameObject> SortingBoxes;
+    [SerializeField] public List<GameObject> SortingBoxSlots;
     public List<Entity> Boxes = new List<Entity>();
-    public List<GameObject> SortingBoxSlots;
     public List<Entity> Slots = new List<Entity>();
-    private List<Entity> Entities => Boxes.Concat(Slots).ToList();        // TODO: Current implement way is not following framework>
-    public List<GameObject> Gates;
+    public List<Entity> Entities { 
+        get{ return Boxes.Concat(Slots).ToList();} 
+        set => throw new NotSupportedException(); 
+    }
+
+    
+
+    [SerializeField] public List<GameObject> Gates;
+
+    
     public SortingBoxes[] LastSwaps = new SortingBoxes[2];
 
     public float returnSpeed = 5f; // 飞回的速度
 
     // Trigger the puzzle, signs this puzzle is on
-    private bool triggered = false;
+    public bool triggered { get; set; }
+    
+    
+
     private Coroutine resetCoroutine;
     public float resetTime = 10f;
-
-    public bool success { get; private set; }
 
 
     private Dictionary<RenderComponent, int> initialState = new Dictionary<RenderComponent, int>();         // TODO: Current implement way is not following framework
 
-    public AlgorithmPuzzle()
-    {
-        puzzleID = nextID++;
-        success = false;
-    }
 
     public List<InteractableComponent> Init()
     {
@@ -155,7 +156,6 @@ public class AlgorithmPuzzle : MonoBehaviour
 
     public void SolvePuzzle()
     {
-        success = true;
         OnSolvePuzzle?.Invoke();
         foreach (GameObject gate in Gates)
         {
@@ -173,7 +173,6 @@ public class AlgorithmPuzzle : MonoBehaviour
 
     public List<Entity> GetEntities() => Entities;
     public int GetMaxTryTime() => MaxTryTime;
-    public bool GetTriggerStatus() => triggered;
 
     public bool ContainEntities(Entity entity)
     {

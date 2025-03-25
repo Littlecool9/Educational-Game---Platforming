@@ -1,9 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Timers;
 using EducationalGame.Component;
 using EducationalGame.Core;
 using TMPro;
@@ -23,7 +19,7 @@ namespace EducationalGame
 
         // private SortingBoxSlot slot;
         // private SortingBoxes box;
-        private AlgorithmPuzzle puzzle;
+        private static AlgorithmPuzzle puzzle;      // Record the triggered puzzle
         private int MaxTriTime = -1;
         private int TriTime = 0;
 
@@ -35,11 +31,11 @@ namespace EducationalGame
             SystemManager.interactSystem.OnInteractSlot += SlotCheck;
             SystemManager.interactSystem.OnInteractBox += BoxCheck;
             SystemManager.interactSystem.OnSwapBoxes += SwapCheck;
-            foreach(AlgorithmPuzzle puzzle in Constants.Game.algorithmPuzzles)
+            foreach(AlgorithmPuzzle puzzleInstance in Constants.Game.algorithmPuzzles)
             {
-                puzzle.OnEnableTrigger += UpdatePuzzle;
-                puzzle.OnEnableTrigger += DisplayRestTime;
-                puzzle.OnDisableTrigger += RemoveDisplay;
+                puzzleInstance.OnEnableTrigger += UpdatePuzzle;
+                puzzleInstance.OnEnableTrigger += DisplayRestTime;
+                puzzleInstance.OnDisableTrigger += RemoveDisplay;
             }
         }
 
@@ -203,7 +199,7 @@ namespace EducationalGame
 
         private void UpdatePuzzle()
         {
-            puzzle = Constants.Game.GetTriggerPuzzle();
+            puzzle = Constants.Game.GetTriggerPuzzle() as AlgorithmPuzzle;
             if (puzzle == null) return;
             MaxTriTime = puzzle.GetMaxTryTime();
             puzzle.OnDisableTrigger += SetPuzzleNull;

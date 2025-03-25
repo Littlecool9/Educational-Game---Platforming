@@ -19,7 +19,7 @@ namespace EducationalGame
         public event Action<AlgorithmPuzzle> OnInteractBox;
         public event Action<AlgorithmPuzzle> OnSwapBoxes;
         
-        private AlgorithmPuzzle puzzle;     // Record the puzzle interacting
+        private static IPuzzle puzzle;     // Record the triggered puzzle
         private SortingBoxes[] neighbors = new SortingBoxes[2];
         
         
@@ -56,132 +56,132 @@ namespace EducationalGame
             if (puzzle != null && stateC.LookingInteractable)
             {
                 bool foundInteracatble = false;
-                // TODO: if puzzle == algorithm puzzle
-                foreach(Entity entity in puzzle.GetEntities())
+                if (puzzle is AlgorithmPuzzle algorithmPuzzle)      // Search for algorithm puzzles
                 {
-                    // Choose only the entities within the puzzle
-                    // if (!puzzle.ContainEntities(entity)) continue;
-
-                    InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity);
-                    if (interactableC == null) continue;
-
-                    if (entity is SortingBoxes)     // TODO: Edit when more interactable objects added
+                    foreach(Entity entity in puzzle.GetEntities())
                     {
-                        SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(entity);
+                        // Choose only the entities within the puzzle
+                        InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity);
+                        if (interactableC == null) continue;
 
-                        if (interactableC.Interactable && stateC.InteractingObject == null)     // Pick a box to follow
+                        if (entity is SortingBoxes)     // TODO: Edit when more interactable objects added
                         {
-                            stateC.SetInteractingObject(entity);            
+                            SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(entity);
 
-                            SortingBoxSlot slot = FindCorrespondSlot(entity as SortingBoxes, puzzle);
-                            
-                            InteractableComponent sIC = EntityManager.Instance.GetComponent<InteractableComponent>(slot);
-                            BoxSlotComponent bsC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
-                            int slotIndex = sbC.slotIndex;
-
-                            // Enable neighbor boxes to be interacables
-                            neighbors = FindNeighbors(entity as SortingBoxes, puzzle);
-                            SortingBoxes leftNeighbor = neighbors[0];
-                            SortingBoxes rightNeighbor = neighbors[1];
-
-                            if (rightNeighbor != null) EnableSortingBoxSwap(rightNeighbor);
-                            if (leftNeighbor != null) EnableSortingBoxSwap(leftNeighbor);
-
-                            // Disable Non-neighbor
-                            foreach (SortingBoxes box in puzzle.Boxes.Cast<SortingBoxes>())
+                            if (interactableC.Interactable && stateC.InteractingObject == null)     // Pick a box to follow
                             {
-                                if (box.ID == neighbors[0]?.ID || box.ID == neighbors[1]?.ID || box.ID == entity.ID) continue;
-                                SortingBoxComponent boxC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box);
-                                boxC.swapable = false;
+                                stateC.SetInteractingObject(entity);            
+
+                                SortingBoxSlot slot = FindCorrespondSlot(entity as SortingBoxes, algorithmPuzzle);
+                                
+                                InteractableComponent sIC = EntityManager.Instance.GetComponent<InteractableComponent>(slot);
+                                BoxSlotComponent bsC = EntityManager.Instance.GetComponent<BoxSlotComponent>(slot);
+                                int slotIndex = sbC.slotIndex;
+
+                                // Enable neighbor boxes to be interacables
+                                neighbors = FindNeighbors(entity as SortingBoxes, algorithmPuzzle);
+                                SortingBoxes leftNeighbor = neighbors[0];
+                                SortingBoxes rightNeighbor = neighbors[1];
+
+                                if (rightNeighbor != null) EnableSortingBoxSwap(rightNeighbor);
+                                if (leftNeighbor != null) EnableSortingBoxSwap(leftNeighbor);
+
+                                // Disable Non-neighbor
+                                foreach (SortingBoxes box in algorithmPuzzle.Boxes.Cast<SortingBoxes>())
+                                {
+                                    if (box.ID == neighbors[0]?.ID || box.ID == neighbors[1]?.ID || box.ID == entity.ID) continue;
+                                    SortingBoxComponent boxC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box);
+                                    boxC.swapable = false;
+                                }
+
+                                // Update Box Status
+                                interactableC.ActivateInteractionBuffer();
+                                interactableC.Interactable = false;
+                                // sbC.slotIndex = -1;
+
+                                // Update Slot Status
+                                if (slot == null) Debug.Log("Slot not found");
+                                bsC.isPlaced = false;
+                                // sIC.Interactable = true;
+
+
+                                Interact(entity as SortingBoxes);
+                                OnInteractBox?.Invoke(algorithmPuzzle);
+
+
+                                foundInteracatble = true;
+                                break;
                             }
+                            else if (interactableC.Interactable && stateC.InteractingObject is SortingBoxes && sbC.swapable)        
+                            {
+                                // Interactable确保碰到，InteractingObject确保执行交换，swapable确保在交换相邻的box
+                                // Swap the slot of Interacting Box and Target Box
 
-                            // Update Box Status
-                            interactableC.ActivateInteractionBuffer();
-                            interactableC.Interactable = false;
-                            // sbC.slotIndex = -1;
+                                // entity is the box that is going to be swaped
+                                SortingBoxComponent targetBox = EntityManager.Instance.GetComponent<SortingBoxComponent>(entity);
+                                SortingBoxComponent selfBox = EntityManager.Instance.GetComponent<SortingBoxComponent>(stateC.InteractingObject);
 
-                            // Update Slot Status
-                            if (slot == null) Debug.Log("Slot not found");
-                            bsC.isPlaced = false;
-                            // sIC.Interactable = true;
+                                // Update Boxes Status
+                                InteractableComponent sbIC = EntityManager.Instance.GetComponent<InteractableComponent>(stateC.InteractingObject);
+                                interactableC.ActivateInteractionBuffer();
+
+                                // Update Slots Status
+                                SortingBoxSlot targetSlot = FindCorrespondSlot(entity as SortingBoxes, algorithmPuzzle);
+                                SortingBoxSlot selfSlot = FindCorrespondSlot(stateC.InteractingObject as SortingBoxes, algorithmPuzzle);
+                                BoxSlotComponent targetSlotC = EntityManager.Instance.GetComponent<BoxSlotComponent>(targetSlot);
+                                BoxSlotComponent selfSlotC = EntityManager.Instance.GetComponent<BoxSlotComponent>(selfSlot);
+                                selfSlotC.isPlaced = true;
+                                targetSlotC.isPlaced = true;
+
+                                // Update Previous neighbor status
+                                CompleteSwap();
+
+                                // Swap position
+                                selfBox.slotIndex = targetSlotC.index;
+                                targetBox.slotIndex = selfSlotC.index;
+                                algorithmPuzzle.LastSwaps[0] = stateC.InteractingObject as SortingBoxes;
+                                algorithmPuzzle.LastSwaps[1] = entity as SortingBoxes;
+
+                                Interact(stateC.InteractingObject as SortingBoxes, targetSlot, entity as SortingBoxes, selfSlot);
+                                OnSwapBoxes?.Invoke(algorithmPuzzle);
+                                stateC.ResetInteractingObject();
 
 
-                            Interact(entity as SortingBoxes);
-                            OnInteractBox?.Invoke(puzzle);
-
-
-                            foundInteracatble = true;
-                            break;
+                                foundInteracatble = true;
+                                break;
+                            }
                         }
-                        else if (interactableC.Interactable && stateC.InteractingObject is SortingBoxes && sbC.swapable)        
+                        else if (entity is SortingBoxSlot)
                         {
-                            // Interactable确保碰到，InteractingObject确保执行交换，swapable确保在交换相邻的box
-                            // Swap the slot of Interacting Box and Target Box
+                            BoxSlotComponent bsC = EntityManager.Instance.GetComponent<BoxSlotComponent>(entity);
+                            
+                            if (interactableC.Interactable && stateC.InteractingObject is SortingBoxes && bsC.isPlaced == false)
+                            {
+                                // Interactable确保碰到，InteractingObject确保执行放下box，isPlaced确保可以放下箱子
 
-                            // entity is the box that is going to be swaped
-                            SortingBoxComponent targetBox = EntityManager.Instance.GetComponent<SortingBoxComponent>(entity);
-                            SortingBoxComponent selfBox = EntityManager.Instance.GetComponent<SortingBoxComponent>(stateC.InteractingObject);
+                                // put the interacting box to the empty slot
 
-                            // Update Boxes Status
-                            InteractableComponent sbIC = EntityManager.Instance.GetComponent<InteractableComponent>(stateC.InteractingObject);
-                            interactableC.ActivateInteractionBuffer();
+                                InteractableComponent boxIC = EntityManager.Instance.GetComponent<InteractableComponent>(stateC.InteractingObject);
 
-                            // Update Slots Status
-                            SortingBoxSlot targetSlot = FindCorrespondSlot(entity as SortingBoxes, puzzle);
-                            SortingBoxSlot selfSlot = FindCorrespondSlot(stateC.InteractingObject as SortingBoxes, puzzle);
-                            BoxSlotComponent targetSlotC = EntityManager.Instance.GetComponent<BoxSlotComponent>(targetSlot);
-                            BoxSlotComponent selfSlotC = EntityManager.Instance.GetComponent<BoxSlotComponent>(selfSlot);
-                            selfSlotC.isPlaced = true;
-                            targetSlotC.isPlaced = true;
+                                // Update Box Status
+                                SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(stateC.InteractingObject);
+                                sbC.slotIndex = bsC.index;
 
-                            // Update Previous neighbor status
-                            CompleteSwap();
+                                // Update Slot Status
+                                bsC.isPlaced = true;
+                                interactableC.Interactable = false;
+                                interactableC.ActivateInteractionBuffer();          // pass to judge system
 
-                            // Swap position
-                            selfBox.slotIndex = targetSlotC.index;
-                            targetBox.slotIndex = selfSlotC.index;
-                            puzzle.LastSwaps[0] = stateC.InteractingObject as SortingBoxes;
-                            puzzle.LastSwaps[1] = entity as SortingBoxes;
+                                CompleteSwap();
 
-                            Interact(stateC.InteractingObject as SortingBoxes, targetSlot, entity as SortingBoxes, selfSlot);
-                            OnSwapBoxes?.Invoke(puzzle);
-                            stateC.ResetInteractingObject();
+                                Interact(entity as SortingBoxSlot, stateC.InteractingObject as SortingBoxes);
+                                OnInteractSlot?.Invoke(algorithmPuzzle);
 
+                                stateC.ResetInteractingObject();
+                                foundInteracatble = true;
 
-                            foundInteracatble = true;
-                            break;
-                        }
-                    }
-                    else if (entity is SortingBoxSlot)
-                    {
-                        BoxSlotComponent bsC = EntityManager.Instance.GetComponent<BoxSlotComponent>(entity);
-                        
-                        if (interactableC.Interactable && stateC.InteractingObject is SortingBoxes && bsC.isPlaced == false)
-                        {
-                            // Interactable确保碰到，InteractingObject确保执行放下box，isPlaced确保可以放下箱子
-
-                            // put the interacting box to the empty slot
-
-                            InteractableComponent boxIC = EntityManager.Instance.GetComponent<InteractableComponent>(stateC.InteractingObject);
-
-                            // Update Box Status
-                            SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(stateC.InteractingObject);
-                            sbC.slotIndex = bsC.index;
-
-                            // Update Slot Status
-                            bsC.isPlaced = true;
-                            interactableC.Interactable = false;
-                            interactableC.ActivateInteractionBuffer();          // pass to judge system
-
-                            CompleteSwap();
-
-                            Interact(entity as SortingBoxSlot, stateC.InteractingObject as SortingBoxes);
-                            OnInteractSlot?.Invoke(puzzle);
-
-                            stateC.ResetInteractingObject();
-                            foundInteracatble = true;
-
-                            break;
+                                break;
+                            }
                         }
                     }
                 }
@@ -193,8 +193,13 @@ namespace EducationalGame
 
                 stateC.LookingInteractable = false;
             }
+        }
 
-
+        private void SetPuzzleNull()
+        {
+            if (puzzle == null) return;
+            puzzle.OnDisableTrigger -= SetPuzzleNull;
+            puzzle = null;
         }
 
         private void UpdatePuzzle()
@@ -204,12 +209,7 @@ namespace EducationalGame
             puzzle.OnDisableTrigger += SetPuzzleNull;
             puzzle.OnSolvePuzzle += SetPuzzleNull;
         }
-        private void SetPuzzleNull()
-        {
-            if (puzzle == null) return;
-            puzzle.OnDisableTrigger -= SetPuzzleNull;
-            puzzle = null;
-        }
+        
 
         /// <summary>
         /// Move the given SortingBoxes entity to follow the player with a certain distance.

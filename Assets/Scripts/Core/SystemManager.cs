@@ -5,16 +5,19 @@ namespace EducationalGame.Core
 {
     public static class SystemManager
     {
-        public static PlayerController playerController { get; private set; }
-        public static PhysicsSystem physicsSystem { get; private set; }
-        public static RenderSystem renderSystem { get; private set; }
-        public static InteractSystem interactSystem { get; private set; }
-        public static AlgorithmSystem algorithmSystem { get; private set; }
-        public static CamaraSystem camaraSystem { get; private set; }
-        public static PlayerStateMachine playerStateMachine { get; private set; }
+        private static PlayerController playerController { get; set; }
+        private static PhysicsSystem physicsSystem { get; set; }
+        private static RenderSystem renderSystem { get; set; }
+        public static InteractSystem interactSystem { get; set; }
+        private static CamaraSystem camaraSystem { get; set; }
+        private static PlayerStateMachine playerStateMachine { get; set; }
 
-        public static List<ISystem> systems = new List<ISystem>();
-        public static List<IAsyncUpdate> asyncSystems = new List<IAsyncUpdate>();
+        private static AlgorithmSystem algorithmSystem { get; set; }
+        private static EquationSystem equationSystem { get; set; }
+
+        private static List<ISystem> systems = new List<ISystem>();
+        private static List<ISystem> puzzleSystems = new List<ISystem>();
+        
         
         public static void Init() {
             playerController = new PlayerController();
@@ -22,23 +25,49 @@ namespace EducationalGame.Core
             // physicsSystem = new PhysicsSystem();
             // renderSystem = new RenderSystem();
             interactSystem = new InteractSystem();
-            algorithmSystem = new AlgorithmSystem();
             camaraSystem = new CamaraSystem();
+
+            algorithmSystem = new AlgorithmSystem();
+            equationSystem = new EquationSystem();
 
             // Adding order determines the order of execution
             systems.Add(playerController);      // 接受输入
             // systems.Add(playerStateMachine);    // 处理状态
             systems.Add(interactSystem);        // 处理互动逻辑
-            systems.Add(algorithmSystem);       // 处理算法区域的谜题判定
+            // systems.Add(algorithmSystem);       // 处理算法区域的谜题判定
             // systems.Add(physicsSystem);         // 物理系统模拟
             // systems.Add(renderSystem);          // 处理动画
             systems.Add(camaraSystem);          // 处理相机
 
             // asyncSystems.Add(algorithmSystem);
             foreach(var system in systems) { system.Init(); }
+
+            puzzleSystems.Add(algorithmSystem);
+            puzzleSystems.Add(equationSystem);
+
+            foreach(var system in puzzleSystems) { system.Init(); }
+
         }
 
-        // Event Bus
+        public static void Execute(IPuzzle activePuzzle)
+        {
+            foreach (var sys in systems)
+            {
+                sys.Update();
+            }
+
+            if (activePuzzle == null) return;
+
+            switch (activePuzzle)
+            {
+                case AlgorithmPuzzle algorithmPuzzle:
+                    algorithmSystem.Update();
+                    break;
+                case EquationPuzzle equationPuzzle:
+                    equationSystem.Update();
+                    break;
+            }
+        }
         
     }
 }

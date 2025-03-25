@@ -1,18 +1,22 @@
 using System.Collections.Generic;
 using EducationalGame.Core;
 using UnityEngine;
-using EducationalGame;
 using EducationalGame.Component;
+using System.Linq;
 
 public class Game : MonoBehaviour
 {
     
     // Handle the main process of the game
-    [SerializeField]
     public GameObject playerObject;
 
-    [SerializeField]
-    public List<AlgorithmPuzzle> algorithmPuzzles; 
+    
+    [SerializeField] public List<AlgorithmPuzzle> algorithmPuzzles; 
+    [SerializeField] public List<EquationPuzzle> equationPuzzles;
+    public List<IPuzzle> PuzzlesList {
+        get => algorithmPuzzles.Concat<IPuzzle>(equationPuzzles).ToList();
+        private set { throw new System.NotSupportedException("puzzle not supported to be set"); }
+    }
 
     private void Awake() 
     {
@@ -42,10 +46,7 @@ public class Game : MonoBehaviour
         {
             Constants.SetDeltaTime(Time.deltaTime);
 
-            foreach(var system in SystemManager.systems)
-            {
-                system.Update();
-            }
+            SystemManager.Execute(GetTriggerPuzzle());
         }
         
     }
@@ -65,28 +66,19 @@ public class Game : MonoBehaviour
     {
         // The following logic will be put in level.cs in the future
 
-        // Algorithm Area puzzles init
-        foreach (AlgorithmPuzzle puzzle in algorithmPuzzles)
-        {
-            puzzle.Init();
-        }
+        foreach (IPuzzle puzzle in PuzzlesList) { puzzle.Init(); }
     }
 
-    public AlgorithmPuzzle GetTriggerPuzzle()
+    public IPuzzle GetTriggerPuzzle()
     {
-        foreach (AlgorithmPuzzle puzzle in algorithmPuzzles)
-        {
-            if (puzzle.GetTriggerStatus())
-            {
-                return puzzle;
-            }
-            // TODO: Multiple puzzles may be triggered at the same time, need to adjust the trigger last time
-        }
+        // TODO: Multiple puzzles may be triggered at the same time, need to adjust the trigger last time
+        foreach (IPuzzle puzzle in PuzzlesList) 
+        { if (puzzle.triggered) { return puzzle; } }
         return null;
     }
 
     [ExecuteInEditMode]
-    // 计算摄像机的可视范围
+    // 给出关卡的segments grids
     private void OnDrawGizmos() {
         if (Camera.main == null) return;
 
@@ -119,11 +111,6 @@ public class Game : MonoBehaviour
                 Gizmos.DrawLine(topLeft, bottomLeft);
             }
         }
-    }
-
-    private void SetPlayerObject()
-    {
-
     }
 }
 
