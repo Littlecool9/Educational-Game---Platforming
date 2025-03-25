@@ -8,6 +8,9 @@ public class SwitchBridge : MonoBehaviour
 {
     public bool isSum;
     public bool isCarry;
+
+    [Tooltip("Initial Binary of Sum/Carry is set manualy")]
+    [SerializeField]
     public Binary InitialBinary;
     
     public Binary TargetBinary;

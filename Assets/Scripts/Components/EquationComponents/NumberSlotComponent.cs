@@ -66,7 +66,7 @@ namespace EducationalGame.Component
         public void Init()
         {
             
-            foreach (var binary in Binaries) { binary.Value.OnToggleBinary += UpdateNumber; }
+            foreach (var binary in Binaries) { binary.Value.OnChangeBinary += UpdateNumber; }
         }
 
         public void SetBridge(NumberBridge bridge)

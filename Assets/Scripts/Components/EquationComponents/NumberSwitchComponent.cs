@@ -12,7 +12,7 @@ namespace EducationalGame.Component
         public bool isCarry;
         public Binary TargetBinary;
 
-        public Binary CurrentBinary { get; set; }
+        public Binary CurrentBinary { get; private set; }
 
         public TextMeshPro textMeshPro;
 
@@ -21,15 +21,26 @@ namespace EducationalGame.Component
 
         public void InitComponent()
         {
-            OnToggleBinary += UpdateText;
+            OnChangeBinary += UpdateText;
         }
 
         public void ToggleBinary()
         {
             CurrentBinary = CurrentBinary == Binary.Zero ? Binary.One : Binary.Zero;
-            OnToggleBinary?.Invoke();
+            // OnToggleBinary?.Invoke();
+            OnChangeBinary?.Invoke();
         }
-        public event Action OnToggleBinary;
+        public void SetCurrentBinaryXOR(Binary binary1, Binary binary2)
+        {
+            CurrentBinary = binary1 == binary2 ? Binary.Zero : Binary.One;
+            OnChangeBinary?.Invoke();
+        }  
+        public void SetCurrentBinaryAND(Binary binary1, Binary binary2)
+        {
+            CurrentBinary = binary1 == Binary.One && binary2 == Binary.One ? Binary.One : Binary.Zero;
+            OnChangeBinary?.Invoke();
+        }
+        public event Action OnChangeBinary;
 
         /// <summary>
         /// Set initial status according to inspector setting
@@ -56,8 +67,12 @@ namespace EducationalGame.Component
         }
 
         public void UpdateText()
-        {
-            textMeshPro.text = CurrentBinary == Binary.Zero ? "0" : "1";
+        {   
+            string addingText = "";
+            if (isCarry || isSum) addingText = isSum ? "Sum: " : "Carry: ";
+            string number = CurrentBinary == Binary.Zero ? "0" : "1";
+            
+            textMeshPro.text = addingText + number;
         }
 
         public void Reset() => SetBridge(bridge);

@@ -22,15 +22,18 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
     #region Binary Puzzle Objects and Entities
     [SerializeField] public bool isBinaryPuzzle;
 
-    [SerializeField] public List<GameObject> BitsObjects;
-    [SerializeField] public GameObject CarryObject;
+    [Tooltip("Only the first 2 bits are valid")]
+    [SerializeField] public List<GameObject> BitsObjects;   
     [SerializeField] public GameObject SumObject;
+    [SerializeField] public GameObject CarryObject;
 
-    public List<Entity> bitsEntities = new List<Entity>();
+    public List<Entity> bitsEntities = new List<Entity>(2);
     public Entity carryEntity;
     public Entity sumEntity;
     #endregion
 
+    public bool hasSum = false;
+    public bool hasCarry = false;
 
     #region Equation Puzzle Objects and Entities
     [SerializeField] public List<GameObject> EquationNumbersObjects;
@@ -40,7 +43,7 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
     public List<Entity> equationNumbersEntities = new List<Entity>();
     public List<List<Entity>> equationBitsEntities = new List<List<Entity>>();
     #endregion
-    
+
 
     public List<Entity> Entities { 
         get{
@@ -60,9 +63,12 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
         }
         set => throw new NotSupportedException(); 
     }
+    public List<Entity> GetEntities() => Entities;
+
+    [SerializeField] public List<GameObject> Gates;
+
 
     public bool triggered { get; set; }
-
     private Coroutine resetCoroutine;
     public float resetTime = 10f;
 
@@ -72,14 +78,24 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
         List<InteractableComponent> interactables = new List<InteractableComponent>();
         if (isBinaryPuzzle)
         {
-            carryEntity = EntityManager.Instance.CreateEntity(EntityType.NumberSwitch);
-            InitSwitch(carryEntity as NumberSwitch, CarryObject);
-
-            sumEntity = EntityManager.Instance.CreateEntity(EntityType.NumberSwitch);
-            InitSwitch(sumEntity as NumberSwitch, SumObject);
-
-            foreach (GameObject bit in BitsObjects)
+            if (SumObject != null)
             {
+                sumEntity = EntityManager.Instance.CreateEntity(EntityType.NumberSwitch);
+                InitSwitch(sumEntity as NumberSwitch, SumObject);
+                hasSum = true;
+            }
+            
+            if (CarryObject != null)
+            {
+                carryEntity = EntityManager.Instance.CreateEntity(EntityType.NumberSwitch);
+                InitSwitch(carryEntity as NumberSwitch, CarryObject);
+                hasCarry = true;
+            }
+
+            // foreach (GameObject bit in BitsObjects)
+            for (int i = 0; i < 2; i++)
+            {
+                GameObject bit = BitsObjects[i];
                 NumberSwitch bitEntity = EntityManager.Instance.CreateEntity(EntityType.NumberSwitch) as NumberSwitch;
                 InitSwitch(bitEntity, bit);
                 bitsEntities.Add(bitEntity);
@@ -124,10 +140,21 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
         slotC?.SetBridge(slotRC.numberBridge);
     }
 
+    public event Action OnSolvePuzzle;
 
     public void SolvePuzzle()
     {
-        throw new NotImplementedException();
+        OnSolvePuzzle?.Invoke();
+        foreach (GameObject gate in Gates)
+        {
+            gate.SetActive(false);
+        }
+        foreach (Entity entity in Entities)
+        {
+            InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity.ID) ?? throw new Exception("Missing InteractableComponent in SolvePuzzle()");
+            interactableC.DisableComponent();
+        }
+        DisableTrigger();       // Unsubscribe objects
     }
 
     public void ResetPuzzle()
@@ -137,9 +164,8 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
 
     public event Action OnDisableTrigger;
     public event Action OnEnableTrigger;
-    public event Action OnSolvePuzzle;
 
-    public List<Entity> GetEntities() => Entities;
+    
 
     public void DisableTrigger()
     {
@@ -150,7 +176,7 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
     public void RefreshTrigger()
     {
         triggered = true;
-        OnEnableTrigger?.Invoke();
+        OnEnableTrigger?.Invoke();;
 
         // 如果之前有倒计时协程在运行，先停止它
         if (resetCoroutine != null)

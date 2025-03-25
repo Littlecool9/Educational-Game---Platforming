@@ -22,6 +22,11 @@ namespace EducationalGame
         public event Action<AlgorithmPuzzle> OnSwapBoxes;
         #endregion
 
+        #region Events Communicate EquationPuzzle Judge System
+        public event Action<EquationPuzzle> OnBinaryChanged;
+
+        #endregion
+
         private static IPuzzle puzzle;     // Record the triggered puzzle
         private SortingBoxes[] neighbors = new SortingBoxes[2];
         
@@ -203,6 +208,29 @@ namespace EducationalGame
                             {
                                 Interact(switchEntity);
 
+                                NumberSwitch bit0 = equationPuzzle.bitsEntities[0] as NumberSwitch;
+                                NumberSwitch bit1 = equationPuzzle.bitsEntities[1] as NumberSwitch;
+
+                                NumberSwitchComponent bit0C = EntityManager.Instance.GetComponent<NumberSwitchComponent>(bit0);
+                                NumberSwitchComponent bit1C = EntityManager.Instance.GetComponent<NumberSwitchComponent>(bit1);
+
+                                // Update sum and carry
+                                GetSumAndCarryEntity(equationPuzzle, out NumberSwitch sum, out NumberSwitch carry);
+
+                                if (sum != null)
+                                {
+                                    NumberSwitchComponent sumC = EntityManager.Instance.GetComponent<NumberSwitchComponent>(sum);
+                                    sumC.SetCurrentBinaryXOR(bit0C.CurrentBinary, bit1C.CurrentBinary);
+                                }
+
+                                if (carry != null)
+                                {
+                                    NumberSwitchComponent carryC = EntityManager.Instance.GetComponent<NumberSwitchComponent>(carry);
+                                    carryC.SetCurrentBinaryAND(bit0C.CurrentBinary, bit1C.CurrentBinary);
+                                }
+
+                                OnBinaryChanged?.Invoke(equationPuzzle);
+
                                 foundInteracatble = true;
                                 break;
                             }
@@ -278,7 +306,7 @@ namespace EducationalGame
             nsC.ToggleBinary();
         }
         #endregion
-        
+
 
         private void DetermineAction()
         {   
@@ -410,7 +438,16 @@ namespace EducationalGame
             neighbors[1] = null;
         }
         #endregion
+        
+        #region Support Methods for Area 2 Puzzles
+        public static void GetSumAndCarryEntity(EquationPuzzle puzzle, out NumberSwitch sum, out NumberSwitch carry)
+        {
+            sum = null;
+            carry = null;
+            if (puzzle.hasSum) sum = puzzle.sumEntity as NumberSwitch;
+            if (puzzle.hasCarry) carry = puzzle.carryEntity as NumberSwitch;
+        }
 
-
+        #endregion
     }
 }
