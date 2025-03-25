@@ -14,9 +14,6 @@ public class Game : MonoBehaviour
     [SerializeField]
     public List<AlgorithmPuzzle> algorithmPuzzles; 
 
-    private List<InteractableComponent> interactables = new List<InteractableComponent>();
-
-
     private void Awake() 
     {
         Myd.Platform.Player.OnPlayerInstantiate += InitPlayer;
@@ -71,11 +68,7 @@ public class Game : MonoBehaviour
         // Algorithm Area puzzles init
         foreach (AlgorithmPuzzle puzzle in algorithmPuzzles)
         {
-            // Debug.Log("id:" + puzzle.puzzleID);
-            // List<InteractableComponent> interactables = puzzle.Init();
-            // interactionC.AddInteractableToList(interactables);
-
-            interactables.AddRange(puzzle.Init());
+            puzzle.Init();
         }
     }
 

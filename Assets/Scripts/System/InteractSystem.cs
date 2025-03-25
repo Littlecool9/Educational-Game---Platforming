@@ -184,14 +184,6 @@ namespace EducationalGame
                             break;
                         }
                     }
-                    else if (entity is XORLever){
-                        // TODO: Implement interact logic
-                        if (interactableC.Interactable)
-                        {
-                            Interact(entity as XORLever);
-                        }
-                        // stateC.IsInteracting = false;       // 不会进入持续状态
-                    }
                 }
                 if (!foundInteracatble) 
                 {
@@ -256,10 +248,10 @@ namespace EducationalGame
             boxRC.MoveTransform(slotRC.transform.position - boxRC.transform.position);
         }
 
-        private void Interact(XORLever lever)
-        {
+        // private void Interact(XORLever lever)
+        // {
             
-        }
+        // }
 
         private void DetermineAction()
         {   

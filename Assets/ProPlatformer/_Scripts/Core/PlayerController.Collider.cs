@@ -145,10 +145,10 @@ namespace Myd.Platform
             // DrawBox(origion, boxSize, Color.blue, 2f);
 
             RaycastHit2D hit = Physics2D.BoxCast(origion, collider.size, 0, Vector2.down, DEVIATION, GroundMask);
-            if (hit && hit.normal != Vector2.up) Debug.Log("hitting wall");
+            // if (hit && hit.normal != Vector2.up) Debug.Log("hitting wall");
             if (hit && hit.normal == Vector2.up)
             {
-                Debug.Log("Hitting ground");
+                // Debug.Log("Hitting ground");
                 return true;
             }
             return false;

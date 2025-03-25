@@ -151,6 +151,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SortingBox (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -195,7 +211,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &34075299 stripped
 GameObject:
@@ -538,6 +555,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SortingBox (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -582,7 +615,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &120180829 stripped
 GameObject:
@@ -1790,6 +1824,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SortingBox (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
       value: 14
@@ -1834,7 +1884,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &311174956 stripped
 GameObject:
@@ -2307,7 +2358,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &507081363 stripped
 GameObject:
@@ -3139,6 +3191,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SortingBox (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -3183,7 +3251,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &649646272 stripped
 GameObject:
@@ -3341,6 +3410,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SortingBox (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -3385,7 +3470,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1001 &698228906
 PrefabInstance:
@@ -3409,6 +3495,22 @@ PrefabInstance:
     - target: {fileID: 2270492992176290273, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_Name
       value: SortingBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
@@ -3454,7 +3556,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!4 &704599388 stripped
 Transform:
@@ -3626,6 +3729,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SortingBox5
       objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -3670,7 +3789,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &753576159 stripped
 GameObject:
@@ -3704,6 +3824,22 @@ PrefabInstance:
     - target: {fileID: 2270492992176290273, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_Name
       value: SortingBox (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
@@ -3749,7 +3885,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1001 &782364973
 PrefabInstance:
@@ -3834,7 +3971,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1001 &786277102
 PrefabInstance:
@@ -4089,7 +4227,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1001 &818117981
 PrefabInstance:
@@ -4362,7 +4501,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &903692881 stripped
 GameObject:
@@ -4915,7 +5055,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &1000937804
 GameObject:
@@ -5868,6 +6009,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SortingBox (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -5912,7 +6069,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &1151964182 stripped
 GameObject:
@@ -6199,6 +6357,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SortingBox (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -6243,7 +6417,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &1201809703
 GameObject:
@@ -7047,7 +7222,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &1280592998 stripped
 GameObject:
@@ -7160,7 +7336,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &1301829019
 GameObject:
@@ -7373,7 +7550,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1001 &1321811117
 PrefabInstance:
@@ -7397,6 +7575,22 @@ PrefabInstance:
     - target: {fileID: 2270492992176290273, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_Name
       value: SortingBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
@@ -7442,7 +7636,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &1338400352
 GameObject:
@@ -7590,6 +7785,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SortingBox3
       objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -7634,7 +7845,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &1370109823 stripped
 GameObject:
@@ -7732,7 +7944,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &1427229044
 GameObject:
@@ -7880,6 +8093,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SortingBox (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -7924,7 +8153,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1001 &1441380949
 PrefabInstance:
@@ -8420,6 +8650,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SortingBox (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -8464,7 +8710,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &1551884666 stripped
 GameObject:
@@ -8688,6 +8935,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SortingBox (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -8732,7 +8995,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1001 &1641239927
 PrefabInstance:
@@ -8756,6 +9020,22 @@ PrefabInstance:
     - target: {fileID: 2270492992176290273, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_Name
       value: SortingBox2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
@@ -8801,7 +9081,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &1641239928 stripped
 GameObject:
@@ -8871,7 +9152,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1001 &1668152666
 PrefabInstance:
@@ -9214,7 +9496,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1001 &1750259308
 PrefabInstance:
@@ -9806,6 +10089,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SortingBox (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -9850,7 +10149,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &1920564689 stripped
 GameObject:
@@ -9950,6 +10250,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SortingBox4
       objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290628560261730515, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8787564462876454610, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -9994,7 +10310,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &1983832627 stripped
 GameObject:
@@ -10428,7 +10745,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2884234735619764935, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1acfd9ca92bf9843b9598324ea1bc1d, type: 3}
 --- !u!1 &2108988099
 GameObject:

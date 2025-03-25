@@ -85,13 +85,13 @@ namespace Myd.Platform
                     return;
                 this.prevState = this.currState;
                 this.currState = value;
-                Logging.Log($"====Enter State[{(EActionState)this.currState}],Leave State[{(EActionState)this.prevState}] ");
+                // Logging.Log($"====Enter State[{(EActionState)this.currState}],Leave State[{(EActionState)this.prevState}] ");
                 if (this.prevState != -1)
                 {
-                    Logging.Log($"====State[{(EActionState)this.prevState}] OnEnd ");
+                    // Logging.Log($"====State[{(EActionState)this.prevState}] OnEnd ");
                     this.states[this.prevState].OnEnd();
                 }
-                Logging.Log($"====State[{(EActionState)this.currState}] OnBegin ");
+                // Logging.Log($"====State[{(EActionState)this.currState}] OnBegin ");
                 this.states[this.currState].OnBegin();
                 if (this.states[this.currState].IsCoroutine())
                 {

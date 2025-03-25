@@ -9,7 +9,6 @@ namespace EducationalGame.Core
 {
     public enum EntityType { Player, 
         SortingBoxSlot, SortingBoxes,
-        XORLever
         }
     public abstract class Entity
     {

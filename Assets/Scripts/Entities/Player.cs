@@ -30,7 +30,6 @@ namespace EducationalGame
         {
             entityManager.AddComponent(this, new MovementComponent());
             entityManager.AddComponent(this, new StateComponent());
-            entityManager.AddComponent(this, new InteractionComponent());
             entityManager.AddComponent(this, new RenderComponent());
             entityManager.AddComponent(this, new InputComponent());
             
