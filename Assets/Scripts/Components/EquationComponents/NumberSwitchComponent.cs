@@ -49,11 +49,15 @@ namespace EducationalGame.Component
                 string number = CurrentBinary == Binary.Zero ? "0" : "1";
                 textMeshPro.text = addingText + ": " + number;
             }
+            else
+            {
+                textMeshPro.text = CurrentBinary == Binary.Zero ? "0" : "1";
+            }
         }
 
         public void UpdateText()
         {
-            textMeshPro.text = CurrentBinary.ToString();
+            textMeshPro.text = CurrentBinary == Binary.Zero ? "0" : "1";
         }
 
         public void Reset() => SetBridge(bridge);

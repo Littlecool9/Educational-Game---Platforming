@@ -11,6 +11,7 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
 {
 
     // An instance of a algorithm puzzle
+
     [Serializable] public class GameObjectList
     {
         public List<GameObject> objects = new List<GameObject>(); // 这是实际的子列表
@@ -39,13 +40,7 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
     public List<Entity> equationNumbersEntities = new List<Entity>();
     public List<List<Entity>> equationBitsEntities = new List<List<Entity>>();
     #endregion
-
-
-
-    private Coroutine resetCoroutine;
-    public float resetTime = 10f;
-
-
+    
 
     public List<Entity> Entities { 
         get{
@@ -66,7 +61,11 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
         set => throw new NotSupportedException(); 
     }
 
-    public bool triggered { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public bool triggered { get; set; }
+
+    private Coroutine resetCoroutine;
+    public float resetTime = 10f;
+
 
     public List<InteractableComponent> Init()
     {
@@ -103,9 +102,17 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
         switchRC?.SetGameObject(switchObject);
         switchC?.SetBridge(switchRC.switchBridge);
         switchIC?.SetTrigger(switchRC.trigger);
-        
-        switchIC.EnableInteraction += RefreshTrigger;
-        switchIC.OnStayTrigger += RefreshTrigger;
+
+        if (switchC.isCarry || switchC.isSum)
+        {
+            // Disable interaction function
+            switchIC.DisableComponent();
+        }
+        else
+        {
+            switchIC.EnableInteraction += RefreshTrigger;
+            switchIC.OnStayTrigger += RefreshTrigger;
+        }
 
     }
 

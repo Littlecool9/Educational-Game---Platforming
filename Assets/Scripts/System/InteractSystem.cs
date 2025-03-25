@@ -15,10 +15,13 @@ namespace EducationalGame
         private Player player;
         private InputComponent inputC;
         private StateComponent stateC;
+
+        #region Events Communicate AlgorithmPuzzle Judge System
         public event Action<AlgorithmPuzzle> OnInteractSlot;
         public event Action<AlgorithmPuzzle> OnInteractBox;
         public event Action<AlgorithmPuzzle> OnSwapBoxes;
-        
+        #endregion
+
         private static IPuzzle puzzle;     // Record the triggered puzzle
         private SortingBoxes[] neighbors = new SortingBoxes[2];
         
@@ -30,7 +33,7 @@ namespace EducationalGame
             stateC = EntityManager.Instance.GetComponent<StateComponent>(player);
 
             // Event Management
-            foreach(AlgorithmPuzzle puzzle in Constants.Game.algorithmPuzzles) 
+            foreach(IPuzzle puzzle in Constants.Game.PuzzlesList) 
             { 
                 puzzle.OnEnableTrigger += UpdatePuzzle; 
             }
@@ -199,7 +202,7 @@ namespace EducationalGame
                             if (interactableC.Interactable)
                             {
                                 Interact(switchEntity);
-                                
+
                                 foundInteracatble = true;
                                 break;
                             }
@@ -231,7 +234,7 @@ namespace EducationalGame
             puzzle.OnSolvePuzzle += SetPuzzleNull;
         }
         
-
+        # region "Polymorphic methods for different interactable objects"
         /// <summary>
         /// Move the given SortingBoxes entity to follow the player with a certain distance.
         /// </summary>
@@ -274,6 +277,8 @@ namespace EducationalGame
             NumberSwitchComponent nsC = EntityManager.Instance.GetComponent<NumberSwitchComponent>(numberSwitch);
             nsC.ToggleBinary();
         }
+        #endregion
+        
 
         private void DetermineAction()
         {   
@@ -297,6 +302,8 @@ namespace EducationalGame
             }
         }
 
+
+        #region Support Methods for Area 1 Puzzles
         public static SortingBoxes[] FindPreviousSwapBoxes(AlgorithmPuzzle puzzle)
         {
             //换的是1和3时，后面无论查找多少次返回都是1和3
@@ -402,5 +409,8 @@ namespace EducationalGame
             neighbors[0] = null;
             neighbors[1] = null;
         }
+        #endregion
+
+
     }
 }
