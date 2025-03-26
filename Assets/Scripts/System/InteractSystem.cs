@@ -237,7 +237,7 @@ namespace EducationalGame
                                 else
                                 {
                                     // Equation Puzzle
-                                    Interact(switchEntity);
+                                    Debug.Log("Equation Puzzle");
                                 }
 
                                 OnBinaryChanged?.Invoke(equationPuzzle);

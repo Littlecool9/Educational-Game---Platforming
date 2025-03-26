@@ -69,6 +69,7 @@ namespace EducationalGame
 
                 // Only implemented addition logic
                 // TODO: Add more arithmetic logic for diverse puzzles
+                // TODO: Avoid Player build 0+0=0
 
                 int sum = 0;
                 for (int i = 0; i < puzzle.equationBitsEntities.Count - 1; i++)

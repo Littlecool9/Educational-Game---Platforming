@@ -185,7 +185,7 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
         }
         foreach (Entity entity in Entities)
         {
-            InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity.ID) ?? throw new Exception("Missing InteractableComponent in SolvePuzzle()");
+            InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity.ID);
             interactableC?.DisableComponent();
         }
         DisableTrigger();       // Unsubscribe objects
