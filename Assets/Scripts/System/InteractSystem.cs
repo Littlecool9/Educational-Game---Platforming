@@ -207,26 +207,37 @@ namespace EducationalGame
                             if (interactableC.Interactable)
                             {
                                 Interact(switchEntity);
-
-                                NumberSwitch bit0 = equationPuzzle.bitsEntities[0] as NumberSwitch;
-                                NumberSwitch bit1 = equationPuzzle.bitsEntities[1] as NumberSwitch;
-
-                                NumberSwitchComponent bit0C = EntityManager.Instance.GetComponent<NumberSwitchComponent>(bit0);
-                                NumberSwitchComponent bit1C = EntityManager.Instance.GetComponent<NumberSwitchComponent>(bit1);
-
-                                // Update sum and carry
-                                GetSumAndCarryEntity(equationPuzzle, out NumberSwitch sum, out NumberSwitch carry);
-
-                                if (sum != null)
+                                
+                                if (equationPuzzle.isBinaryPuzzle)
                                 {
-                                    NumberSwitchComponent sumC = EntityManager.Instance.GetComponent<NumberSwitchComponent>(sum);
-                                    sumC.SetCurrentBinaryXOR(bit0C.CurrentBinary, bit1C.CurrentBinary);
+                                    // Binary Puzzle
+
+                                    NumberSwitch bit0 = equationPuzzle.bitsEntities[0] as NumberSwitch;
+                                    NumberSwitch bit1 = equationPuzzle.bitsEntities[1] as NumberSwitch;
+
+                                    NumberSwitchComponent bit0C = EntityManager.Instance.GetComponent<NumberSwitchComponent>(bit0);
+                                    NumberSwitchComponent bit1C = EntityManager.Instance.GetComponent<NumberSwitchComponent>(bit1);
+
+
+                                    // Update sum and carry
+                                    GetSumAndCarryEntity(equationPuzzle, out NumberSwitch sum, out NumberSwitch carry);
+
+                                    if (sum != null)
+                                    {
+                                        NumberSwitchComponent sumC = EntityManager.Instance.GetComponent<NumberSwitchComponent>(sum);
+                                        sumC.SetCurrentBinaryXOR(bit0C.CurrentBinary, bit1C.CurrentBinary);
+                                    }
+
+                                    if (carry != null)
+                                    {
+                                        NumberSwitchComponent carryC = EntityManager.Instance.GetComponent<NumberSwitchComponent>(carry);
+                                        carryC.SetCurrentBinaryAND(bit0C.CurrentBinary, bit1C.CurrentBinary);
+                                    }
                                 }
-
-                                if (carry != null)
+                                else
                                 {
-                                    NumberSwitchComponent carryC = EntityManager.Instance.GetComponent<NumberSwitchComponent>(carry);
-                                    carryC.SetCurrentBinaryAND(bit0C.CurrentBinary, bit1C.CurrentBinary);
+                                    // Equation Puzzle
+                                    Interact(switchEntity);
                                 }
 
                                 OnBinaryChanged?.Invoke(equationPuzzle);

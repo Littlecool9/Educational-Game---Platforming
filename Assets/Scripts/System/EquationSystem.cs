@@ -40,6 +40,7 @@ namespace EducationalGame
 
             if (puzzle.isBinaryPuzzle)
             {
+                // Binary Puzzle
                 InteractSystem.GetSumAndCarryEntity(puzzle, out NumberSwitch sumEntity, out NumberSwitch carryEntity);
 
                 bool sumIsCorrect = false;
@@ -64,7 +65,24 @@ namespace EducationalGame
             }
             else
             {
-                
+                // Equation Puzzle
+
+                // Only implemented addition logic
+                // TODO: Add more arithmetic logic for diverse puzzles
+
+                int sum = 0;
+                for (int i = 0; i < puzzle.equationBitsEntities.Count - 1; i++)
+                {
+                    NumberSlotComponent sumC = EntityManager.Instance.GetComponent<NumberSlotComponent>(puzzle.equationNumbersEntities[i] as NumberSlot);
+                    sum += sumC.CurrentNumber;      
+                }
+
+                NumberSlotComponent endNumberC = EntityManager.Instance.GetComponent<NumberSlotComponent>(puzzle.equationNumbersEntities[puzzle.equationNumbersEntities.Count - 1] as NumberSlot);
+                if (sum == endNumberC.CurrentNumber)
+                {
+                    DisplaySuccess();
+                    puzzle.SolvePuzzle();
+                }
             }
 
             requireCheck = false;

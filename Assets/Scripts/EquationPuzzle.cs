@@ -20,9 +20,9 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
 
 
     public TextMeshPro text;
+    [SerializeField] public bool isBinaryPuzzle;
 
     #region Binary Puzzle Objects and Entities
-    [SerializeField] public bool isBinaryPuzzle;
 
     [Tooltip("Only the first 2 bits are valid")]
     [SerializeField] public List<GameObject> BitsObjects;   
@@ -38,9 +38,10 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
     public bool hasCarry = false;
 
     #region Equation Puzzle Objects and Entities
+    
     [SerializeField] public List<GameObject> EquationNumbersObjects;
-    // [SerializeField] public List<List<GameObject>> EquationBitsPerNumber;       //
-    [SerializeField] public List<GameObjectList> EquationBitsObjects;      // 
+    [SerializeField] public List<GameObjectList> EquationBitsObjects;      
+    // BitsObjects列表中每一项严格对应NumbersObjects列表中每一项的二进制表示（多位数），下面同理
 
     public List<Entity> equationNumbersEntities = new List<Entity>();
     public List<List<Entity>> equationBitsEntities = new List<List<Entity>>();
@@ -102,10 +103,41 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
                 InitSwitch(bitEntity, bit);
                 bitsEntities.Add(bitEntity);
             }
+
+            foreach (Entity entity in Entities)
+            {
+                InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity.ID);
+                if (interactableC != null) interactables.Add(interactableC);
+            }
         }
         else
         {
+            if (EquationNumbersObjects.Count != EquationBitsObjects.Count) throw new Exception("EquationNumbersObjects and EquationBitsObjects must have the same length.");
 
+            for(int i = 0; i < EquationNumbersObjects.Count; i++)
+            {
+                GameObject number = EquationNumbersObjects[i];
+                NumberSlot numberEntity = EntityManager.Instance.CreateEntity(EntityType.NumberSlot) as NumberSlot;
+                InitNumber(numberEntity, number);
+                equationNumbersEntities.Add(numberEntity);
+
+                NumberSlotComponent numberC = EntityManager.Instance.GetComponent<NumberSlotComponent>(numberEntity);
+
+                List<Entity> bitsOfDecimal = new List<Entity>();
+                foreach (GameObject bit in EquationBitsObjects[i].objects)
+                {
+                    NumberSwitch bitEntity = EntityManager.Instance.CreateEntity(EntityType.NumberSwitch) as NumberSwitch;
+                    InitSwitch(bitEntity, bit);
+                    bitsOfDecimal.Add(bitEntity);
+
+                    numberC.AddBitToBinaryList(EntityManager.Instance.GetComponent<NumberSwitchComponent>(bitEntity));
+
+                    InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(bitEntity.ID);
+                    if (interactableC != null) interactables.Add(interactableC);
+                }
+                equationBitsEntities.Add(bitsOfDecimal);
+                numberC.Init();
+            }
         }
 
 
@@ -154,7 +186,7 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
         foreach (Entity entity in Entities)
         {
             InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity.ID) ?? throw new Exception("Missing InteractableComponent in SolvePuzzle()");
-            interactableC.DisableComponent();
+            interactableC?.DisableComponent();
         }
         DisableTrigger();       // Unsubscribe objects
     }
