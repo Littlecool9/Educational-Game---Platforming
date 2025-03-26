@@ -9,7 +9,7 @@ namespace EducationalGame
 {
     public class AlgorithmSystem : ISystem
     {
-        // Judge the logic of whether an algorithm problem is successfully solved
+        // Evalutate the state an algorithm problem
         // Async possible
                         
         // Flags

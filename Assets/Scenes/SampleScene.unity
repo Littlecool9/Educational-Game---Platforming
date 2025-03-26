@@ -7611,6 +7611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45371216085999a4aaf15edea3894003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 1204249945}
   isBinaryPuzzle: 1
   BitsObjects:
   - {fileID: 46879531}
@@ -7622,7 +7623,6 @@ MonoBehaviour:
   EquationNumbersObjects: []
   EquationBitsObjects: []
   Gates: []
-  resetTime: 10
 --- !u!4 &1289220167
 Transform:
   m_ObjectHideFlags: 0
