@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using EducationalGame.Component;
 using EducationalGame.Core;
+using TMPro;
 using UnityEngine;
 
 namespace EducationalGame
@@ -56,7 +57,8 @@ namespace EducationalGame
 
                 if (sumIsCorrect && carryIsCorrect)
                 {
-                    // Animation/Effect
+                    // TODO: Animation/Effect
+                    DisplaySuccess();
                     puzzle.SolvePuzzle();
                 }
             }
@@ -86,6 +88,15 @@ namespace EducationalGame
             if (puzzle == null) return;
             puzzle.OnDisableTrigger += SetPuzzleNull;
             puzzle.OnSolvePuzzle += SetPuzzleNull;
+        }
+
+
+        private void DisplaySuccess()
+        {
+            if (puzzle == null) return;
+            TextMeshPro tmp = puzzle.text;
+            tmp.gameObject.SetActive(true);
+            tmp.text = "Solved a Puzzle!";
         }
     }
 

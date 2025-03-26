@@ -8,7 +8,7 @@ using UnityEngine;
 public class EquationPuzzleEditor : Editor
 {
 
-    #region SerializableProperties
+    #region SerializableCustomProperties
     SerializedProperty Bits;
     SerializedProperty Carry;
     SerializedProperty Sum;
@@ -18,6 +18,8 @@ public class EquationPuzzleEditor : Editor
     SerializedProperty EquationBits;
     #endregion
 
+    SerializedProperty TextObject;
+
     private void OnEnable() 
     {
         Bits = serializedObject.FindProperty("BitsObjects");
@@ -25,8 +27,10 @@ public class EquationPuzzleEditor : Editor
         Sum = serializedObject.FindProperty("SumObject");
 
         EquationNumbers = serializedObject.FindProperty("EquationNumbersObjects");
-        // EquationBitsPerNumber = serializedObject.FindProperty("EquationBitsPerNumber");
         EquationBits = serializedObject.FindProperty("EquationBitsObjects");
+
+        TextObject = serializedObject.FindProperty("text");
+
     }
 
     public override void OnInspectorGUI()
@@ -35,6 +39,8 @@ public class EquationPuzzleEditor : Editor
         EquationPuzzle script = (EquationPuzzle)target;     // 获取目标对象
         serializedObject.Update();                          // 更新 Inspector 数据
 
+        // 获取TextMeshPro
+        EditorGUILayout.PropertyField(TextObject, new GUIContent("TextMeshPro"));
 
         // 创建一个勾选框
         script.isBinaryPuzzle = EditorGUILayout.Toggle("isBinaryPuzzle", script.isBinaryPuzzle);

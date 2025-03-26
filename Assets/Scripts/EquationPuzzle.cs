@@ -5,6 +5,7 @@ using System.Linq;
 using EducationalGame;
 using EducationalGame.Component;
 using EducationalGame.Core;
+using TMPro;
 using UnityEngine;
 
 public class EquationPuzzle : MonoBehaviour, IPuzzle
@@ -18,6 +19,7 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
     }
 
 
+    public TextMeshPro text;
 
     #region Binary Puzzle Objects and Entities
     [SerializeField] public bool isBinaryPuzzle;
@@ -70,7 +72,7 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
 
     public bool triggered { get; set; }
     private Coroutine resetCoroutine;
-    public float resetTime = 10f;
+    private float resetTime = 10f;
 
 
     public List<InteractableComponent> Init()

@@ -17,7 +17,7 @@ namespace EducationalGame.Component
         /// </summary>
         public bool Interactable = false;  
         // Activate when interacted
-        // Comsumed in Judge System
+        // Comsumed in PuzzleState System
         public bool InteractedBuffer = false;      
         public event Action OnInteract;     // Triggered when interacted
         public event Action EnableInteraction;

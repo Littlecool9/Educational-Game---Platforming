@@ -16,13 +16,13 @@ namespace EducationalGame
         private InputComponent inputC;
         private StateComponent stateC;
 
-        #region Events Communicate AlgorithmPuzzle Judge System
+        #region Events Communicate AlgorithmPuzzle State System
         public event Action<AlgorithmPuzzle> OnInteractSlot;
         public event Action<AlgorithmPuzzle> OnInteractBox;
         public event Action<AlgorithmPuzzle> OnSwapBoxes;
         #endregion
 
-        #region Events Communicate EquationPuzzle Judge System
+        #region Events Communicate EquationPuzzle State System
         public event Action<EquationPuzzle> OnBinaryChanged;
 
         #endregion
@@ -178,7 +178,7 @@ namespace EducationalGame
                                 // Update Slot Status
                                 bsC.isPlaced = true;
                                 interactableC.Interactable = false;
-                                interactableC.ActivateInteractionBuffer();          // pass to judge system
+                                interactableC.ActivateInteractionBuffer();          // pass to State system
 
                                 CompleteSwap();
 
