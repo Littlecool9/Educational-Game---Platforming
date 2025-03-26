@@ -150,7 +150,7 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
         NumberSwitchComponent switchC = EntityManager.Instance.GetComponent<NumberSwitchComponent>(switchEntity);
         InteractableComponent switchIC = EntityManager.Instance.GetComponent<InteractableComponent>(switchEntity);
         switchRC?.SetGameObject(switchObject);
-        switchC?.SetBridge(switchRC.switchBridge);
+        switchRC.bridge?.LinkEntity(switchC);
         switchIC?.SetTrigger(switchRC.trigger);
 
         if (switchC.isCarry || switchC.isSum)
@@ -171,7 +171,7 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
         RenderComponent slotRC = EntityManager.Instance.GetComponent<RenderComponent>(slotEntity);
         NumberSlotComponent slotC = EntityManager.Instance.GetComponent<NumberSlotComponent>(slotEntity);
         slotRC?.SetGameObject(slotObject);
-        slotC?.SetBridge(slotRC.numberBridge);
+        slotRC.bridge?.LinkEntity(slotC);
     }
 
     public event Action OnSolvePuzzle;

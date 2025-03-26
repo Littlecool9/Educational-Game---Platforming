@@ -37,6 +37,8 @@ namespace EducationalGame.Component
         public NumberBridge numberBridge;
         public SwitchBridge switchBridge;
 
+        public IBridge bridge;
+
         public TextMeshPro textMeshPro;
 
 
@@ -62,6 +64,8 @@ namespace EducationalGame.Component
             
             numberBridge = gameObject.GetComponent<NumberBridge>();
             switchBridge = gameObject.GetComponent<SwitchBridge>();
+
+            bridge = Game.GetBridgeComponent(gameObject);
         }
 
         public void InitComponent()

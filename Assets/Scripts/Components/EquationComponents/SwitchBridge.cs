@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using EducationalGame.Component;
+using EducationalGame.Core;
 using TMPro;
 using UnityEngine;
 
-public class SwitchBridge : MonoBehaviour
+public class SwitchBridge : MonoBehaviour, IBridge
 {
     public bool isSum;
     public bool isCarry;
@@ -17,7 +18,15 @@ public class SwitchBridge : MonoBehaviour
     public TextMeshPro text;
 
     private int previousCheck = -1;     // -1: 未勾选, 0: isSum, 1: isCarry
-    
+
+    public void LinkEntity(IComponent component)
+    {
+        if (component is NumberSwitchComponent) LinkEntity(component as NumberSwitchComponent);
+        else throw new System.Exception("Invalid Component Type");
+    }
+
+    private void LinkEntity(NumberSwitchComponent component) => component.SetBridge(this);
+
     private void OnValidate() 
     {
         

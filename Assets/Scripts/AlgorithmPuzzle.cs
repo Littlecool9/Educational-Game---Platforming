@@ -63,7 +63,8 @@ public class AlgorithmPuzzle : MonoBehaviour, IPuzzle
 
             slotRenderC?.SetGameObject(sortingBoxSlot);   
             slotInteractableC?.SetTrigger(slotRenderC.trigger);
-            slotC?.SetBridge(slotRenderC.slotBridge);
+            slotRenderC.bridge.LinkEntity(slotC);
+            
             slotRenderC.sr.color = slotC.initialColor;
             slotInteractableC.EnableInteraction += RefreshTrigger;
             slotInteractableC.OnStayTrigger += RefreshTrigger;
@@ -83,9 +84,8 @@ public class AlgorithmPuzzle : MonoBehaviour, IPuzzle
             SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(box.ID);
 
             boxRenderC?.SetGameObject(sortingBox);
-            sbC.SetOrder(boxRenderC.sortingBoxBridge.boxIndex);
 
-            sbC.SetBridge(boxRenderC.sortingBoxBridge);
+            boxRenderC.bridge.LinkEntity(sbC);
 
             boxInteractableC?.SetTrigger(boxRenderC.trigger);
             boxInteractableC.OnStayTrigger += RefreshTrigger;

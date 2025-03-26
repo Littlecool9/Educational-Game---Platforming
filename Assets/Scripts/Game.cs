@@ -112,5 +112,15 @@ public class Game : MonoBehaviour
             }
         }
     }
+
+    // TODO: 整理一个函数helper类
+    public static IBridge GetBridgeComponent(GameObject obj)
+    {
+        foreach (MonoBehaviour comp in obj.GetComponents<MonoBehaviour>())
+        {
+            if (comp is IBridge bridge) return bridge;
+        }
+        return null;
+    }
 }
 
