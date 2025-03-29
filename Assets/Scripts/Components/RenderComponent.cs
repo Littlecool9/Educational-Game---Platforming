@@ -27,16 +27,6 @@ namespace EducationalGame.Component
         // Interactable Specific
         public Trigger trigger;
 
-
-        // Sorting Box Specific
-        public BoxBridge sortingBoxBridge;
-        public SlotBridge slotBridge;
-
-        
-        // Equation Area Specific
-        public NumberBridge numberBridge;
-        public SwitchBridge switchBridge;
-
         public IBridge bridge;
 
         public TextMeshPro textMeshPro;
@@ -58,12 +48,6 @@ namespace EducationalGame.Component
             textMeshPro = gameObject.GetComponent<TextMeshPro>();
 
             trigger = gameObject.GetComponent<Trigger>();
-
-            sortingBoxBridge = gameObject.GetComponent<BoxBridge>();
-            slotBridge = gameObject.GetComponent<SlotBridge>();
-            
-            numberBridge = gameObject.GetComponent<NumberBridge>();
-            switchBridge = gameObject.GetComponent<SwitchBridge>();
 
             bridge = Game.GetBridgeComponent(gameObject);
         }

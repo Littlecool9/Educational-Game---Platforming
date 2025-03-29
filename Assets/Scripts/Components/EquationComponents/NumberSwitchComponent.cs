@@ -42,6 +42,9 @@ namespace EducationalGame.Component
         }
         public event Action OnChangeBinary;
 
+        string sumText = "Sum: ";
+        string carryText = "Carry: ";
+
         /// <summary>
         /// Set initial status according to inspector setting
         /// </summary>
@@ -56,9 +59,9 @@ namespace EducationalGame.Component
             if (isCarry || isSum) 
             {
                 TargetBinary = bridge.TargetBinary;
-                string addingText = isSum ? "Sum" : "Carry";
+                string addingText = isSum ? sumText: carryText;
                 string number = CurrentBinary == Binary.Zero ? "0" : "1";
-                textMeshPro.text = addingText + ": " + number;
+                textMeshPro.text = addingText + number;
             }
             else
             {
@@ -69,7 +72,7 @@ namespace EducationalGame.Component
         public void UpdateText()
         {   
             string addingText = "";
-            if (isCarry || isSum) addingText = isSum ? "Sum: " : "Carry: ";
+            if (isCarry || isSum) addingText = isSum ? sumText : carryText;
             string number = CurrentBinary == Binary.Zero ? "0" : "1";
             
             textMeshPro.text = addingText + number;

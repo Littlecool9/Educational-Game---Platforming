@@ -57,6 +57,7 @@ namespace Myd.Platform
             {
                 if (this.gameState == EGameState.Play)
                 {
+                    if (GameContentManager.isTextInputActive) return;
                     GameInput.Update(deltaTime);
                     //更新玩家逻辑数据
                     player.Update(deltaTime);

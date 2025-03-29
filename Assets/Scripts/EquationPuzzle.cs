@@ -124,16 +124,20 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
                 NumberSlotComponent numberC = EntityManager.Instance.GetComponent<NumberSlotComponent>(numberEntity);
 
                 List<Entity> bitsOfDecimal = new List<Entity>();
-                foreach (GameObject bit in EquationBitsObjects[i].objects)
+
+                if (!numberC.isFixed)
                 {
-                    NumberSwitch bitEntity = EntityManager.Instance.CreateEntity(EntityType.NumberSwitch) as NumberSwitch;
-                    InitSwitch(bitEntity, bit);
-                    bitsOfDecimal.Add(bitEntity);
+                    foreach (GameObject bit in EquationBitsObjects[i].objects)
+                    {
+                        NumberSwitch bitEntity = EntityManager.Instance.CreateEntity(EntityType.NumberSwitch) as NumberSwitch;
+                        InitSwitch(bitEntity, bit);
+                        bitsOfDecimal.Add(bitEntity);
 
-                    numberC.AddBitToBinaryList(EntityManager.Instance.GetComponent<NumberSwitchComponent>(bitEntity));
+                        numberC.AddBitToBinaryList(EntityManager.Instance.GetComponent<NumberSwitchComponent>(bitEntity));
 
-                    InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(bitEntity.ID);
-                    if (interactableC != null) interactables.Add(interactableC);
+                        InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(bitEntity.ID);
+                        if (interactableC != null) interactables.Add(interactableC);
+                    }
                 }
                 equationBitsEntities.Add(bitsOfDecimal);
                 numberC.Init();

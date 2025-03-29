@@ -34,6 +34,7 @@ namespace EducationalGame.Component
 
         private void UpdateNumber()
         {
+            if (isFixed) throw new System.Exception("Fixed number cannot be changed.");
             int decimalNumber = 0;
 
             foreach (var digit in Binaries)
