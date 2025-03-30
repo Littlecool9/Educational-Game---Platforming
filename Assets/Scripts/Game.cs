@@ -13,8 +13,9 @@ public class Game : MonoBehaviour
     
     [SerializeField] public List<AlgorithmPuzzle> algorithmPuzzles; 
     [SerializeField] public List<EquationPuzzle> equationPuzzles;
+    [SerializeField] public List<LLMPuzzle> llmPuzzles;
     public List<IPuzzle> PuzzlesList {
-        get => algorithmPuzzles.Concat<IPuzzle>(equationPuzzles).ToList();
+        get => algorithmPuzzles.Concat<IPuzzle>(equationPuzzles).ToList().Concat(llmPuzzles).ToList();
         private set { throw new System.NotSupportedException("puzzle not supported to be set"); }
     }
 

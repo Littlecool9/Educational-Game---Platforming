@@ -5,7 +5,6 @@ using EducationalGame.Core;
 using EducationalGame.Component;
 using System;
 using System.Linq;
-using UnityEngine.UIElements;
 
 namespace EducationalGame
 {
@@ -24,7 +23,10 @@ namespace EducationalGame
 
         #region Events Communicate EquationPuzzle State System
         public event Action<EquationPuzzle> OnBinaryChanged;
+        #endregion
 
+        #region Events Communicate LLMPuzzle State System
+        public event Action<LLMPuzzle> OnLLMInputChanged;
         #endregion
 
         private static IPuzzle puzzle;     // Record the triggered puzzle
@@ -53,12 +55,14 @@ namespace EducationalGame
         {
             DetermineAction();
 
-            if (stateC.InteractingObject is SortingBoxes)        // The type needs consistent interaction
+            // Consistently interact with an object
+            if (stateC.InteractingObject is SortingBoxes tempBox)        // The type needs consistent interaction
             {
-                // Consistently interact with an object
-                if (stateC.InteractingObject is SortingBoxes) {
-                    Interact(stateC.InteractingObject as SortingBoxes); 
-                }
+                Interact(tempBox); 
+            }
+            if (stateC.InteractingObject is TypeConsole tempConsole)
+            {
+                Interact(tempConsole);
             }
             
             if (puzzle != null && stateC.LookingInteractable)
@@ -72,7 +76,7 @@ namespace EducationalGame
                         InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity);
                         if (interactableC == null) continue;
 
-                        if (entity is SortingBoxes)     // TODO: Edit when more interactable objects added
+                        if (entity is SortingBoxes)     
                         {
                             SortingBoxComponent sbC = EntityManager.Instance.GetComponent<SortingBoxComponent>(entity);
 
@@ -104,7 +108,7 @@ namespace EducationalGame
 
                                 // Update Box Status
                                 interactableC.ActivateInteractionBuffer();
-                                interactableC.Interactable = false;
+                                // interactableC.Interactable = false;
                                 // sbC.slotIndex = -1;
 
                                 // Update Slot Status
@@ -177,7 +181,7 @@ namespace EducationalGame
 
                                 // Update Slot Status
                                 bsC.isPlaced = true;
-                                interactableC.Interactable = false;
+                                // interactableC.Interactable = false;
                                 interactableC.ActivateInteractionBuffer();          // pass to State system
 
                                 CompleteSwap();
@@ -245,6 +249,34 @@ namespace EducationalGame
                                 foundInteracatble = true;
                                 break;
                             }
+                        }
+                    }
+                }
+                else if (puzzle is LLMPuzzle llmPuzzle)
+                {
+                    foreach(Entity entity in llmPuzzle.GetEntities())
+                    {
+                        InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity);
+                        if (interactableC == null) continue;
+                        if (interactableC.Interactable && entity is TypeConsole console1 && stateC.InteractingObject == null)
+                        {
+                            // Enter typing state
+                            GameContentManager.UpdateParam(false);          // Freeze Player object
+                            stateC.SetInteractingObject(console1);          
+
+                            Interact(console1, 0);
+
+                            foundInteracatble = true;
+                        }
+                        else if (inputC.ReturnInput && entity is TypeConsole console2 && stateC.InteractingObject != null)
+                        {
+                            // Exit typing state
+                            GameContentManager.UpdateParam(true);       
+                            stateC.ResetInteractingObject();
+
+                            Interact(console2, 2);
+                            
+                            foundInteracatble = true;
                         }
                     }
                 }
@@ -316,6 +348,31 @@ namespace EducationalGame
             NumberSwitchComponent nsC = EntityManager.Instance.GetComponent<NumberSwitchComponent>(numberSwitch);
             nsC.ToggleBinary();
         }
+
+        /// <summary>
+        /// Interact with a typing console
+        /// </summary>
+        /// <param name="console">The entity of the typing console</param>
+        /// <param name="mode">0: enable input, 1: update input, 2: disable input</param>
+        private void Interact(TypeConsole console, int mode = 1)
+        {
+            LLMPuzzle llmPuzzle = puzzle as LLMPuzzle;
+            switch (mode)
+            {
+                case 0:
+                    llmPuzzle.EnableInput();
+                    break;
+                case 1:
+                    llmPuzzle.UpdateInput();
+                    OnLLMInputChanged?.Invoke(llmPuzzle);
+                    break;
+                case 2:
+                    llmPuzzle.DisableInput();
+                    break;
+            }
+
+
+        }
         #endregion
 
 
@@ -328,7 +385,11 @@ namespace EducationalGame
                 stateC.LookingInteractable = false;
                 return;
             }
-            if (inputC.InteractInput && stateC.InteractingObject is SortingBoxes)
+            if (stateC.InteractingObject is SortingBoxes && inputC.InteractInput)
+            {
+                stateC.LookingInteractable = true;
+            }
+            if (stateC.InteractingObject is TypeConsole && inputC.ReturnInput)
             {
                 stateC.LookingInteractable = true;
             }
@@ -458,6 +519,10 @@ namespace EducationalGame
             if (puzzle.hasSum) sum = puzzle.sumEntity as NumberSwitch;
             if (puzzle.hasCarry) carry = puzzle.carryEntity as NumberSwitch;
         }
+        #endregion
+
+        #region Support Methods for Area 3 Puzzles
+
 
         #endregion
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider2D))]
 public class Trigger : MonoBehaviour
 {
     // Adapter from Unity Collider to customed Collider Component

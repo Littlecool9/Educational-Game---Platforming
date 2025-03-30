@@ -19,6 +19,7 @@ namespace EducationalGame.Component
         public bool InteractInput { get; set; }     // Interact
         public bool JumpInput { get; set; }         // Jump
         public bool MoveInput { get; set; }
+        public bool ReturnInput { get; set; }
 
         // public KeyCode InteractKey { get; set; }
 

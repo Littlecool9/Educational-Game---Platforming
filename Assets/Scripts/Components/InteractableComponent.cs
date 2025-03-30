@@ -15,10 +15,10 @@ namespace EducationalGame.Component
         /// <summary>
         /// true when player enter the object's trigger
         /// </summary>
-        public bool Interactable = false;  
+        public bool Interactable{ get; private set; }
         // Activate when interacted
         // Comsumed in PuzzleState System
-        public bool InteractedBuffer = false;      
+        public bool InteractedBuffer;    
         public event Action OnInteract;     // Triggered when interacted
         public event Action EnableInteraction;
         public event Action DisableInteraction;
@@ -27,10 +27,12 @@ namespace EducationalGame.Component
 
         public void InitComponent()
         {
-            
+            Interactable = false;
+            InteractedBuffer = false;
         }
 
         public void SetTrigger(Trigger GameObject){
+            if (GameObject == null) throw new Exception("Missing Trigger in SetTrigger()");
             triggerScript = GameObject;
             triggerScript.OnTriggerEnterEvent += EnterTrigger;
             triggerScript.OnTriggerExitEvent += ExitTrigger;

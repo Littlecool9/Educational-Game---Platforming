@@ -20,6 +20,7 @@ namespace EducationalGame
             inputC.JumpInput = Input.GetKeyDown(KeyCode.Space);
             inputC.MoveInput = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D);
             inputC.InteractInput = Input.GetKeyDown(KeyCode.E);
+            inputC.ReturnInput = Input.GetKeyDown(KeyCode.Return);
 
             // Record input in input component
             if (inputC.InteractInput){

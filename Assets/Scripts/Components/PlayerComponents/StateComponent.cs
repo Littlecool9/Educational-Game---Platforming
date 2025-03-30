@@ -18,7 +18,7 @@ namespace EducationalGame.Component
         // public bool IsInteracting { get; set; }
         public bool LookingInteractable { get; set; }       // 对接input到寻找
         public bool RelieveInteractable { get; set; }
-        public Entity InteractingObject { get; set; }
+        public Entity InteractingObject { get; private set; }
         
         public void InitComponent()
         {
