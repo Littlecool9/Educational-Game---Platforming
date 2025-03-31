@@ -32,7 +32,7 @@ public class SentenceObject : ScriptableObject, IBridge
     {
         var words = sentence.Split(' ');
         int i = Math.Min(missingWordCount, words.Length);
-        return string.Join(" ", words.Take(words.Length - i));
+        return string.Join(" ", words.Take(words.Length - i)) + " ";
     }
 
     public void LinkEntity(IComponent component)
@@ -48,5 +48,6 @@ public class SentenceObject : ScriptableObject, IBridge
         component.fullSentence = sentence;
         component.incompleteSentence = GetIncompleteSentence();
         component.answer = GetMissingSentence();
+        Debug.Log("answer:" + component.answer);
     }
 }

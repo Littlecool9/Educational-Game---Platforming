@@ -6092,7 +6092,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '"To reveal your destiny, you must find the ___."'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 59fc21662b3fb6f40ab8acc06535ca32, type: 2}
   m_sharedMaterial: {fileID: -5338565128111727887, guid: 59fc21662b3fb6f40ab8acc06535ca32, type: 2}

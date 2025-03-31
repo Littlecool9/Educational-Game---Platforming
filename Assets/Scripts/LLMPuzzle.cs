@@ -125,7 +125,7 @@ public class LLMPuzzle : MonoBehaviour, IPuzzle
 
     public void SolvePuzzle()
     {
-        throw new NotImplementedException();
+        
     }
 
 

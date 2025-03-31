@@ -63,6 +63,8 @@ namespace EducationalGame
             if (stateC.InteractingObject is TypeConsole tempConsole)
             {
                 Interact(tempConsole);
+                OnLLMInputChanged?.Invoke(puzzle as LLMPuzzle);
+
             }
             
             if (puzzle != null && stateC.LookingInteractable)
@@ -261,7 +263,7 @@ namespace EducationalGame
                         if (interactableC.Interactable && entity is TypeConsole console1 && stateC.InteractingObject == null)
                         {
                             // Enter typing state
-                            GameContentManager.UpdateParam(false);          // Freeze Player object
+                            GameContentManager.UpdateParam(true);          // Freeze Player object
                             stateC.SetInteractingObject(console1);          
 
                             Interact(console1, 0);
@@ -271,7 +273,7 @@ namespace EducationalGame
                         else if (inputC.ReturnInput && entity is TypeConsole console2 && stateC.InteractingObject != null)
                         {
                             // Exit typing state
-                            GameContentManager.UpdateParam(true);       
+                            GameContentManager.UpdateParam(false);       
                             stateC.ResetInteractingObject();
 
                             Interact(console2, 2);
@@ -364,7 +366,6 @@ namespace EducationalGame
                     break;
                 case 1:
                     llmPuzzle.UpdateInput();
-                    OnLLMInputChanged?.Invoke(llmPuzzle);
                     break;
                 case 2:
                     llmPuzzle.DisableInput();
@@ -380,26 +381,27 @@ namespace EducationalGame
         {   
             // Update every frame
             // Permit looking for interactables
-            if (!inputC.InteractInput)
+            if (inputC.InteractInput)
             {
-                stateC.LookingInteractable = false;
-                return;
-            }
-            if (stateC.InteractingObject is SortingBoxes && inputC.InteractInput)
-            {
-                stateC.LookingInteractable = true;
+                if (stateC.InteractingObject is SortingBoxes && inputC.InteractInput)
+                {
+                    stateC.LookingInteractable = true;
+                    return;
+                }
+                if (inputC.InteractInput && stateC.CanInteract &&
+                (stateC.GetCurrentState() == PlayerState.Idle))         // 可交互的状态
+                {
+                    // Idle -> Interacting
+                    stateC.LookingInteractable = true;
+                    return;
+                }
             }
             if (stateC.InteractingObject is TypeConsole && inputC.ReturnInput)
             {
                 stateC.LookingInteractable = true;
-            }
-            if (inputC.InteractInput && stateC.CanInteract &&
-            (stateC.GetCurrentState() == PlayerState.Idle))         // 可交互的状态
-            {
-                // Idle -> Interacting
-                stateC.LookingInteractable = true;
                 return;
             }
+            stateC.LookingInteractable = false;
         }
 
 

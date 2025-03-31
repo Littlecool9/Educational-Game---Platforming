@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9122e8b487eb8de4ea432a29b16c3a67, type: 3}
   m_Name: Sentence1
   m_EditorClassIdentifier: 
-  sentence: To reveal your destiny, you must find the Crystal
+  sentence: To reveal your destiny, you must find the crystal
   corpus:
   - Only the crystal reveals the hidden truth.
   - Seek the crystal to unlock your hidden power.

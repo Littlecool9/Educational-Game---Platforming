@@ -37,6 +37,7 @@ namespace EducationalGame
             {
                 // Solved a puzzle
                 Debug.Log("Solved a puzzle");
+                puzzle.SolvePuzzle();
             }
 
             requireCheck = false;

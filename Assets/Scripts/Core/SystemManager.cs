@@ -14,6 +14,7 @@ namespace EducationalGame.Core
 
         private static AlgorithmSystem algorithmSystem { get; set; }
         private static EquationSystem equationSystem { get; set; }
+        private static LLMSystem llmSystem { get; set; }
 
         private static List<ISystem> systems = new List<ISystem>();
         private static List<ISystem> puzzleSystems = new List<ISystem>();
@@ -29,6 +30,7 @@ namespace EducationalGame.Core
 
             algorithmSystem = new AlgorithmSystem();
             equationSystem = new EquationSystem();
+            llmSystem = new LLMSystem();
 
             // Adding order determines the order of execution
             systems.Add(playerController);      // 接受输入
@@ -44,6 +46,7 @@ namespace EducationalGame.Core
 
             puzzleSystems.Add(algorithmSystem);
             puzzleSystems.Add(equationSystem);
+            puzzleSystems.Add(llmSystem);
 
             foreach(var system in puzzleSystems) { system.Init(); }
 
@@ -66,6 +69,11 @@ namespace EducationalGame.Core
                 case EquationPuzzle equationPuzzle:
                     equationSystem.Update();
                     break;
+                case LLMPuzzle llmPuzzle:
+                    llmSystem.Update();
+                    break;
+                default:
+                    throw new System.Exception("Invalid Puzzle Type");
             }
         }
         
