@@ -48,6 +48,5 @@ public class SentenceObject : ScriptableObject, IBridge
         component.fullSentence = sentence;
         component.incompleteSentence = GetIncompleteSentence();
         component.answer = GetMissingSentence();
-        Debug.Log("answer:" + component.answer);
     }
 }
