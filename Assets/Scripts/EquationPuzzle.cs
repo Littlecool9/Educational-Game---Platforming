@@ -68,7 +68,20 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
     }
     public List<Entity> GetEntities() => Entities;
 
-    [SerializeField] public List<GameObject> Gates;
+    [SerializeField] private List<Gate> _gates;
+
+    public List<Gate> Gates
+    {
+        get => _gates;
+        set => _gates = value;
+    }
+
+    [SerializeField] private List<MaskTrigger> _mapMasks;
+    public List<MaskTrigger> MapMasks 
+    {
+        get => _mapMasks;
+        set => _mapMasks = value;
+    }
 
 
     public bool triggered { get; set; }
@@ -183,9 +196,9 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
     public void SolvePuzzle()
     {
         OnSolvePuzzle?.Invoke();
-        foreach (GameObject gate in Gates)
+        foreach (Gate gate in Gates)
         {
-            gate.SetActive(false);
+            gate.gameObject.SetActive(false);       // TODO: gate.StartDisappearing();
         }
         foreach (Entity entity in Entities)
         {

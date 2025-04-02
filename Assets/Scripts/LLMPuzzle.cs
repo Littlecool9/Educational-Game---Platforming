@@ -21,7 +21,20 @@ public class LLMPuzzle : MonoBehaviour, IPuzzle
     public TMP_Text displayField;
 
 
-    public List<GameObject> Gates;
+    [SerializeField] private List<Gate> _gates;
+
+    public List<Gate> Gates
+    {
+        get => _gates;
+        set => _gates = value;
+    }
+
+    [SerializeField] private List<MaskTrigger> _mapMasks;
+    public List<MaskTrigger> MapMasks 
+    {
+        get => _mapMasks;
+        set => _mapMasks = value;
+    }
     
     public List<Entity> GetEntities() => Entities;
     public List<Entity> Entities {

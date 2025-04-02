@@ -27,8 +27,20 @@ public class AlgorithmPuzzle : MonoBehaviour, IPuzzle
     }
 
     
+    [SerializeField] private List<Gate> _gates;
 
-    [SerializeField] public List<GameObject> Gates;
+    public List<Gate> Gates
+    {
+        get => _gates;
+        set => _gates = value;
+    }
+
+    [SerializeField] private List<MaskTrigger> _mapMasks;
+    public List<MaskTrigger> MapMasks 
+    {
+        get => _mapMasks;
+        set => _mapMasks = value;
+    }
 
     
     public SortingBoxes[] LastSwaps = new SortingBoxes[2];
@@ -157,9 +169,9 @@ public class AlgorithmPuzzle : MonoBehaviour, IPuzzle
     public void SolvePuzzle()
     {
         OnSolvePuzzle?.Invoke();
-        foreach (GameObject gate in Gates)
+        foreach (Gate gate in Gates)
         {
-            gate.SetActive(false);
+            gate.gameObject.SetActive(false);       // TODO: gate.StartDisappearing();
         }
         foreach (Entity entity in Entities)
         {
