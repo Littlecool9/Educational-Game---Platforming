@@ -48,9 +48,10 @@ MonoBehaviour:
   text: {fileID: 7846246651634280711}
   SortingBoxes: []
   SortingBoxSlots: []
-  Gates: []
+  _gates: []
+  _mapMasks: []
   returnSpeed: 5
-  resetTime: 10
+  resetTime: 5
 --- !u!1 &4057979240152008665
 GameObject:
   m_ObjectHideFlags: 0

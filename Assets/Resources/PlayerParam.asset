@@ -15,7 +15,7 @@ MonoBehaviour:
   EnableWallSlide: 1
   EnableJumpGrace: 1
   EnableWallBoost: 1
-  MaxRun: 9
+  MaxRun: 8
   RunAccel: 100
   RunReduce: 40
   Gravity: 90
@@ -23,13 +23,13 @@ MonoBehaviour:
   MaxFall: -16
   FastMaxFall: -24
   FastMaxAccel: 30
-  JumpSpeed: 10.5
-  VarJumpTime: 0.2
+  JumpSpeed: 8
+  VarJumpTime: 0.15
   JumpHBoost: 4
   JumpGraceTime: 0.1
   UpwardCornerCorrection: 4
-  DashSpeed: 24
-  EndDashSpeed: 16
+  DashSpeed: 16
+  EndDashSpeed: 11
   EndDashUpMult: 0.75
   DashTime: 0.15
   DashCooldown: 0.2

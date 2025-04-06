@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4346925964164890409}
   - component: {fileID: 4346925964164890408}
   m_Layer: 6
-  m_Name: Pink_2
+  m_Name: 'Green_2 '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: 04944a5541838044bb2f9a1dc431ae02, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 116fe8242e5304a478eb962c56cd9bb2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -122,4 +122,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 155898963859eb24d89d83389a9025ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GroundColor: {r: 1, g: 0.48235294, b: 0.6745098, a: 1}
+  GroundColor: {r: 0.22352943, g: 0.70980394, b: 0.2901961, a: 1}
