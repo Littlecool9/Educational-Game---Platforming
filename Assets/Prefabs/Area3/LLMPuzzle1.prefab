@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 5.17}
+  m_AnchoredPosition: {x: -1.79, y: 5.17}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &434805865710077368
@@ -1130,4 +1130,5 @@ MonoBehaviour:
   corpusField: {fileID: 434805865710077369}
   inputField: {fileID: 434805867027392928}
   displayField: {fileID: 434805867081250487}
-  Gates: []
+  _gates: []
+  _mapMasks: []

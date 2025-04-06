@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0.84}
-  m_SizeDelta: {x: 20, y: 5}
+  m_SizeDelta: {x: 9.93, y: 3.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &7049364801969821922
 MeshRenderer:
@@ -229,7 +229,8 @@ MonoBehaviour:
   hasCarry: 0
   EquationNumbersObjects: []
   EquationBitsObjects: []
-  Gates: []
+  _gates: []
+  _mapMasks: []
 --- !u!1001 &117600881087402708
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -288,6 +289,14 @@ PrefabInstance:
     - target: {fileID: 5345127989562431155, guid: 5ad7688e5e88b0f4fb3ea5b319571844, type: 3}
       propertyPath: InitialBinary
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8285133717232717210, guid: 5ad7688e5e88b0f4fb3ea5b319571844, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 2.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 8285133717232717210, guid: 5ad7688e5e88b0f4fb3ea5b319571844, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ad7688e5e88b0f4fb3ea5b319571844, type: 3}
@@ -359,6 +368,14 @@ PrefabInstance:
     - target: {fileID: 5345127989562431155, guid: 5ad7688e5e88b0f4fb3ea5b319571844, type: 3}
       propertyPath: InitialBinary
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8285133717232717210, guid: 5ad7688e5e88b0f4fb3ea5b319571844, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 2.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 8285133717232717210, guid: 5ad7688e5e88b0f4fb3ea5b319571844, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ad7688e5e88b0f4fb3ea5b319571844, type: 3}
@@ -438,6 +455,14 @@ PrefabInstance:
     - target: {fileID: 5345127989562431155, guid: 5ad7688e5e88b0f4fb3ea5b319571844, type: 3}
       propertyPath: InitialBinary
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8285133717232717210, guid: 5ad7688e5e88b0f4fb3ea5b319571844, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8285133717232717210, guid: 5ad7688e5e88b0f4fb3ea5b319571844, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 2.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ad7688e5e88b0f4fb3ea5b319571844, type: 3}

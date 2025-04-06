@@ -19,6 +19,7 @@ public class EquationPuzzleEditor : Editor
     #endregion
 
     SerializedProperty TextObject;
+    SerializedProperty Gates;
 
     private void OnEnable() 
     {
@@ -30,6 +31,7 @@ public class EquationPuzzleEditor : Editor
         EquationBits = serializedObject.FindProperty("EquationBitsObjects");
 
         TextObject = serializedObject.FindProperty("text");
+        Gates = serializedObject.FindProperty("Gates");
 
     }
 
@@ -41,6 +43,9 @@ public class EquationPuzzleEditor : Editor
 
         // 获取TextMeshPro
         EditorGUILayout.PropertyField(TextObject, new GUIContent("TextMeshPro"));
+
+        // 获取Gate
+        EditorGUILayout.PropertyField(Gates, new GUIContent("Gates"));
 
         // 创建一个勾选框
         script.isBinaryPuzzle = EditorGUILayout.Toggle("isBinaryPuzzle", script.isBinaryPuzzle);

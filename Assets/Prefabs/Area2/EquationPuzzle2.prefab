@@ -72,7 +72,8 @@ MonoBehaviour:
     - {fileID: 5430506668240141371}
     - {fileID: 5430506667966082331}
     - {fileID: 5430506666951021392}
-  Gates: []
+  _gates: []
+  _mapMasks: []
 --- !u!1 &673744396667821073
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,7 +279,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 5}
+  m_SizeDelta: {x: 0.57, y: 1.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &673744396758989946
 MeshRenderer:
@@ -1521,7 +1522,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 5}
+  m_SizeDelta: {x: 0.81, y: 1.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &673744397687660512
 MeshRenderer:
@@ -1921,7 +1922,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 5}
+  m_SizeDelta: {x: 0.44, y: 1.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &673744398074978218
 MeshRenderer:

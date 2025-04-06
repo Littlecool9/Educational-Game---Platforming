@@ -82,6 +82,7 @@ public class Game : MonoBehaviour
     // 给出关卡的segments grids
     private void OnDrawGizmos() {
         if (Camera.main == null) return;
+        int cellCount = 7;
 
         // Draw the grid of the map
         float camHeight = Camera.main.orthographicSize * 2;
@@ -93,9 +94,9 @@ public class Game : MonoBehaviour
 
         Gizmos.color = Color.green; // 设置边界颜色
 
-        for (int i = -3; i <= 5; i++)
+        for (int i = -cellCount; i <= cellCount; i++)
         {
-            for (int j = -3; j <= 5; j++)
+            for (int j = -cellCount; j <= cellCount; j++)
             {
                 float x = (xPage + i) * camWidth;
                 float y = (yPage + j) * camHeight;

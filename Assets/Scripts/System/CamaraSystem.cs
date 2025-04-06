@@ -70,7 +70,6 @@ namespace EducationalGame
             {
                 Vector3 targetPos = new Vector3(newCamPos.x, newCamPos.y, camPos.z);
                 camera.transform.position = targetPos;
-                Constants.Background.transform.position = targetPos;
             }
         }
 
