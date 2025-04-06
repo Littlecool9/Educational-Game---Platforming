@@ -12,12 +12,20 @@ public class GameContentManager : MonoBehaviour
 
     public GameObject pauseMenuUI;
     
+    public static bool isTrapped = false;
+    public static Vector3 transportTarget;
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePause();
         }
+    }
+
+    public static void UpdateIsTrapped(Vector3 transportPoint)
+    {
+        isTrapped = true;
+        transportTarget = transportPoint;
     }
 
     public static void UpdateParam(bool isTextInputActive) 

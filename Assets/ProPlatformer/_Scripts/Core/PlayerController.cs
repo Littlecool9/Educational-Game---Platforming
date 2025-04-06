@@ -239,6 +239,11 @@ namespace Myd.Platform
             //更新位置
             UpdateCollideX(Speed.x * deltaTime);
             UpdateCollideY(Speed.y * deltaTime);
+            if (GameContentManager.isTrapped)
+            {
+                this.Position = GameContentManager.transportTarget;
+                GameContentManager.isTrapped = false;
+            }
 
             UpdateHair(deltaTime);
 
@@ -388,7 +393,7 @@ namespace Myd.Platform
         public bool OnGround => this.onGround;
         private Color groundColor = Color.white;
         public Color GroundColor => this.groundColor;
-        public Vector2 Position { get; private set; }
+        public Vector2 Position { get; set; }
         //表示进入爬墙状态有0.1秒时间,不发生移动，为了让玩家看清发生了爬墙的动作
         public float ClimbNoMoveTimer { get; set; }
         public float VarJumpSpeed => this.varJumpSpeed;
