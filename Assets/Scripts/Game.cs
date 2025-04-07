@@ -27,12 +27,18 @@ public class Game : MonoBehaviour
     void Start() 
     {
         Application.targetFrameRate = 60; // 将游戏帧率锁定为 60 FPS
+        QualitySettings.vSyncCount = 0;
 
         EntityManager.Instance.CreateEntity(EntityType.Player, "Player");
 
         Constants.Init(this);
         InitPuzzles();
         SystemManager.Init();       // Init Systems
+    }
+
+    void Update()
+    {
+        SystemManager.Update();
     }
 
     void FixedUpdate() 
@@ -47,7 +53,7 @@ public class Game : MonoBehaviour
         {
             Constants.SetDeltaTime(Time.deltaTime);
 
-            SystemManager.Execute(GetTriggerPuzzle());
+            SystemManager.FixedUpdate(GetTriggerPuzzle());
         }
         
     }

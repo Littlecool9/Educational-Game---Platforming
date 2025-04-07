@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 
 namespace EducationalGame.Core
@@ -17,6 +18,7 @@ namespace EducationalGame.Core
         private static LLMSystem llmSystem { get; set; }
 
         private static List<ISystem> systems = new List<ISystem>();
+        private static List<ISystem> updateSystems = new List<ISystem>();
         private static List<ISystem> puzzleSystems = new List<ISystem>();
         
         
@@ -33,7 +35,7 @@ namespace EducationalGame.Core
             llmSystem = new LLMSystem();
 
             // Adding order determines the order of execution
-            systems.Add(playerController);      // 接受输入
+            updateSystems.Add(playerController);      // 接受输入
             // systems.Add(playerStateMachine);    // 处理状态
             systems.Add(interactSystem);        // 处理互动逻辑
             // systems.Add(algorithmSystem);       // 处理算法区域的谜题判定
@@ -42,6 +44,7 @@ namespace EducationalGame.Core
             systems.Add(camaraSystem);          // 处理相机
 
             // asyncSystems.Add(algorithmSystem);
+            foreach(var system in updateSystems) { system.Init(); }
             foreach(var system in systems) { system.Init(); }
 
             puzzleSystems.Add(algorithmSystem);
@@ -52,7 +55,15 @@ namespace EducationalGame.Core
 
         }
 
-        public static void Execute(PuzzleBase activePuzzle)
+        public static void Update()
+        {
+            foreach (var sys in updateSystems)
+            {
+                sys.Update();
+            }
+        }
+
+        public static void FixedUpdate(PuzzleBase activePuzzle)
         {
             foreach (var sys in systems)
             {
