@@ -46,7 +46,7 @@ public class SentenceObject : ScriptableObject, IBridge
         component.corpus = corpus;
         component.missingWordCount = missingWordCount;
         component.fullSentence = sentence;
-        component.incompleteSentence = GetIncompleteSentence();
+        component.incompleteSentence = "(missing "+ missingWordCount + " words)\n" + GetIncompleteSentence();
         component.answer = GetMissingSentence();
     }
 }
