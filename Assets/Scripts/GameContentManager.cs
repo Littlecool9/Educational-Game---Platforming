@@ -10,15 +10,29 @@ public class GameContentManager : MonoBehaviour
 
     public static bool isPaused = false;
 
-    public GameObject pauseMenuUI;
     
     public static bool isTrapped = false;
     public static Vector3 transportTarget;
+
+
+    public GameObject pauseMenuUI;
+    public List<Trophy> trophies = new List<Trophy>();
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePause();
+        }
+
+        bool success = false;
+        foreach (Trophy trophy in trophies)
+        {
+            if (!trophy.Collected) break;
+            success = true;
+        }
+        if (success) 
+        {
+            GameEnd();
         }
     }
 
@@ -46,5 +60,10 @@ public class GameContentManager : MonoBehaviour
 
         // 如果你之后需要显示暂停菜单，可以在这里调用 UI 的显隐
         pauseMenuUI.SetActive(isPaused);
+    }
+
+    private void GameEnd()
+    {
+
     }
 }
