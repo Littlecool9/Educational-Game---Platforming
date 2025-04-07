@@ -40,6 +40,7 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
     #region Equation Puzzle Objects and Entities
     
     [SerializeField] public List<GameObject> EquationNumbersObjects;
+    [Tooltip("BitsObjects列表中每一项严格对应NumbersObjects列表中每一项的二进制表示（多位数）")]
     [SerializeField] public List<GameObjectList> EquationBitsObjects;      
     // BitsObjects列表中每一项严格对应NumbersObjects列表中每一项的二进制表示（多位数），下面同理
 
@@ -138,19 +139,17 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
 
                 List<Entity> bitsOfDecimal = new List<Entity>();
 
-                if (!numberC.isFixed)
+                foreach (GameObject bit in EquationBitsObjects[i].objects)
                 {
-                    foreach (GameObject bit in EquationBitsObjects[i].objects)
-                    {
-                        NumberSwitch bitEntity = EntityManager.Instance.CreateEntity(EntityType.NumberSwitch) as NumberSwitch;
-                        InitSwitch(bitEntity, bit);
-                        bitsOfDecimal.Add(bitEntity);
+                    NumberSwitch bitEntity = EntityManager.Instance.CreateEntity(EntityType.NumberSwitch) as NumberSwitch;
+                    InitSwitch(bitEntity, bit);
+                    bitsOfDecimal.Add(bitEntity);
 
-                        numberC.AddBitToBinaryList(EntityManager.Instance.GetComponent<NumberSwitchComponent>(bitEntity));
+                    numberC.AddBitToBinaryList(EntityManager.Instance.GetComponent<NumberSwitchComponent>(bitEntity));
 
-                        InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(bitEntity.ID);
-                        if (interactableC != null) interactables.Add(interactableC);
-                    }
+                    InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(bitEntity.ID);
+                    if (numberC.isFixed) interactableC.DisableComponent();
+                    else interactables.Add(interactableC);
                 }
                 equationBitsEntities.Add(bitsOfDecimal);
                 numberC.Init();
@@ -161,7 +160,7 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
         return interactables;
     }
 
-    private void InitSwitch(NumberSwitch switchEntity, GameObject switchObject)
+    private void InitSwitch(NumberSwitch switchEntity, GameObject switchObject, bool isInteractable = true)
     {
         RenderComponent switchRC = EntityManager.Instance.GetComponent<RenderComponent>(switchEntity);
         NumberSwitchComponent switchC = EntityManager.Instance.GetComponent<NumberSwitchComponent>(switchEntity);
@@ -179,6 +178,11 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
         {
             switchIC.EnableInteraction += RefreshTrigger;
             switchIC.OnStayTrigger += RefreshTrigger;
+        }
+
+        if (!isInteractable)
+        {
+            switchIC.DisableComponent();
         }
 
     }

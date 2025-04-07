@@ -20,6 +20,7 @@ public class EquationPuzzleEditor : Editor
 
     SerializedProperty TextObject;
     SerializedProperty Gates;
+    SerializedProperty Masks;
 
     private void OnEnable() 
     {
@@ -31,8 +32,8 @@ public class EquationPuzzleEditor : Editor
         EquationBits = serializedObject.FindProperty("EquationBitsObjects");
 
         TextObject = serializedObject.FindProperty("text");
-        Gates = serializedObject.FindProperty("Gates");
-
+        Gates = serializedObject.FindProperty("_gates");
+        Masks = serializedObject.FindProperty("_masks");
     }
 
     public override void OnInspectorGUI()
@@ -44,8 +45,6 @@ public class EquationPuzzleEditor : Editor
         // 获取TextMeshPro
         EditorGUILayout.PropertyField(TextObject, new GUIContent("TextMeshPro"));
 
-        // 获取Gate
-        EditorGUILayout.PropertyField(Gates, new GUIContent("Gates"));
 
         // 创建一个勾选框
         script.isBinaryPuzzle = EditorGUILayout.Toggle("isBinaryPuzzle", script.isBinaryPuzzle);
@@ -79,6 +78,12 @@ public class EquationPuzzleEditor : Editor
             }
             // EditorGUILayout.PropertyField(EquationBits, new GUIContent("EquationBits"), true);
         }
+        
+        // 获取Gate
+        EditorGUILayout.PropertyField(Gates, new GUIContent("Gates"));
+
+        // 获取Mask
+        EditorGUILayout.PropertyField(Masks, new GUIContent("Masks"));
 
         serializedObject.ApplyModifiedProperties(); // 保存修改
     }

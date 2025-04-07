@@ -59,9 +59,7 @@ namespace EducationalGame.Component
             if (isCarry || isSum) 
             {
                 TargetBinary = bridge.TargetBinary;
-                string addingText = isSum ? sumText: carryText;
-                string number = CurrentBinary == Binary.Zero ? "0" : "1";
-                textMeshPro.text = addingText + number;
+                UpdateText();
             }
             else
             {
