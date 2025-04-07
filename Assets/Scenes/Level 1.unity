@@ -6983,11 +6983,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5248304189702601231, guid: d83f24b8a3004284fb36df8b1557d60f, type: 3}
   m_PrefabInstance: {fileID: 575368050}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &580823982 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
-  m_PrefabInstance: {fileID: 1744419697}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &590804551
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7345,7 +7340,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5412596674795953648, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_text
-      value: Some wikipedia about AI and statistic linguistic
+      value: Language models (like GPT) are algorithms trained to predict text by
+        analyzing patterns from vast datasets. They use statistical probabilities
+        derived from frequency and contextual relationships between words. Techniques
+        such as word embeddings and attention mechanisms allow models to "understand"
+        context and semantics.
       objectReference: {fileID: 0}
     - target: {fileID: 5412596675342293514, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_Name
@@ -12986,6 +12985,10 @@ PrefabInstance:
       value: LLMPuzzle1 (1)
       objectReference: {fileID: 0}
     - target: {fileID: 434805867360921662, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
+      propertyPath: sentenceObject
+      value: 
+      objectReference: {fileID: 11400000, guid: 81c059ddf7c83b64098731f0d33b7637, type: 2}
+    - target: {fileID: 434805867360921662, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
       propertyPath: _gates.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -13689,7 +13692,6 @@ Transform:
   - {fileID: 759441389}
   - {fileID: 1084998681}
   - {fileID: 303050514}
-  - {fileID: 580823982}
   - {fileID: 1808179560}
   - {fileID: 1818268224}
   m_Father: {fileID: 0}
@@ -14513,7 +14515,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5412596674795953648, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_text
-      value: Some wikipedia about binary theory
+      value: "Binary addition operates on bits (binary digits) through fundamental
+        logic operations. The basic rules of binary addition are similar to decimal
+        addition but simpler\u2014only involving 0s and 1s. Critical to binary arithmetic
+        are \"sum\" and \"carry\" concepts, determining the resulting bits and carrying
+        overflows to higher-order bits."
+      objectReference: {fileID: 0}
+    - target: {fileID: 5412596674795953648, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5412596675342293514, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_Name
@@ -14529,7 +14539,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -13.92
+      value: -10.87
       objectReference: {fileID: 0}
     - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -14562,6 +14572,14 @@ PrefabInstance:
     - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5412596675342293556, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
+      propertyPath: m_Size.x
+      value: 21.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 5412596675342293556, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
+      propertyPath: m_Offset.y
+      value: -2.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
@@ -15956,6 +15974,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1093372673}
     m_Modifications:
+    - target: {fileID: 5412596674795953648, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
+      propertyPath: m_text
+      value: Bubble sort is a simple sorting algorithm that repeatedly steps through
+        a list, compares adjacent elements, and swaps them if they're in the wrong
+        order. This process repeats until no swaps are required, indicating that
+        the list is sorted. Despite its simplicity, bubble sort demonstrates essential
+        concepts like comparison and iteration clearly.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5412596674795953648, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5412596675342293514, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_Name
       value: Knowledge Board
@@ -15970,7 +16000,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -41.93
+      value: -41.54
       objectReference: {fileID: 0}
     - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -19658,71 +19688,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8117982269366550325, guid: ebae13e4294af3848aa97e8e246664b1, type: 3}
   m_PrefabInstance: {fileID: 1599024481}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1744419697
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1093372673}
-    m_Modifications:
-    - target: {fileID: 5412596674795953648, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
-      propertyPath: m_text
-      value: Some wikipedia about AI and statistic linguistic
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412596675342293514, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
-      propertyPath: m_Name
-      value: Knowledge Board (4)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412596675342293514, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -74.51
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -27.38
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
 --- !u!1001 &1748925372
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20718,6 +20683,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1093372673}
     m_Modifications:
+    - target: {fileID: 5412596674795953648, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
+      propertyPath: m_text
+      value: Though bubble sort isn't used extensively in real-world applications
+        due to its inefficiency on large datasets, it's foundational for understanding
+        more advanced sorting algorithms like quicksort, mergesort, and heapsort,
+        which power databases, search engines, and large-scale data management systems.
+      objectReference: {fileID: 0}
     - target: {fileID: 5412596675342293514, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_Name
       value: Knowledge Board (1)
@@ -20732,7 +20704,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -41.93
+      value: -41.78
       objectReference: {fileID: 0}
     - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -20766,6 +20738,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5412596675342293556, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
+      propertyPath: m_Size.x
+      value: 23
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
 --- !u!1001 &1818268223
@@ -20777,7 +20753,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5412596674795953648, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_text
-      value: Some wikipedia about AI and statistic linguistic
+      value: Predicting the next word in a sentence or filling in missing information
+        based on context is a natural part of human communication. Modern AI systems,
+        like chatbots and virtual assistants, simulate this cognitive process to
+        provide coherent responses, translate languages, or generate readable texts.
       objectReference: {fileID: 0}
     - target: {fileID: 5412596675342293514, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_Name
@@ -20785,7 +20764,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -20793,7 +20772,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5412596675342293515, guid: ac7502831eef32847be5c635b2a56de2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -24199,14 +24178,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6241321532034352150, guid: 45a1dae3039807d41b6cfa0b08ba7535, type: 3}
-      propertyPath: StartPosition.x
-      value: 46.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6241321532034352150, guid: 45a1dae3039807d41b6cfa0b08ba7535, type: 3}
-      propertyPath: StartPosition.y
-      value: 37.74
-      objectReference: {fileID: 0}
     - target: {fileID: 6241321532034352150, guid: 45a1dae3039807d41b6cfa0b08ba7535, type: 3}
       propertyPath: Bounds.m_Extent.x
       value: 186.65

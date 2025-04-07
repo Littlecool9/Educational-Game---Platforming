@@ -62,7 +62,6 @@ public abstract class PuzzleBase : MonoBehaviour
 
     protected void RefreshTrigger()
     {
-        Debug.Log("refresh trigger");
         triggered = true;
         OnEnableTrigger?.Invoke();
 
