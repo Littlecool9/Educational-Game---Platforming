@@ -54,10 +54,6 @@ public abstract class PuzzleBase : MonoBehaviour
     public event Action OnEnableTrigger;
     public event Action OnSolvePuzzle;
 
-    protected void RaiseDisableTrigger() => OnDisableTrigger?.Invoke();
-    protected void RaiseEnableTrigger() => OnEnableTrigger?.Invoke();
-    protected void RaiseSolvePuzzle() => OnSolvePuzzle?.Invoke();
-
     protected void DisableTrigger()
     {
         triggered = false;
@@ -66,6 +62,7 @@ public abstract class PuzzleBase : MonoBehaviour
 
     protected void RefreshTrigger()
     {
+        Debug.Log("refresh trigger");
         triggered = true;
         OnEnableTrigger?.Invoke();
 

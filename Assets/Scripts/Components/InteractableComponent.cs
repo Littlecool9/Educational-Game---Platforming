@@ -51,6 +51,7 @@ namespace EducationalGame.Component
         {
             Interactable = true;
             OnStayTrigger?.Invoke();
+            Debug.Log("OnStayTriggerEvent");
         }
 
         // 这两个方法可以被改为使用事件传递信息

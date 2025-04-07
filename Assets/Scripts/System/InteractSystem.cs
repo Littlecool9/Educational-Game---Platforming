@@ -43,6 +43,7 @@ namespace EducationalGame
             foreach(PuzzleBase puzzle in Constants.Game.PuzzlesList) 
             { 
                 puzzle.OnEnableTrigger += UpdatePuzzle; 
+                
             }
         }
 
@@ -359,6 +360,11 @@ namespace EducationalGame
         private void Interact(TypeConsole console, int mode = 1)
         {
             LLMPuzzle llmPuzzle = puzzle as LLMPuzzle;
+            if (llmPuzzle == null)
+            {
+                Debug.Log("Not a LLMPuzzle");
+                return;
+            }
             switch (mode)
             {
                 case 0:

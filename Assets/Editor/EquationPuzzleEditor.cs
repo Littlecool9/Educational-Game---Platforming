@@ -33,7 +33,7 @@ public class EquationPuzzleEditor : Editor
 
         TextObject = serializedObject.FindProperty("text");
         Gates = serializedObject.FindProperty("_gates");
-        Masks = serializedObject.FindProperty("_masks");
+        Masks = serializedObject.FindProperty("_mapMasks");
     }
 
     public override void OnInspectorGUI()

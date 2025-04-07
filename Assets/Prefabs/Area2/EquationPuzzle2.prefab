@@ -62,9 +62,9 @@ MonoBehaviour:
   - {fileID: 673744397225421595}
   EquationBitsObjects:
   - objects:
-    - {fileID: 5430506666641427766}
-    - {fileID: 5430506667592052109}
     - {fileID: 5430506666617086420}
+    - {fileID: 5430506667592052109}
+    - {fileID: 5430506666641427766}
   - objects:
     - {fileID: 5430506667670043901}
     - {fileID: 5430506668313610846}
@@ -425,7 +425,7 @@ GameObject:
   m_Component:
   - component: {fileID: 673744396835160494}
   m_Layer: 0
-  m_Name: Bit1
+  m_Name: Bit3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2296,7 +2296,7 @@ GameObject:
   m_Component:
   - component: {fileID: 673744398219153247}
   m_Layer: 0
-  m_Name: Bit3
+  m_Name: Bit1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
