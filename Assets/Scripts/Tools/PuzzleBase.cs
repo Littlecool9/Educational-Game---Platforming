@@ -15,7 +15,7 @@ public abstract class PuzzleBase : MonoBehaviour
     public abstract List<InteractableComponent> Init();
 
     // Trigger the puzzle, signs this puzzle is on
-    public bool triggered;
+    [HideInInspector] public bool triggered;
 
     private Coroutine resetCoroutine;
     private float resetTime = 10f;

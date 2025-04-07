@@ -26,7 +26,7 @@ public class MaskTrigger : MonoBehaviour
 
     public void RemoveMask()
     {
-        if (isDisappearing)
+        if (!isDisappearing)
         {
             StartCoroutine(FadeOutMask());
         }

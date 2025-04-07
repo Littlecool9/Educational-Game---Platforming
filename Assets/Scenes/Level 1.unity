@@ -1074,6 +1074,10 @@ PrefabInstance:
       value: LLMPuzzle1 (3)
       objectReference: {fileID: 0}
     - target: {fileID: 434805867360921662, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
+      propertyPath: sentenceObject
+      value: 
+      objectReference: {fileID: 11400000, guid: 0fe0213ba362dda48933eebdaf79e6d5, type: 2}
+    - target: {fileID: 434805867360921662, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
       propertyPath: _gates.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -7605,6 +7609,10 @@ PrefabInstance:
     - target: {fileID: 434805865710077369, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
       propertyPath: m_margin.z
       value: 3.4246883
+      objectReference: {fileID: 0}
+    - target: {fileID: 434805865710077382, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 5.72
       objectReference: {fileID: 0}
     - target: {fileID: 434805867081250484, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -18969,11 +18977,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6695609475695798088, guid: b5689e56fcc86664b886d5a7cbe4d28f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 85.78
+      value: 85.821
       objectReference: {fileID: 0}
     - target: {fileID: 6695609475695798088, guid: b5689e56fcc86664b886d5a7cbe4d28f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.68
+      value: 7.668
       objectReference: {fileID: 0}
     - target: {fileID: 6695609475695798088, guid: b5689e56fcc86664b886d5a7cbe4d28f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -23573,14 +23581,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6241321532034352150, guid: 45a1dae3039807d41b6cfa0b08ba7535, type: 3}
-      propertyPath: StartPosition.x
-      value: -11.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 6241321532034352150, guid: 45a1dae3039807d41b6cfa0b08ba7535, type: 3}
-      propertyPath: StartPosition.y
-      value: 26.7
-      objectReference: {fileID: 0}
     - target: {fileID: 6241321532034352150, guid: 45a1dae3039807d41b6cfa0b08ba7535, type: 3}
       propertyPath: Bounds.m_Extent.x
       value: 186.65

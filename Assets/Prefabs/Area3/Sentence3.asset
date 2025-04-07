@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9122e8b487eb8de4ea432a29b16c3a67, type: 3}
+  m_Name: Sentence3
+  m_EditorClassIdentifier: 
+  sentence: To overcome darkness, one must seek true wisdom
+  corpus:
+  - Wisdom emerges from the shadows of uncertainty.
+  - Only true wisdom can light your darkest path.
+  - The path you seek requires patience and wisdom.
+  - Seek wisdom, and you shall find your way.
+  - Through trials, wisdom grows stronger.
+  missingWordCount: 3
