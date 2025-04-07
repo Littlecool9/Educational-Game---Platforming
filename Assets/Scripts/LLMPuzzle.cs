@@ -8,7 +8,7 @@ using EducationalGame.Core;
 using TMPro;
 using UnityEngine;
 
-public class LLMPuzzle : MonoBehaviour, IPuzzle
+public class LLMPuzzle : PuzzleBase
 {
     public GameObject TypeConsoleObject;
     public SentenceObject sentenceObject;
@@ -23,32 +23,30 @@ public class LLMPuzzle : MonoBehaviour, IPuzzle
 
     [SerializeField] private List<Gate> _gates;
 
-    public List<Gate> Gates
+    public override List<Gate> Gates
     {
         get => _gates;
         set => _gates = value;
     }
 
     [SerializeField] private List<MaskTrigger> _mapMasks;
-    public List<MaskTrigger> MapMasks 
+    public override List<MaskTrigger> MapMasks 
     {
         get => _mapMasks;
         set => _mapMasks = value;
     }
     
-    public List<Entity> GetEntities() => Entities;
-    public List<Entity> Entities {
+    public override List<Entity> Entities {
         get => new List<Entity> { ConsoleEntity, SentenceEntity };
         set => throw new NotSupportedException(); 
     }
-    public bool triggered { get; set; }
 
     private Coroutine blinkingCursorCoroutine;
     public bool isInputEnabled { get; private set;}
     
 
 
-    public List<InteractableComponent> Init()
+    public override List<InteractableComponent> Init()
     {
         List<InteractableComponent> interactables = new List<InteractableComponent>();
         
@@ -129,51 +127,4 @@ public class LLMPuzzle : MonoBehaviour, IPuzzle
         }
     }
 
-
-
-    public void ResetPuzzle()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void SolvePuzzle()
-    {
-        
-    }
-
-
-    public event Action OnDisableTrigger;
-    public event Action OnEnableTrigger;
-    public event Action OnSolvePuzzle;
-
-
-    private Coroutine resetCoroutine;
-    private float resetTime = 50f;
-
-    public void DisableTrigger()
-    {
-        triggered = false;
-        OnDisableTrigger?.Invoke();
-    }
-
-    public void RefreshTrigger()
-    {
-        triggered = true;
-        OnEnableTrigger?.Invoke();
-
-        // 如果之前有倒计时协程在运行，先停止它
-        if (resetCoroutine != null)
-        {
-            StopCoroutine(resetCoroutine);
-        }
-
-        // 启动新的倒计时协程
-        resetCoroutine = StartCoroutine(ResetTriggeredAfterDelay());
-    }
-
-    private IEnumerator ResetTriggeredAfterDelay()
-    {
-        yield return new WaitForSeconds(resetTime);
-        DisableTrigger();
-    }
 }

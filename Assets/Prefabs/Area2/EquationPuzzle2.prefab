@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45371216085999a4aaf15edea3894003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  triggered: 0
   text: {fileID: 673744396667821072}
   isBinaryPuzzle: 0
   BitsObjects: []

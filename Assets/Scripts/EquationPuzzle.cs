@@ -8,7 +8,7 @@ using EducationalGame.Core;
 using TMPro;
 using UnityEngine;
 
-public class EquationPuzzle : MonoBehaviour, IPuzzle
+public class EquationPuzzle : PuzzleBase
 {
 
     // An instance of a algorithm puzzle
@@ -49,7 +49,7 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
     #endregion
 
 
-    public List<Entity> Entities { 
+    public override List<Entity> Entities { 
         get{
             if (isBinaryPuzzle) 
             {
@@ -67,30 +67,26 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
         }
         set => throw new NotSupportedException(); 
     }
-    public List<Entity> GetEntities() => Entities;
 
     [SerializeField] private List<Gate> _gates;
 
-    public List<Gate> Gates
+    public override List<Gate> Gates
     {
         get => _gates;
         set => _gates = value;
     }
 
     [SerializeField] private List<MaskTrigger> _mapMasks;
-    public List<MaskTrigger> MapMasks 
+    public override List<MaskTrigger> MapMasks 
     {
         get => _mapMasks;
         set => _mapMasks = value;
     }
 
 
-    public bool triggered { get; set; }
-    private Coroutine resetCoroutine;
-    private float resetTime = 10f;
 
 
-    public List<InteractableComponent> Init()
+    public override List<InteractableComponent> Init()
     {
         List<InteractableComponent> interactables = new List<InteractableComponent>();
         if (isBinaryPuzzle)
@@ -195,57 +191,4 @@ public class EquationPuzzle : MonoBehaviour, IPuzzle
         slotRC.bridge?.LinkEntity(slotC);
     }
 
-    public event Action OnSolvePuzzle;
-
-    public void SolvePuzzle()
-    {
-        OnSolvePuzzle?.Invoke();
-        foreach (Gate gate in Gates)
-        {
-            gate.gameObject.SetActive(false);       // TODO: gate.StartDisappearing();
-        }
-        foreach (Entity entity in Entities)
-        {
-            InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity.ID);
-            interactableC?.DisableComponent();
-        }
-        DisableTrigger();       // Unsubscribe objects
-    }
-
-    public void ResetPuzzle()
-    {
-        throw new NotImplementedException();
-    }
-
-    public event Action OnDisableTrigger;
-    public event Action OnEnableTrigger;
-
-    
-
-    public void DisableTrigger()
-    {
-        triggered = false;
-        OnDisableTrigger?.Invoke();
-    }
-
-    public void RefreshTrigger()
-    {
-        triggered = true;
-        OnEnableTrigger?.Invoke();;
-
-        // 如果之前有倒计时协程在运行，先停止它
-        if (resetCoroutine != null)
-        {
-            StopCoroutine(resetCoroutine);
-        }
-
-        // 启动新的倒计时协程
-        resetCoroutine = StartCoroutine(ResetTriggeredAfterDelay());
-    }
-
-    private IEnumerator ResetTriggeredAfterDelay()
-    {
-        yield return new WaitForSeconds(resetTime);
-        DisableTrigger();
-    }
 }

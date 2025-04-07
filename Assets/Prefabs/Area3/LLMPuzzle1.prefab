@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &434805865710077382
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1125,6 +1125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71892e5d64fe9bb48a35869182c69b84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  triggered: 0
   TypeConsoleObject: {fileID: 434805866608532608}
   sentenceObject: {fileID: 11400000, guid: 7852d44545f20e041ac2c362a6ba0483, type: 2}
   corpusField: {fileID: 434805865710077369}

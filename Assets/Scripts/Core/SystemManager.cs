@@ -52,7 +52,7 @@ namespace EducationalGame.Core
 
         }
 
-        public static void Execute(IPuzzle activePuzzle)
+        public static void Execute(PuzzleBase activePuzzle)
         {
             foreach (var sys in systems)
             {

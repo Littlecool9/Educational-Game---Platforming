@@ -29,7 +29,7 @@ namespace EducationalGame
         public event Action<LLMPuzzle> OnLLMInputChanged;
         #endregion
 
-        private static IPuzzle puzzle;     // Record the triggered puzzle
+        private static PuzzleBase puzzle;     // Record the triggered puzzle
         private SortingBoxes[] neighbors = new SortingBoxes[2];
         
         
@@ -40,7 +40,7 @@ namespace EducationalGame
             stateC = EntityManager.Instance.GetComponent<StateComponent>(player);
 
             // Event Management
-            foreach(IPuzzle puzzle in Constants.Game.PuzzlesList) 
+            foreach(PuzzleBase puzzle in Constants.Game.PuzzlesList) 
             { 
                 puzzle.OnEnableTrigger += UpdatePuzzle; 
             }

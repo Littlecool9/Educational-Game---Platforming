@@ -14,8 +14,8 @@ public class Game : MonoBehaviour
     [SerializeField] public List<AlgorithmPuzzle> algorithmPuzzles; 
     [SerializeField] public List<EquationPuzzle> equationPuzzles;
     [SerializeField] public List<LLMPuzzle> llmPuzzles;
-    public List<IPuzzle> PuzzlesList {
-        get => algorithmPuzzles.Concat<IPuzzle>(equationPuzzles).ToList().Concat(llmPuzzles).ToList();
+    public List<PuzzleBase> PuzzlesList {
+        get => algorithmPuzzles.Concat<PuzzleBase>(equationPuzzles).ToList().Concat(llmPuzzles).ToList();
         private set { throw new System.NotSupportedException("puzzle not supported to be set"); }
     }
 
@@ -67,13 +67,13 @@ public class Game : MonoBehaviour
     {
         // The following logic will be put in level.cs in the future
 
-        foreach (IPuzzle puzzle in PuzzlesList) { puzzle.Init(); }
+        foreach (PuzzleBase puzzle in PuzzlesList) { puzzle.Init(); }
     }
 
-    public IPuzzle GetTriggerPuzzle()
+    public PuzzleBase GetTriggerPuzzle()
     {
         // TODO: Multiple puzzles may be triggered at the same time, need to adjust the trigger last time
-        foreach (IPuzzle puzzle in PuzzlesList) 
+        foreach (PuzzleBase puzzle in PuzzlesList) 
         { if (puzzle.triggered) { return puzzle; } }
         return null;
     }

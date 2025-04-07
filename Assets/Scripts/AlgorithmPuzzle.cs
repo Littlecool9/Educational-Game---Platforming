@@ -9,7 +9,7 @@ using System;
 using TMPro;
 
 
-public class AlgorithmPuzzle : MonoBehaviour, IPuzzle    
+public class AlgorithmPuzzle : PuzzleBase
 {
     // An instance of a algorithm puzzle
     public int MaxTryTime;
@@ -21,7 +21,7 @@ public class AlgorithmPuzzle : MonoBehaviour, IPuzzle
     [SerializeField] public List<GameObject> SortingBoxSlots;
     public List<Entity> Boxes = new List<Entity>();
     public List<Entity> Slots = new List<Entity>();
-    public List<Entity> Entities { 
+    public override List<Entity> Entities { 
         get{ return Boxes.Concat(Slots).ToList();} 
         set => throw new NotSupportedException(); 
     }
@@ -29,14 +29,14 @@ public class AlgorithmPuzzle : MonoBehaviour, IPuzzle
     
     [SerializeField] private List<Gate> _gates;
 
-    public List<Gate> Gates
+    public override List<Gate> Gates
     {
         get => _gates;
         set => _gates = value;
     }
 
     [SerializeField] private List<MaskTrigger> _mapMasks;
-    public List<MaskTrigger> MapMasks 
+    public override List<MaskTrigger> MapMasks 
     {
         get => _mapMasks;
         set => _mapMasks = value;
@@ -47,19 +47,12 @@ public class AlgorithmPuzzle : MonoBehaviour, IPuzzle
 
     public float returnSpeed = 5f; // 飞回的速度
 
-    // Trigger the puzzle, signs this puzzle is on
-    public bool triggered { get; set; }
-    
-    
-
-    private Coroutine resetCoroutine;
-    public float resetTime = 10f;
 
 
     private Dictionary<RenderComponent, int> initialState = new Dictionary<RenderComponent, int>();         // TODO: Current implement way is not following framework
 
 
-    public List<InteractableComponent> Init()
+    public override List<InteractableComponent> Init()
     {
         List<InteractableComponent> interactables = new List<InteractableComponent>();
 
@@ -115,7 +108,7 @@ public class AlgorithmPuzzle : MonoBehaviour, IPuzzle
 
     
 
-    public void ResetPuzzle()
+    public override void ResetPuzzle()
     {
         // Put each sorting box back to its initial position
         foreach (SortingBoxes box in Boxes.Cast<SortingBoxes>())
@@ -166,9 +159,10 @@ public class AlgorithmPuzzle : MonoBehaviour, IPuzzle
     }
 
 
-    public void SolvePuzzle()
+    public override void SolvePuzzle()
     {
-        OnSolvePuzzle?.Invoke();
+        // OnSolvePuzzle?.Invoke();
+        RaiseSolvePuzzle();
         foreach (Gate gate in Gates)
         {
             gate.gameObject.SetActive(false);       // TODO: gate.StartDisappearing();
@@ -181,9 +175,7 @@ public class AlgorithmPuzzle : MonoBehaviour, IPuzzle
         }
         DisableTrigger();       // Unsubscribe objects
     }
-    public event Action OnSolvePuzzle;
 
-    public List<Entity> GetEntities() => Entities;
     public int GetMaxTryTime() => MaxTryTime;
 
     public bool ContainEntities(Entity entity)
@@ -193,35 +185,6 @@ public class AlgorithmPuzzle : MonoBehaviour, IPuzzle
             if (e.ID == entity.ID) return true;
         }
         return false;
-    }
-
-    public event Action OnDisableTrigger;
-    public event Action OnEnableTrigger;
-    public void DisableTrigger()
-    {
-        triggered = false;
-        OnDisableTrigger?.Invoke();
-    }
-
-    public void RefreshTrigger()
-    {
-        triggered = true;
-        OnEnableTrigger?.Invoke();
-
-        // 如果之前有倒计时协程在运行，先停止它
-        if (resetCoroutine != null)
-        {
-            StopCoroutine(resetCoroutine);
-        }
-
-        // 启动新的倒计时协程
-        resetCoroutine = StartCoroutine(ResetTriggeredAfterDelay());
-    }
-
-    private IEnumerator ResetTriggeredAfterDelay()
-    {
-        yield return new WaitForSeconds(resetTime);
-        DisableTrigger();
     }
 
 }
