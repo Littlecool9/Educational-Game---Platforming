@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -10,13 +11,23 @@ public class GameContentManager : MonoBehaviour
 
     public static bool isPaused = false;
 
+    private static bool isFinished = false;
+
     
     public static bool isTrapped = false;
     public static Vector3 transportTarget;
 
 
     public GameObject pauseMenuUI;
+    public TextMeshPro MainText;
     public List<Trophy> trophies = new List<Trophy>();
+
+    private float startTime;
+    private float endTime = 0f;
+
+    private void Start() {
+        startTime = Time.time;
+    }
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -24,14 +35,17 @@ public class GameContentManager : MonoBehaviour
             TogglePause();
         }
 
-        bool success = false;
         foreach (Trophy trophy in trophies)
         {
             if (!trophy.Collected) break;
-            success = true;
+            isFinished = true;
         }
-        if (success) 
+        if (isFinished)
         {
+            if (endTime == 0f) 
+            {
+                endTime = Time.time;
+            }
             GameEnd();
         }
     }
@@ -54,7 +68,6 @@ public class GameContentManager : MonoBehaviour
 
     void TogglePause()
     {
-        Debug.Log("1");
         isPaused = !isPaused;
         Time.timeScale = isPaused ? 0f : 1f;
 
@@ -64,6 +77,6 @@ public class GameContentManager : MonoBehaviour
 
     private void GameEnd()
     {
-
+        MainText.text = "You Win!\n Time Taken: " + (endTime - startTime).ToString("F2") +"s";
     }
 }
