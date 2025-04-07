@@ -45,6 +45,7 @@ public class Gate : MonoBehaviour
             yield return null;
         }
 
-        Destroy(gameObject); // 彻底删除（可改为 SetActive(false)）
+        // Destroy(gameObject); // 彻底删除（可改为 SetActive(false)）
+        gameObject.SetActive(false);
     }
 }

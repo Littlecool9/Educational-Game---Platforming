@@ -90,7 +90,7 @@ public class LLMPuzzle : PuzzleBase
 
         isInputEnabled = true;
         inputField.gameObject.SetActive(true);
-        inputField.text = senC.incompleteSentence + " " + senC.currentInput;
+        inputField.text = senC.currentInput;
         inputField.ActivateInputField();
         blinkingCursorCoroutine = StartCoroutine(BlinkingCursor());
 

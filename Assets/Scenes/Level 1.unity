@@ -1046,10 +1046,6 @@ PrefabInstance:
       propertyPath: m_margin.z
       value: 3.4246883
       objectReference: {fileID: 0}
-    - target: {fileID: 434805866315214813, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 434805867360921660, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
       propertyPath: m_Name
       value: LLMPuzzle1 (3)
@@ -1194,6 +1190,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8117982269366550325, guid: ebae13e4294af3848aa97e8e246664b1, type: 3}
   m_PrefabInstance: {fileID: 132159866}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &140881378 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2841222141283144303, guid: a4070da0ffa303f4b8d393c89fb7e020, type: 3}
+  m_PrefabInstance: {fileID: 1664342830}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9476204d649a844ab7bcd87e47afaae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &143499357 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 875775452767484569, guid: c2c3653066f375843908e6c89cebfcf9, type: 3}
@@ -7353,14 +7360,22 @@ PrefabInstance:
       propertyPath: m_margin.z
       value: 3.4246883
       objectReference: {fileID: 0}
-    - target: {fileID: 434805866315214813, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
+    - target: {fileID: 434805867081250484, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 434805867360921660, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
       propertyPath: m_Name
       value: LLMPuzzle1
       objectReference: {fileID: 0}
+    - target: {fileID: 434805867360921662, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
+      propertyPath: _gates.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 434805867360921662, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
+      propertyPath: _gates.Array.data[0]
+      value: 
+      objectReference: {fileID: 140881378}
     - target: {fileID: 434805867360921663, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -12398,10 +12413,6 @@ PrefabInstance:
       propertyPath: m_margin.z
       value: 3.4246883
       objectReference: {fileID: 0}
-    - target: {fileID: 434805866315214813, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 434805867360921660, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
       propertyPath: m_Name
       value: LLMPuzzle1 (1)
@@ -14898,6 +14909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ca0096d3bff8c4b8e1b26045d3c5fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  triggered: 0
   MaxTryTime: 3
   text: {fileID: 313969844}
   SortingBoxes:
@@ -14914,7 +14926,6 @@ MonoBehaviour:
   - {fileID: 774539248}
   _mapMasks: []
   returnSpeed: 5
-  resetTime: 2
 --- !u!1001 &1382911220
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16396,6 +16407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ca0096d3bff8c4b8e1b26045d3c5fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  triggered: 0
   MaxTryTime: 7
   text: {fileID: 1915995711}
   SortingBoxes:
@@ -16414,7 +16426,6 @@ MonoBehaviour:
   - {fileID: 1700709033}
   _mapMasks: []
   returnSpeed: 5
-  resetTime: 10
 --- !u!1001 &1531982582
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18550,10 +18561,6 @@ PrefabInstance:
     - target: {fileID: 434805865710077369, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
       propertyPath: m_margin.z
       value: 3.4246883
-      objectReference: {fileID: 0}
-    - target: {fileID: 434805866315214813, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 434805867360921660, guid: daf15ea7459cf3a4c922d937108d509a, type: 3}
       propertyPath: m_Name

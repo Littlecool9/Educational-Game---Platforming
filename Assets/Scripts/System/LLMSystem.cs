@@ -37,6 +37,10 @@ namespace EducationalGame
             {
                 // Solved a puzzle
                 Debug.Log("Solved a puzzle");
+                GameContentManager.UpdateParam(false);    
+                StateComponent stateC = EntityManager.Instance.GetComponent<StateComponent>(EntityManager.Instance.GetPlayer());   
+                stateC?.ResetInteractingObject();
+                puzzle.DisableInput();
                 puzzle.SolvePuzzle();
             }
 

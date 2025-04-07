@@ -158,24 +158,6 @@ public class AlgorithmPuzzle : PuzzleBase
         obj.position = targetPosition; // 确保到达最终位置
     }
 
-
-    public override void SolvePuzzle()
-    {
-        // OnSolvePuzzle?.Invoke();
-        RaiseSolvePuzzle();
-        foreach (Gate gate in Gates)
-        {
-            gate.gameObject.SetActive(false);       // TODO: gate.StartDisappearing();
-        }
-        foreach (Entity entity in Entities)
-        {
-            InteractableComponent interactableC = EntityManager.Instance.GetComponent<InteractableComponent>(entity.ID);
-            if (interactableC == null) throw new Exception("Missing InteractableComponent in SolvePuzzle()");
-            interactableC.DisableComponent();
-        }
-        DisableTrigger();       // Unsubscribe objects
-    }
-
     public int GetMaxTryTime() => MaxTryTime;
 
     public bool ContainEntities(Entity entity)
