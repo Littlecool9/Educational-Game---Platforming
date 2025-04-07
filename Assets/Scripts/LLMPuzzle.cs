@@ -7,6 +7,7 @@ using EducationalGame.Component;
 using EducationalGame.Core;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LLMPuzzle : PuzzleBase
 {
@@ -19,6 +20,8 @@ public class LLMPuzzle : PuzzleBase
     public TMP_Text corpusField;
     public TMP_InputField inputField;
     public TMP_Text displayField;
+
+    public TextMeshPro SuccessText;
 
 
     [SerializeField] private List<Gate> _gates;
@@ -76,7 +79,7 @@ public class LLMPuzzle : PuzzleBase
 
         displayField.text = senC.incompleteSentence;
 
-
+        SuccessText.gameObject.SetActive(false);
         return interactables;
     }
 
@@ -125,6 +128,16 @@ public class LLMPuzzle : PuzzleBase
             displayField.text = senC.incompleteSentence + senC.currentInput + cursor;
             yield return new WaitForSeconds(0.5f);
         }
+    }
+
+
+    public void DisplaySuccess()
+    {
+        corpusField.gameObject.SetActive(false);
+        inputField.gameObject.SetActive(false);
+        displayField.gameObject.SetActive(false);
+        
+        SuccessText.gameObject.SetActive(true);
     }
 
 }

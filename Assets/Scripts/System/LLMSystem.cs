@@ -41,6 +41,8 @@ namespace EducationalGame
                 StateComponent stateC = EntityManager.Instance.GetComponent<StateComponent>(EntityManager.Instance.GetPlayer());   
                 stateC?.ResetInteractingObject();
                 puzzle.DisableInput();
+                
+                puzzle.DisplaySuccess();
                 puzzle.SolvePuzzle();
             }
 
