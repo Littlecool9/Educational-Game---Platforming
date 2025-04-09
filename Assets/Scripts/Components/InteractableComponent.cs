@@ -34,9 +34,7 @@ namespace EducationalGame.Component
         public void SetTrigger(Trigger GameObject){
             if (GameObject == null) throw new Exception("Missing Trigger in SetTrigger()");
             triggerScript = GameObject;
-            triggerScript.OnTriggerEnterEvent += EnterTrigger;
-            triggerScript.OnTriggerExitEvent += ExitTrigger;
-            triggerScript.OnTriggerStayEvent += OnStayTriggerEvent;
+            EnableComponent();
         }
 
         public void EnterTrigger(Collider2D other){
@@ -66,6 +64,14 @@ namespace EducationalGame.Component
             triggerScript.OnTriggerStayEvent -= OnStayTriggerEvent;
             Interactable = false;
             InteractedBuffer = false;
+        }
+
+        public void EnableComponent()
+        {
+            triggerScript.OnTriggerEnterEvent += EnterTrigger;
+            triggerScript.OnTriggerExitEvent += ExitTrigger;
+            triggerScript.OnTriggerStayEvent += OnStayTriggerEvent;
+
         }
 
     }

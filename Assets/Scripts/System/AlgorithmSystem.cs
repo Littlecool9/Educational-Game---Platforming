@@ -178,9 +178,14 @@ namespace EducationalGame
                 // Reset the puzzle
                 Debug.Log("Failed to solve the puzzle");
                 puzzle.OnEnableTrigger -= UpdatePuzzle;
+                puzzle.OnEnableTrigger -= DisplayRestTime;
+
                 DisplayFail();
-                puzzle.ResetPuzzle();
-                puzzle.OnEnableTrigger += UpdatePuzzle;
+                // puzzle.ResetPuzzle();
+                puzzle.ResetWithCallback(() => { 
+                    puzzle.OnEnableTrigger += DisplayRestTime; puzzle.OnEnableTrigger += UpdatePuzzle;
+                }, 1f);
+                
                 TriTime = 0;
             }
         }
@@ -220,6 +225,7 @@ namespace EducationalGame
         private void DisplayRestTime()
         {
             if (puzzle == null) return;
+            Debug.Log("display rest time");
             TextMeshPro tmp = puzzle.text;
             tmp.gameObject.SetActive(true);;
             int restTriTime = MaxTriTime - TriTime;

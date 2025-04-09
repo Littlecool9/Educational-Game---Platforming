@@ -123,5 +123,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetSlotPosition: {fileID: 0}
-  moveSpeed: 0.5
+  moveSpeed: 2
   stopDistance: 0.1

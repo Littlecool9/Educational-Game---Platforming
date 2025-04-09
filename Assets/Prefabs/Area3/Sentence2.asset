@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sentence: The kingdom awaits the hero who claims the sacred sword
   corpus:
-  - The ancient sword shines beneath the moonlight.
+  - The sacred sword shines beneath the moonlight.
   - A hero wields the sword to protect the kingdom.
   - Hidden deep underground lies the sacred sword.
   - Only the worthy can claim the sword.

@@ -106,11 +106,13 @@ public class AlgorithmPuzzle : PuzzleBase
         return interactables;
     }
 
-    
+
 
     public override void ResetPuzzle()
     {
         // Put each sorting box back to its initial position
+
+        StartCoroutine(DisplayFail());
         foreach (SortingBoxes box in Boxes.Cast<SortingBoxes>())
         {
             RenderComponent boxRenderC = EntityManager.Instance.GetComponent<RenderComponent>(box.ID);
@@ -147,6 +149,18 @@ public class AlgorithmPuzzle : PuzzleBase
         }
     }
 
+    public void ResetWithCallback(Action callback, float resetTime = 1f) 
+    {
+        StartCoroutine(DelayCallback(callback, resetTime));
+        ResetPuzzle();
+    }
+
+    private IEnumerator DelayCallback(Action callback, float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        callback();
+    }
+
     private IEnumerator MoveToPosition(Transform obj, Vector3 targetPosition)
     {
         yield return new WaitForSeconds(1f);        // time for fail animation
@@ -156,6 +170,24 @@ public class AlgorithmPuzzle : PuzzleBase
             yield return null;
         }
         obj.position = targetPosition; // 确保到达最终位置
+    }
+
+    private IEnumerator DisplayFail()
+    {
+        foreach (SortingBoxes box in Boxes.Cast<SortingBoxes>())
+        {
+            InteractableComponent boxInteractableC = EntityManager.Instance.GetComponent<InteractableComponent>(box.ID);
+            boxInteractableC.DisableComponent();
+        }
+        text.text = "Failed a Puzzle!";
+        yield return new WaitForSeconds(0.5f);
+        text.text = "Resetting";
+        yield return new WaitForSeconds(0.5f);
+        foreach (SortingBoxes box in Boxes.Cast<SortingBoxes>())
+        {
+            InteractableComponent boxInteractableC = EntityManager.Instance.GetComponent<InteractableComponent>(box.ID);
+            boxInteractableC.EnableComponent();
+        }
     }
 
     public int GetMaxTryTime() => MaxTryTime;
